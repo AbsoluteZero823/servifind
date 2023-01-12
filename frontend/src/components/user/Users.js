@@ -31,12 +31,12 @@ const Users = () => {
         }
 
         if (isDeleted) {
-            alert.success('Adopter deleted successfully');
+            alert.success('User deleted successfully');
             navigate('/users');
             dispatch({ type: DELETE_USER_RESET })
         }
         if (isUpdated) {
-            alert.success('Adopter Updated successfully');
+            alert.success('User Updated successfully');
             navigate('/users');
             dispatch({ type: ACTIVATE_USER_RESET })
             dispatch({ type: DEACTIVATE_USER_RESET })
@@ -116,7 +116,7 @@ const Users = () => {
 
                     <img
                         className="anim"
-                        src={customer.avatar.url}
+                    // src={customer.avatar.url}
                     />
 
                 </Fragment>,
