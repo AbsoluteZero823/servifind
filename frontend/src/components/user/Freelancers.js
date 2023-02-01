@@ -118,7 +118,7 @@ const Freelancers = () => {
 
                     <img
                         className="anim"
-                    // src={customer.avatar.url}
+                        src={customer.avatar.url}
                     />
 
                 </Fragment>,

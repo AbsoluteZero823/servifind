@@ -10,7 +10,7 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 exports.registerUser = async (req, res, next) => {
 
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: 'avatars',
+        folder: 'servifind/avatar',
         width: 150,
         crop: "scale"
     })
@@ -39,6 +39,7 @@ exports.registerUser = async (req, res, next) => {
     //  })
     sendToken(user, 200, res)
 };
+
 exports.application = async (req, res, next) => {
     let user = await User.findById(req.params.id);
     const UserData = {

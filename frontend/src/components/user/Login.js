@@ -38,6 +38,7 @@ const Login = () => {
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(login(email, password))
+
         swal("Success!", "Logged In Succesfully!", "success");
         // alert.success('Logged in successfully.')
     }

@@ -27,7 +27,7 @@
 
 
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 
 import Header from './components/layout/Header'
@@ -81,11 +81,13 @@ import store from './store'
 function App() {
   useEffect(() => {
     store.dispatch(loadUser());
+
   }, [])
 
   const { user, isAuthenticated, loading } = useSelector(state => state.auth)
   return (
     <Router>
+
       <div className="App">
 
 
@@ -103,7 +105,17 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/" element={<Home />} exact />
+
+            {/* {!isAuthenticated && } */}
+
+            {user ? (user.role === "admin" && <Route path="/" element={<Dashboard />} exact />
+
+
+            ) : <Route path="/" element={<Home />} exact />}
+            {user && user.role === 'customer' && (
+              <Route path="/" element={<Try />} exact />
+            )}
+
             <Route path="/all" element={<Try />} exact />
             <Route path="/become-freelancer" element={<Become />} exact />
             <Route path="/application" element={<Application />} exact />
@@ -112,11 +124,27 @@ function App() {
             <Route path="/register" element={<Register />} exact />
             <Route path="/about" element={<About />} exact />
             <Route path="/contact" element={<Contact />} exact />
-            <Route path="/dashboard" element={<Dashboard />} exact />
+            {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
             <Route path="/users" element={<Users />} exact />
             <Route path="/freelancers" element={<Freelancers />} exact />
             <Route path="/create" element={<Create />} exact />
             <Route path="/user/:id" element={<UpdateUser />} exact />
+
+
+            {/* <Route exact path="/" component={Login} /> */}
+
+            {/* <Route path="/login" element={<Login />} exact />
+            {user ? (user.role === "admin" && <Navigate exact from="/login" to="/dashboard" />
+
+
+            ) : !loading && <Route path="/" element={<Home />} exact />
+
+            } */}
+
+            {/* {console.log(loadUser)} */}
+            ... ...
+            {/* <Navigate to="/" /> */}
+
 
             {/* <Route path="/adopt" element={<GetAdopted />} exact />
           <Route path="/animal/details/:id" element={<AnimalDetails />} exact />
@@ -252,6 +280,7 @@ function App() {
           <Footer />
         )}
       </div>
+
     </Router>
   );
 }

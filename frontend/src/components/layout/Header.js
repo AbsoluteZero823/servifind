@@ -20,7 +20,7 @@ const Header = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
 
-    const { user, loading } = useSelector(state => state.auth)
+    const { user, loading, isAuthenticated } = useSelector(state => state.auth)
 
 
     const logoutHandler = () => {
@@ -46,26 +46,42 @@ const Header = () => {
                     <li>HOME</li>
                 </a> */}
                 {/* <Link to="/#our-team" href="#our-team"> */}
-                <a href="/#our-team">
 
-                    <li>ABOUT</li>
-                </a>
-                <a href="/#our-team">
+                {!user && (
+                    <a href="/#our-team">
 
-                    <li>FEATURES</li>
-                </a>
-                <a href="/#our-team">
+                        <li>ABOUT</li>
+                    </a>
+                )}
+                {!user && (
+                    <a href="/#our-team">
 
-                    <li>TERMS & CONDITION</li>
-                </a>
-                <Link to="/all">
-                    <li>Services</li>
-                </Link>
+                        <li>FEATURES</li>
+                    </a>
+                )}
+                {!user && (
+                    <a href="/#our-team">
+
+                        <li>TERMS & CONDITION</li>
+                    </a>
+                )}
+                {!user && (
+                    <Link to="/all">
+                        <li>Services</li>
+                    </Link>
+                )}
+                {user && user.role === "admin" && (
+                    <Link to="/all">
+                        <li>Services</li>
+                    </Link>
+                )}
+
                 {/* </Link> */}
                 {/* <Link to="/contact">
                     <li>CONTACT US</li>
                 </Link> */}
                 {/* <Link to="/contact">Meet Our Team</Link> */}
+
                 {!user && (
                     <Link to="/register">
                         <li>SIGN UP</li>

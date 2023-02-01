@@ -56,7 +56,7 @@ const Footer = () => {
 
                             </div>
                             <p className="text-center mt-1">
-                                Servi Find - 2022-2023, All Rights Reserved
+                                ServiFind - 2022-2023, All Rights Reserved
                             </p>
                         </div>
 

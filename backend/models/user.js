@@ -46,12 +46,12 @@ const userSchema = new mongoose.Schema({
         public_id: {
             type: String,
             required: true,
-            //    default:'shelter/avatar_rk4v2w'
+            default: 'servifind/avatar/default_profile'
         },
         url: {
             type: String,
             required: true,
-            //    default:'https://res.cloudinary.com/dawhmjhu1/image/upload/v1651110818/shelter/avatar_rk4v2w.jpg'
+            default: 'https://res.cloudinary.com/dawhmjhu1/image/upload/v1674014501/servifind/avatar/default_profile.jpg'
         }
     },
     role: {

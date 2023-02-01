@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
 
-import { getAdopt } from '../../actions/animalActions'
+// import { getAdopt } from '../../actions/animalActions'
 const Profile = () => {
 
     const { user, loading } = useSelector(state => state.auth)
