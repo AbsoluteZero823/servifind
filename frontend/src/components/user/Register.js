@@ -56,6 +56,7 @@ const Register = () => {
 
         dispatch(register(formData))
         alert.success('Registered successfully.')
+        navigate('/')
     }
 
     const onChange = e => {

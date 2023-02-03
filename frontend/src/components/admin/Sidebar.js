@@ -11,10 +11,8 @@ const Sidebar = () => {
         <div className="sidebar-wrapper">
             <nav id="sidebar" className='sidenav'>
                 <ul className="list-unstyled components">
-               
-
                 {user && user.role === "admin" && (
-                  <li>
+                    <li>
                         <Link to="/dashboard"><i className="fa fa-tachometer-alt" aria-hidden="true"></i> Dashboard</Link>
                     </li>
                 )}

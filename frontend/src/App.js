@@ -22,6 +22,21 @@ import Freelancers from './components/user/Freelancers'
 import Create from './components/user/Create'
 import UpdateUser from './components/admin/UpdateUser'
 import ProtectedRoute from './components/route/ProtectedRoute'
+import UpdateProfile from './components/user/UpdateProfile'
+import UpdatePassword from './components/user/UpdatePassword'
+
+// import Animals from './components/animal/Animals'
+// import NewAnimal from './components/animal/NewAnimal'
+// import UpdateAnimal from './components/animal/UpdateAnimal'
+
+// import Adopters from './components/adopter/Adopters'
+// import NewAdopter from './components/adopter/NewAdopter'
+// import UpdateAdopter from './components/adopter/UpdateAdopter'
+
+// import Personnels from './components/personnel/Personnels'
+// import NewPersonnel from './components/personnel/NewPersonnel'
+
+
 
 import Services from './components/service/Services'
 import NewService from './components/service/NewService'
@@ -85,8 +100,12 @@ function App() {
             {user ? (user.role === "admin" && <Route path="/" element={<Dashboard />} exact />
 
 
-            ) : <Route path="/" element={<Home />} exact />}
-            {user && (user.role === 'customer' || user.role === 'freelancer')&& (
+            ) :
+              <Route path="/" element={<Home />} exact />}
+
+
+
+            {user && user.status === 'deactivated' ? <Route path="/" element={<Home />} exact /> : user && (user.role === 'customer' || user.role === 'freelancer')&& (
               <Route path="/" element={<Try />} exact />
             )}
 
@@ -176,6 +195,25 @@ function App() {
                 <UpdateService />
               </ProtectedRoute>
             } exact="true" />
+
+
+            <Route path="/me/update" element={
+              <ProtectedRoute>
+                <UpdateProfile />
+              </ProtectedRoute>
+            } exact="true" />
+
+            <Route path="/password/update" element={
+              <ProtectedRoute>
+                <UpdatePassword />
+              </ProtectedRoute>
+            } exact="true" />
+{/* 
+            <Route path="/chat" element={
+              <ProtectedRoute>
+                <ChatContainer />
+              </ProtectedRoute>
+            } exact="true" /> */}
 
             {/*
 

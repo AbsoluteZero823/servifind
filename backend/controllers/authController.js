@@ -23,6 +23,7 @@ exports.registerUser = async (req, res, next) => {
         contact,
         email,
         password,
+        status: 'deactivated',
         // role,
         avatar: {
             public_id: result.public_id,
@@ -32,12 +33,12 @@ exports.registerUser = async (req, res, next) => {
 
     const token = user.getJwtToken();
 
-     res.status(201).json({
-     	success:true,
-     	user,
-     	token
-     })
-    
+    //  res.status(201).json({
+    //  	success:true,
+    //  	user,
+    //  	token
+    //  })
+    sendToken(user, 200, res)
 };
 
 exports.application = async (req, res, next) => {
@@ -421,8 +422,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         name: req.body.name,
         age: req.body.age,
         gender: req.body.gender,
-        contact: req.body.contact,
-        email: req.body.email
+        contact: req.body.contact
     }
     // Update avatar
     if (req.body.avatar !== '') {
