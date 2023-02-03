@@ -53,7 +53,8 @@ const Service = ({ service, users }) => {
             <div className="card rounded">
                 <img
                     className="card-img-top mx-auto"
-                    src={service.images.url}
+                    // src={service.images.url}
+                    src={service.image}
                 />
                 <div className="card-body d-flex flex-column">
                     <h5 className="card-title">
@@ -73,6 +74,7 @@ const Service = ({ service, users }) => {
                                     />
                                     {/* <a>adw</a> */}
                                     <a className='black-name'>{user.name}</a>
+                                    
                                 </div>
                             )
 
@@ -81,7 +83,19 @@ const Service = ({ service, users }) => {
 
                         <center className="justified" href="">{service.description}</center>
 
-                        <center className="justified" href="">Category: {service.category}</center>
+                        <center className="justified" href="">Category: {service.category.name}</center>
+                        <div className='row' style={{display: 'flex', flexDirection:'row'}}>
+                            <div style={{width: 25,
+        height: 25,
+        position: 'relative',
+        overflow: 'hidden',
+        borderRadius: 50,
+        backgroundColor: 'gainsboro',}}>
+                        <img src={service.user.avatar.url} style={{ height: 25,
+        width: 'auto'}}></img>
+                        </div>
+                        <center className="justified" href="">{service.user.name}</center>
+                        </div>
                         {/* <center className="gitna" href="">User_id: {service.user_id}</center> */}
 
                         {/* {users.map((value, index) => <li key={index}>{value}</li>)} */}

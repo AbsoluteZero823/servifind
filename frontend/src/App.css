@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;700&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Poppins&display=swap");
 
@@ -46,7 +47,7 @@ body {
   justify-content: space-between;
   align-items: center;
   height: 100px;
-  padding: 0 10%;
+  padding: 0 5%;
   /* background-color: white;
   color: black; */
   background-color: var(--mainColor);
@@ -89,6 +90,11 @@ body {
   width: auto;
   opacity: 100%;
   z-index: 5;
+}
+
+.underconstruction {
+  height: 70vh;
+  
 }
 
 nav ul a {
@@ -335,6 +341,7 @@ ul {
   background-color: #24262b;
   padding: 70px 0;
   margin-top: 100px;
+  z-index: 7;
 }
 
 .footer-col {
@@ -728,7 +735,7 @@ ul {
   min-height: 100vh;
   font-weight: normal;
 
-  margin-top: 0;
+  margin-top: 10vh;
   height: 100%;
   left: 0;
   top: 0;
@@ -741,6 +748,7 @@ ul {
   background: #24262bd0;
   color: #fff;
   transition: all 0.3s;
+  z-index: 4;
 }
 
 #sidebar.active {
@@ -1090,4 +1098,19 @@ a:not([href]):hover {
   flex-direction: column;
   padding: 30px;
   margin: 10px 0px;
+}
+.imageCropper {
+  width: 25;
+  height: 25;
+  position: 'relative';
+  overflow: 'hidden';
+  border-radius: 50;
+  background-color: 'gainsboro';
+  /* // marginVertical: 15 */
+}
+.circleimage {
+  /* // display: 'inline', */
+  /* // margin: 0 auto; */
+  height: 10;
+  width: 'auto';
 }

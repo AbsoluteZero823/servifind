@@ -123,7 +123,7 @@ const Header = () => {
                             {user && user.role === 'customer' && (
                                 <hr></hr>
                             )}
-                            <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>Logout</Link>
+                            <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>Sign Out</Link>
                             {/* <Link className="dropdown-item text-danger" to="/" >
                                     Logout
                                 </Link> */}

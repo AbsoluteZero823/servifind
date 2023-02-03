@@ -34,16 +34,12 @@ const Dashboard = () => {
 
     return (
         <Fragment>
-            <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
+           
+               
 
-                <div className="col-13 col-md-2">
-                </div>
+               
 
 
-                <div className="col-13 col-md-10">
                     <h1 className="my-4">Dashboard</h1>
 
                     {false ? <Loader /> : (
@@ -137,8 +133,8 @@ const Dashboard = () => {
                         </Fragment>
                     )}
 
-                </div>
-            </div>
+              
+        
 
         </Fragment >
     )

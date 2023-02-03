@@ -3,7 +3,7 @@ const Service = require('../models/service');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-
+const  Category  = require('../models/category');
 //create new service
 exports.newService = async (req, res, next) => {
     console.log(req.body);
@@ -19,7 +19,7 @@ exports.newService = async (req, res, next) => {
 exports.getServices = async (req, res, next) => {
 
 
-    const services = await Service.find();
+    const services = await Service.find().populate(['category', 'user']);
     res.status(200).json({
         success: true,
         services

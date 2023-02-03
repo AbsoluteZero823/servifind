@@ -92,12 +92,9 @@ const Services = () => {
         <Fragment>
             <MetaData title={'All Services'} />
 
-            <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-                <div className="col-13 col-md-2">
-                </div>
+          
+            
+            
 
 
                 <div className="Details col-13 col-md-9">
@@ -120,7 +117,7 @@ const Services = () => {
 
                     </Fragment>
                 </div>
-            </div>
+            
 
         </Fragment>
     )

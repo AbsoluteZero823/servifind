@@ -32,12 +32,12 @@ exports.registerUser = async (req, res, next) => {
 
     const token = user.getJwtToken();
 
-    //  res.status(201).json({
-    //  	success:true,
-    //  	user,
-    //  	token
-    //  })
-    sendToken(user, 200, res)
+     res.status(201).json({
+     	success:true,
+     	user,
+     	token
+     })
+    
 };
 
 exports.application = async (req, res, next) => {
@@ -95,41 +95,7 @@ exports.createUser = async (req, res, next) => {
         user
     })
 };
-exports.newPersonnel = async (req, res, next) => {
 
-    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: 'avatars',
-        width: 150,
-        crop: "scale"
-    })
-
-    const { name, age, gender, contact, email, password, role } = req.body;
-    const user = await User.create({
-        name,
-        age,
-        gender,
-        contact,
-        email,
-        password,
-        role,
-        avatar: {
-            public_id: result.public_id,
-            url: result.secure_url
-        }
-    })
-
-    // const token = user.getJwtToken();
-
-    //  res.status(201).json({
-    //  	success:true,
-    //  	user,
-    //  	token
-    //  })
-    res.status(201).json({
-        success: true,
-        user
-    })
-};
 
 exports.logout = async (req, res, next) => {
     res.cookie('token', null, {
@@ -185,17 +151,17 @@ exports.loginUser = async (req, res, next) => {
 
 
 
-exports.logout = async (req, res, next) => {
-    res.cookie('token', null, {
-        expires: new Date(Date.now()),
-        httpOnly: true
-    })
+// exports.logout = async (req, res, next) => {
+//     res.cookie('token', null, {
+//         expires: new Date(Date.now()),
+//         httpOnly: true
+//     })
 
-    res.status(200).json({
-        success: true,
-        message: 'Logged out'
-    })
-}
+//     res.status(200).json({
+//         success: true,
+//         message: 'Logged out'
+//     })
+// }
 
 // Get all users   =>   /api/v1/users
 exports.allUsers = async (req, res, next) => {

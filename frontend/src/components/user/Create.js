@@ -88,12 +88,8 @@ const Create = () => {
         <Fragment>
 
             <MetaData title={'New Personnels'} />
-            <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-                <div className="col-13 col-md-2">
-                </div>
+          
+               
                 <div className="row wrapper col-13 col-md-10">
                     <div className="col-10 col-lg-5">
                         <form className="shadow-lg" id='formz' onSubmit={submitHandler} encType='multipart/form-data'>
@@ -230,7 +226,7 @@ const Create = () => {
                         </form>
                     </div>
                 </div>
-            </div>
+          
         </Fragment>
     )
 }

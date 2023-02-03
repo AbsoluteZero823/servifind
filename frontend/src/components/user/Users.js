@@ -178,13 +178,10 @@ const Users = () => {
         <Fragment>
             <MetaData title={'All Users'} />
 
-            <div className="row">
-                <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-                <div className="col-13 col-md-2">
-                </div>
-                <div className="Details col-13 col-md-9">
+           
+             
+               
+              
                     <Fragment>
                         <h1 className="my-5">All Users
                             <span> <Link to="/create" className="btn update-btn fa fa-plus">
@@ -202,8 +199,8 @@ const Users = () => {
                         )}
 
                     </Fragment>
-                </div>
-            </div>
+              
+           
 
         </Fragment>
     )
