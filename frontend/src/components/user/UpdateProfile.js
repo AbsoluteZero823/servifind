@@ -13,7 +13,6 @@ const UpdateProfile = () => {
     const [age, setAge] = useState('')
     const [gender, setGender] = useState('')
     const [contact, setContact] = useState('')
-    const [email, setEmail] = useState('')
     const [avatar, setAvatar] = useState('')
     const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg')
 
@@ -31,7 +30,6 @@ const UpdateProfile = () => {
             setAge(user.age);
             setGender(user.gender);
             setContact(user.contact);
-            setEmail(user.email);
             setAvatarPreview(user.avatar.url)
         }
 
@@ -44,7 +42,7 @@ const UpdateProfile = () => {
             alert.success('User updated successfully')
             dispatch(loadUser());
 
-            // navigate('/me', { replace: true })
+            navigate('/me', { replace: true })
 
             dispatch({
                 type: UPDATE_PROFILE_RESET
@@ -61,7 +59,6 @@ const UpdateProfile = () => {
         formData.set('age', age);
         formData.set('gender', gender);
         formData.set('contact', contact);
-        formData.set('email', email);
         formData.set('avatar', avatar);
 
         dispatch(updateProfile(formData))
@@ -139,22 +136,6 @@ const UpdateProfile = () => {
                                 name='contact'
                                 value={contact}
                                 onChange={(e) => setContact(e.target.value)}
-                            />
-                        </div>
-
-
-
-
-
-                        <div className="form-group">
-                            <label htmlFor="email_field">Email</label>
-                            <input
-                                type="email"
-                                id="email_field"
-                                className="form-control"
-                                name='email'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
 

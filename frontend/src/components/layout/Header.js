@@ -88,9 +88,6 @@ const Header = () => {
                     </Link>
                 )}
 
-
-
-
                 {user ? (
                     <div className="ml-4 dropdown d-inline">
                         <Link to="#!" className="btn dropdown-toggle text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -108,11 +105,11 @@ const Header = () => {
                         <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
 
                             {user && user.role === 'admin' && (
-                                <Link className="dropdown-item" to="/dashboard">Dashboard</Link>
+                                <Link className="dropdown-item" to="/">Dashboard</Link>
                             )}
 
                             <Link className="dropdown-item" to="/me">Profile</Link>
-                            <Link className="dropdown-item" to="/inbox">Inbox</Link>
+                            <Link className="dropdown-item" to="/chat">Inbox</Link>
                             <Link className="dropdown-item" to="/requests">Manage Request</Link>
                             <Link className="dropdown-item" to="/post">Post a Request</Link>
                             <hr></hr>

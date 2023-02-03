@@ -50,8 +50,10 @@ import Freelancers from './components/user/Freelancers'
 import Create from './components/user/Create'
 import UpdateUser from './components/admin/UpdateUser'
 import ProtectedRoute from './components/route/ProtectedRoute'
-// import UpdateProfile from './components/user/UpdateProfile'
-// import UpdatePassword from './components/user/UpdatePassword'
+import UpdateProfile from './components/user/UpdateProfile'
+import UpdatePassword from './components/user/UpdatePassword'
+
+// import ChatContainer from './components/user/ChatContainer';
 
 // import Animals from './components/animal/Animals'
 // import NewAnimal from './components/animal/NewAnimal'
@@ -111,8 +113,12 @@ function App() {
             {user ? (user.role === "admin" && <Route path="/" element={<Dashboard />} exact />
 
 
-            ) : <Route path="/" element={<Home />} exact />}
-            {user && user.role === 'customer' && (
+            ) :
+              <Route path="/" element={<Home />} exact />}
+
+
+
+            {user && user.status === 'deactivated' ? <Route path="/" element={<Home />} exact /> : user && user.role === 'customer' && (
               <Route path="/" element={<Try />} exact />
             )}
 
@@ -202,6 +208,25 @@ function App() {
                 <UpdateService />
               </ProtectedRoute>
             } exact="true" />
+
+
+            <Route path="/me/update" element={
+              <ProtectedRoute>
+                <UpdateProfile />
+              </ProtectedRoute>
+            } exact="true" />
+
+            <Route path="/password/update" element={
+              <ProtectedRoute>
+                <UpdatePassword />
+              </ProtectedRoute>
+            } exact="true" />
+{/* 
+            <Route path="/chat" element={
+              <ProtectedRoute>
+                <ChatContainer />
+              </ProtectedRoute>
+            } exact="true" /> */}
 
             {/*
 

@@ -12,14 +12,6 @@ const Profile = () => {
     let navigate = useNavigate();
     const dispatch = useDispatch();
 
-    // const getadoptHandler = (userid) => {
-    //     dispatch(getAdopt(userid))
-    //     navigate('/adopt');
-    // }
-    // const formData = new FormData();
-    // formData.set('userid', user._id);
-    // formData.set('username', user.name);
-
     return (
         <Fragment>
             {loading ? <Loader /> : (
@@ -27,9 +19,9 @@ const Profile = () => {
                     <MetaData title={'Your Profile'} />
 
                     <h2 className="mt-5 ml-5">My Profile</h2>
-                    <div className="row justify-content-around mt-5 user-info">
-                        <div className="col-13 col-md-3" id='profile-div'>
-                            <figure className='avatar avatar-profile'>
+                    <div className="flex-container space-between">
+                        <div className="col card" id='profile-div'>
+                            <figure className='img-placeholder'>
                                 <img className="rounded-circle img-fluid" src={user.avatar.url} alt={user.name} />
                             </figure>
 
@@ -39,7 +31,7 @@ const Profile = () => {
 
                         </div>
 
-                        <div className="col-13 col-md-5">
+                        <div className="fa-solid fa-user">
                             <div className="row">
                                 <div className="col-3">
                                     <h4>Full Name</h4>
@@ -62,7 +54,7 @@ const Profile = () => {
                                     <p>{user.contact}</p>
                                 </div>
 
-                                <div className="col-5">
+                                <div className="fa-solid fa-paper-plane">
                                     <h4>Email Address</h4>
                                     <p>{user.email}</p>
                                 </div>
