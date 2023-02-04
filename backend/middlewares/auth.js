@@ -27,3 +27,13 @@ exports.authorizeRoles = (...roles) => {
         next()
     }
 }
+exports.isACtivated = (...status) => {
+    console.log(status);
+    return (req, res, next) => {
+        if (!status.includes(req.user.status)) {
+            return next(
+                new ErrorHandler(`Your account is(${req.user.status}) please wait and try again when it is activated.`, 403))
+        }
+        next()
+    }
+}

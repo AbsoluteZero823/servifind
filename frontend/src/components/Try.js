@@ -76,7 +76,7 @@ const Try = () => {
                         <MetaData title={'Buy Best Service Online'} />
 
                         <h1 id="animals_heading">Latest Services</h1>
-                        <section id="animals" className="containerz mt-5">
+                        <section id="services" className="containerz mt-5">
                             <div className="row">
                                 {services && services.map(service => (
 

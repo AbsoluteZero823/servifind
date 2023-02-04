@@ -49,42 +49,36 @@ const Service = ({ service, users }) => {
 
     return (
 
-        <div className="whole-card">
-            <div className="card rounded">
-                <img
-                    className="card-img-top mx-auto"
-                    // src={service.images.url}
-                    src={service.image}
-                />
-                <div className="card-body d-flex flex-column">
-                    <h5 className="card-title">
 
+	<div className="card">
+		<img className='imgcard'  src={service.image}></img>
+        {users && users.map((user, index) => (
 
+service.user_id === users[index]._id && (
 
-                        {users && users.map((user, index) => (
+    <div className='freelancer-info'>
+        <img
+            src={user.avatar && user.avatar.url}
+            alt={users && users.name}
+            key={service._id}
+            className="rounded-img"
+        />
+        {/* <a>adw</a> */}
+        <a className='black-name'>{user.name}</a>
+        
+    </div>
+)
 
-                            service.user_id === users[index]._id && (
-
-                                <div className='freelancer-info'>
-                                    <img
-                                        src={user.avatar && user.avatar.url}
-                                        alt={users && users.name}
-                                        key={service._id}
-                                        className="rounded-img"
-                                    />
-                                    {/* <a>adw</a> */}
-                                    <a className='black-name'>{user.name}</a>
-                                    
-                                </div>
-                            )
-
-                        ))}
-
-
-                        <center className="justified" href="">{service.description}</center>
-
-                        <center className="justified" href="">Category: {service.category.name}</center>
-                        <div className='row' style={{display: 'flex', flexDirection:'row'}}>
+))}
+		<div className="card__content">
+			<div className="card__label">{service.category.name}</div>
+			<h2><a href="https://konrad.design" className="card__link" target="_blank">{service.user.name}</a></h2>
+			{/* <p>{service.title}</p> */}
+			
+      <p><span className="fw7">{service.title}</span></p>
+      
+      {/* picture and name */}
+      <div className='row' style={{display: 'flex', flexDirection:'row'}}>
                             <div style={{width: 25,
         height: 25,
         position: 'relative',
@@ -96,44 +90,13 @@ const Service = ({ service, users }) => {
                         </div>
                         <center className="justified" href="">{service.user.name}</center>
                         </div>
-                        {/* <center className="gitna" href="">User_id: {service.user_id}</center> */}
 
-                        {/* {users.map((value, index) => <li key={index}>{value}</li>)} */}
-
-
-                        <div className="ratings mt-auto">
-                            <div className="rating-outer">
-                                <div className="rating-inner" style={{ width: `${(2 / 5) * 100}%` }}></div>
-                                {/* <div className="rating-inner" style={{ width: `${(product.ratings / 5) * 100}%` }}></div> */}
-                            </div>
-                            {/* <span id="no_of_reviews">({product.numOfReviews} reviews)</span> */}
-                            <span id="no_of_reviews">(6 reviews)</span>
-                        </div>
-
-
-                    </h5>
-
-
-                    {/* <div className="ratings mt-auto">
-                 <div className="rating-outer">
-                   <div className="rating-inner" style={ {width: `${(animal.ratings / 5) * 100}%`}}></div>
-                 </div>
-                 <span id="no_of_reviews">({animal.numOfReviews} reviews)</span>
-               </div> */}
-                    {/* <p className="card-text">${animal.price}</p> */}
-                    {/* <Link to={`//${animal._id}`} id="view_btn" className="btn btn-block">Adopt</Link> */}
-
-
-                    {/* //
-                    <Link to={`/animal/details/${service._id}`} id="view_btn" className="btn btn-block">View Details</Link>
-                    // */}
-
-
-                    {/* <a href="#" id="view_btn" className="btn btn-block">View Details</a> */}
-                </div>
-            </div>
-            <p><button>View Details</button></p>
-        </div>
+        {/* end picture and name */}
+			<div className="card__cta-container">
+				<button className="card__cta">View Details</button>
+			</div>
+		</div>
+	</div>
 
     )
 }
