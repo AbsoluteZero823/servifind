@@ -29,7 +29,7 @@ exports.getServices = async (req, res, next) => {
 
 
 exports.getSingleService = async (req, res, next) => {
-    const service = await Service.findById(req.params.id);
+    const service = await Service.findById(req.params.id).populate('user');
     // if(!injury_disease) {
     //     return res.status(404).json({
     //         success: false,
@@ -145,3 +145,4 @@ exports.deleteService = async (req, res, next) => {
 //         success: true
 //     })
 // })
+

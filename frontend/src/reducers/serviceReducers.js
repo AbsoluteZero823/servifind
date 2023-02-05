@@ -27,6 +27,9 @@ import {
     SERVICE_DETAILS_SUCCESS,
     SERVICE_DETAILS_FAIL,
 
+    SINGLE_SERVICE_REQUEST,
+    SINGLE_SERVICE_SUCCESS,
+    SINGLE_SERVICE_FAIL,
 
     CLEAR_ERRORS
 } from '../constants/serviceConstants'
@@ -98,17 +101,20 @@ export const servicesReducer = (state = { services: [] }, action) => {
 export const serviceDetailsReducer = (state = { service: {} }, action) => {
     switch (action.type) {
         case SERVICE_DETAILS_REQUEST:
+        case SINGLE_SERVICE_REQUEST:
             return {
                 ...state,
                 loading: true
             }
         case SERVICE_DETAILS_SUCCESS:
+        case SINGLE_SERVICE_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 service: action.payload.service,
             }
         case SERVICE_DETAILS_FAIL:
+        case SINGLE_SERVICE_FAIL:
             return {
                 ...state,
                 error: action.payload

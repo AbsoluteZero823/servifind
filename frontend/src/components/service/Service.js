@@ -17,9 +17,6 @@ const Service = ({ service, users }) => {
     const alert = useAlert();
 
 
-    const names = []
-    const nameses = []
-
     useEffect(() => {
         // dispatch(allUsers())
 
@@ -72,7 +69,7 @@ service.user_id === users[index]._id && (
 ))}
 		<div className="card__content">
 			<div className="card__label">{service.category.name}</div>
-			<h2><a href="https://konrad.design" className="card__link" target="_blank">{service.user.name}</a></h2>
+			<h2><a href="https://konrad.design" className="card__link" target="_blank">service</a></h2>
 			{/* <p>{service.title}</p> */}
 			
       <p><span className="fw7">{service.title}</span></p>
@@ -88,12 +85,13 @@ service.user_id === users[index]._id && (
                         <img src={service.user.avatar.url} style={{ height: 25,
         width: 'auto'}}></img>
                         </div>
-                        <center className="justified" href="">{service.user.name}</center>
+                        <center className="justified" href="" style={{fontSize:'10px'}}>{service.user.name}</center>
                         </div>
 
         {/* end picture and name */}
 			<div className="card__cta-container">
-				<button className="card__cta">View Details</button>
+				<button className="card__cta">
+                <Link to={`/service/details/${service._id}`}>View Details</Link></button>
 			</div>
 		</div>
 	</div>

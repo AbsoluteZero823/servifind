@@ -4,6 +4,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 // import { animalsReducer, animalDetailsReducer, newAnimalReducer, UpDelAnimalReducer, allAnimalsReducer, singleAnimalReducer, adoptReducer, getAdoptReducer } from './reducers/animalReducers'
 import { authReducer, getUsersReducer, userReducer, UpDelUserReducer, newPersonnelReducer, userDetailsReducer } from './reducers/userReducers'
 import { servicesReducer, serviceDetailsReducer, newServiceReducer, UpDelServiceReducer } from './reducers/serviceReducers'
+import { newInquiryReducer } from './reducers/inquiryReducers';
 const reducer = combineReducers({
 
     addPersonnel: newPersonnelReducer,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     users: getUsersReducer,
     updelUser: UpDelUserReducer,
 
+    inquiry: newInquiryReducer,
 
 
 

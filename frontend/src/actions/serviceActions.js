@@ -9,6 +9,10 @@ import {
     //   FULL_SERVICES_SUCCESS, 
     //   FULL_SERVICES_FAIL,
 
+    SINGLE_SERVICE_REQUEST,
+    SINGLE_SERVICE_SUCCESS,
+    SINGLE_SERVICE_FAIL,
+
     SERVICE_DETAILS_REQUEST,
     SERVICE_DETAILS_SUCCESS,
     SERVICE_DETAILS_FAIL,
@@ -88,6 +92,7 @@ export const getServiceDetails = (id) => async (dispatch) => {
 }
 
 
+
 export const newService = (serviceData) => async (dispatch) => {
     try {
 
@@ -156,6 +161,25 @@ export const deleteService = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: DELETE_SERVICES_FAIL,
+            payload: error.response.data.message
+        })
+    }
+
+
+    
+}
+
+export const SingleService = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: SINGLE_SERVICE_REQUEST })
+        const { data } = await axios.get(`/api/v1/service/details/${id}`)
+        dispatch({
+            type: SINGLE_SERVICE_SUCCESS,
+            payload: data
+        })
+    } catch (error) {
+        dispatch({
+            type: SINGLE_SERVICE_FAIL,
             payload: error.response.data.message
         })
     }

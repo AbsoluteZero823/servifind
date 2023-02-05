@@ -63,7 +63,7 @@ exports.application = async (req, res, next) => {
 exports.createUser = async (req, res, next) => {
 
     const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: 'avatars',
+        folder: 'servifind/avatar',
         width: 150,
         crop: "scale"
     })
@@ -196,14 +196,14 @@ exports.getUserDetails = async (req, res, next) => {
 
 
 exports.updateUser = async (req, res, next) => {
-    // console.log(req.animal);
+    console.log(req.body);
     const newUserData = {
         name: req.body.name,
         age: req.body.age,
         gender: req.body.gender,
         contact: req.body.contact,
-        email: req.body.email,
-        role: req.body.role
+        // email: req.body.email,
+        // role: req.body.role
 
     }
 
@@ -213,7 +213,7 @@ exports.updateUser = async (req, res, next) => {
         const image_id = user.avatar.public_id;
         const res = await cloudinary.v2.uploader.destroy(image_id);
         const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'avatars',
+            folder: '/servifind/avatar',
             width: 150,
             crop: "scale"
         })
@@ -227,16 +227,6 @@ exports.updateUser = async (req, res, next) => {
         }
     }
 
-    // let animal = await Animal.findById(req.params.id);
-    // if(!animal) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Animal not found'
-    //     })
-    // }
-    // if(!animal) {
-    //     return next(new ErrorHandler('Animal not found',404));
-    // }
     const user = await User.findByIdAndUpdate(req.params.id, newUserData, {
         new: true,
         runValidators: true,
@@ -244,7 +234,7 @@ exports.updateUser = async (req, res, next) => {
     })
     res.status(200).json({
         success: true,
-        user
+        
     })
 }
 
@@ -323,16 +313,7 @@ exports.updateAdopter = async (req, res, next) => {
         }
     }
 
-    // let animal = await Animal.findById(req.params.id);
-    // if(!animal) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Animal not found'
-    //     })
-    // }
-    // if(!animal) {
-    //     return next(new ErrorHandler('Animal not found',404));
-    // }
+
     const user = await User.findByIdAndUpdate(req.params.id, newAdopterData, {
         new: true,
         runValidators: true,
@@ -430,7 +411,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         const image_id = user.avatar.public_id;
         const res = await cloudinary.v2.uploader.destroy(image_id);
         const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'avatars',
+            folder: 'servifind/avatar',
             width: 150,
             crop: "scale"
         })
@@ -449,7 +430,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         // useFindAndModify: false
     })
     res.status(200).json({
-        success: true
+        success: true,
+        user
     })
 })
 

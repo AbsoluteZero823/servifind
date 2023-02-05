@@ -24,7 +24,7 @@ import UpdateUser from './components/admin/UpdateUser'
 import ProtectedRoute from './components/route/ProtectedRoute'
 import UpdateProfile from './components/user/UpdateProfile'
 import UpdatePassword from './components/user/UpdatePassword'
-
+import SingleService from './components/service/SingleService';
 // import Animals from './components/animal/Animals'
 // import NewAnimal from './components/animal/NewAnimal'
 // import UpdateAnimal from './components/animal/UpdateAnimal'
@@ -78,7 +78,7 @@ function App() {
                 <div className="col-13 col-md-2">
                 </div>
 
-                <div className="col-13 col-md-10">
+                <div className="col-13 col-md-10" id='no-padding'>
         <div className='main'>
        
        
@@ -122,6 +122,7 @@ function App() {
             <Route path="/freelancers" element={<Freelancers />} exact />
             <Route path="/create" element={<Create />} exact />
             <Route path="/user/:id" element={<UpdateUser />} exact />
+            <Route path="/service/details/:id" element={<SingleService/>} />
             <Route path="/maintenance" element={<Maintenance />} exact />
 
             {/* <Route exact path="/" component={Login} /> */}
@@ -198,9 +199,9 @@ function App() {
 
 
             <Route path="/me/update" element={
-              <ProtectedRoute>
+              // <ProtectedRoute>
                 <UpdateProfile />
-              </ProtectedRoute>
+              // {/* </ProtectedRoute> */}
             } exact="true" />
 
             <Route path="/password/update" element={
@@ -331,6 +332,7 @@ function App() {
     <Route path="/freelancers" element={<Freelancers />} exact />
     <Route path="/create" element={<Create />} exact />
     <Route path="/user/:id" element={<UpdateUser />} exact />
+    <Route path="/service/details/:id" element={<SingleService/>} />
     <Route path="/maintenance" element={<Maintenance />} exact />
 
     {/* <Route exact path="/" component={Login} /> */}
@@ -464,17 +466,22 @@ function App() {
 
 
 
-    {/* <Route path="/me/update" element={
-      <ProtectedRoute>
+    <Route path="/me/update" element={
+      // <ProtectedRoute>
         <UpdateProfile />
-      </ProtectedRoute>} /> */}
+      // {/* </ProtectedRoute> */}
+    }exact="true" />
 
 
-
-    {/* <Route path="/password/update" element={
+      {/* <Route path="/me/update" element={
+              <ProtectedRoute>
+                <UpdateProfile />
+              </ProtectedRoute>
+            } exact="true" /> */}
+    <Route path="/password/update" element={
     <ProtectedRoute >
       <UpdatePassword />
-    </ProtectedRoute>} /> */}
+    </ProtectedRoute>} />
   </Routes>
 
 </div>
