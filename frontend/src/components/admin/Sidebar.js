@@ -51,11 +51,22 @@ const Sidebar = () => {
                         <Link to="/services"><i className="fa fa-cogs"></i>Services</Link>
                     </li>
 )}
+                    <li>
+                        <Link to="/my-inquiries"><i className="fa fa-cogs"></i>My Inquiries</Link>
+                    </li>
+{user && user.role ==='freelancer' &&(
+ <li>
+ <Link to="/client-inquiries"><i className="fa fa-cogs"></i>Client Inquiries</Link>
+</li>
+
+)}
+                   
+
  <li>
                         <Link to="/maintenance"><i className="fa fa-envelope"></i>Messages</Link>
                     </li>
  <li>
-                        <Link to="/"><i className="fa fa-cogs"></i>Available Services</Link>
+                        <Link to="/all"><i className="fa fa-cogs"></i>Available Services</Link>
                     </li>
                     <li>
                         <Link to="/admin/orders"><i className="fa fa-history"></i>Transactions</Link>

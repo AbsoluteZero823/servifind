@@ -7,60 +7,91 @@ import MetaData from '../layout/MetaData'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateService, getServiceDetails, clearErrors } from '../../actions/serviceActions'
-import { UPDATE_SERVICES_RESET } from '../../constants/serviceConstants'
+// import inquiry from '../../../../backend/models/inquiry';
+import { newInquiry } from '../../actions/inquiryActions';
+// import { UPDATE_SERVICES_RESET } from '../../constants/serviceConstants'
+import { NEW_INQUIRY_RESET } from '../../constants/inquiryConstants'
+import $ from 'jquery';
 
 const SingleService = () => {
 
-    const [description, setDescription] = useState('')
-
+    const [instruction, setInstruction] = useState('')
+    const [service_id, setService_id] = useState('')
+    const [customer, setCustomer] = useState('')
+    const [attachments,setAttachments] = useState('')
 
     const alert = useAlert();
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const { error, isUpdated, loading } = useSelector(state => state.updelService);
+    // const { error, isUpdated } = useSelector(state => state.updelService);
     const { service } = useSelector(state => state.serviceDetails)
+    const { user, isAuthenticated } = useSelector(state => state.auth)
+
+    const { inquiry, error, loading, success} = useSelector(state => state.inquiry)
     // const { loading, error, services } = useSelector(state => state.services);
     const { id } = useParams();
 
     useEffect(() => {
 
+        setInstruction(inquiry.instruction);
+        setService_id(id);
+        setCustomer(user._id);
+        setAttachments("trial");
 
         if (service && service._id !== id) {
             dispatch(getServiceDetails(id))
-        } else {
-            setDescription(service.description);
-            
-        }
-
+        } 
         if (error) {
             alert.error(error);
-            dispatch(clearErrors());
+            dispatch(clearErrors())
         }
 
-        if (isUpdated) {
-            alert.success('Service updated successfully')
-
-            navigate('/services')
-
-            dispatch({
-                type: UPDATE_SERVICES_RESET,
-
-            })
+        if (success) {
+            navigate('/');
+            alert.success('Inquiry created successfully');
+            dispatch({ type: NEW_INQUIRY_RESET })
         }
 
-    }, [dispatch, alert, error, navigate, isUpdated, id, service])
+        // if (error) {
+        //     alert.error(error);
+        //     dispatch(clearErrors());
+        // }
+
+        // if (isUpdated) {
+        //     alert.success('Service updated successfully')
+
+        //     navigate('/services')
+
+        //     dispatch({
+        //         type: UPDATE_SERVICES_RESET,
+
+        //     })
+        // }
+
+    }, [dispatch, alert, navigate,error,success])
 
     const submitHandler = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.set('description', description);
+        formData.set('instruction', instruction);
+        formData.set('service_id', service_id);
+        formData.set('customer', customer);
+        formData.set('attachments',attachments);
 
-        // formData.set('status', status);
+        
 
-        dispatch(updateService(service._id, formData))
+        dispatch(newInquiry( formData))
+        // ('#exampleModalCenter').modal({ backdrop: 'static', keyboard: false })
+        $('.modal-backdrop').hide();
+        $('body').removeClass('modal-open');
+        $('#myModal').modal('hide');
+        $('#<%=hfImg.ClientID%>').val("");
     }
+    // function closeModal() {
+      
+    // }
 
   
 
@@ -81,8 +112,8 @@ const SingleService = () => {
 
 
 <div className='row'>
-<button class="custom-btn btn-5" style={{margin:'20px'}} data-toggle="modal" data-target="#exampleModalCenter"><span style={{margin:'10px'}}>Inquire</span></button>
-<button class="custom-btn btn-5" style={{margin:'20px'}}><span>Read More</span></button>
+<button className="custom-btn btn-5" style={{margin:'20px'}} data-toggle="modal" data-target="#exampleModalCenter"><span style={{margin:'10px'}}>Inquire</span></button>
+<button className="custom-btn btn-5" style={{margin:'20px'}}><span>Read More</span></button>
 </div>
 </center>
 
@@ -92,7 +123,7 @@ const SingleService = () => {
          </div>
 
 
-         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
                         <div className="modal-dialog modal-dialog-centered" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -101,7 +132,7 @@ const SingleService = () => {
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form className="a" onSubmit={submitHandler} encType='multipart/form-data'>
+                                <form className="a" onSubmit={submitHandler} encType='multipart/form-data' >
                                     <div className="modal-body">
 
                                         <div className="form-group">
@@ -110,10 +141,8 @@ const SingleService = () => {
                 type="text"
                 placeholder="Instruction for the freelancer"
                 className="form-control"
-                // value={formData.instruction}
-                // onChange={(e) => {
-                //     setFormData({ ...formData, instruction: e.target.value });
-                // }}
+                value={instruction}
+                onChange={(e) => setInstruction(e.target.value)}
             />
                                         </div>
 
@@ -138,7 +167,10 @@ const SingleService = () => {
                             </div>
                         </div>
                     </div>
+
+
         </Fragment>
+        
     )
 }
 

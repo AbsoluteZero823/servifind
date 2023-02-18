@@ -1,6 +1,10 @@
 import React, { Fragment } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useSelector, useDispatch } from 'react-redux'
+import { Link
+    // , useNavigate 
+} from 'react-router-dom'
+import { useSelector
+    // , useDispatch 
+} from 'react-redux'
 
 import Loader from '../layout/Loader'
 import MetaData from '../layout/MetaData'
@@ -9,8 +13,8 @@ import MetaData from '../layout/MetaData'
 const Profile = () => {
 
     const { user, loading } = useSelector(state => state.auth)
-    let navigate = useNavigate();
-    const dispatch = useDispatch();
+    // let navigate = useNavigate();
+    // const dispatch = useDispatch();
 
     return (
         <Fragment>

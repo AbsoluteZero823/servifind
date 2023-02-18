@@ -1,10 +1,10 @@
-import React, { Fragment, useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { Fragment, useState } from 'react'
+// import { useNavigate } from 'react-router-dom';
 import MetaData from '../../layout/MetaData'
 
-import { useAlert } from 'react-alert'
-import { useDispatch, useSelector } from 'react-redux'
-import { register, clearErrors } from '../../../actions/userActions'
+// import { useAlert } from 'react-alert'
+import { useSelector } from 'react-redux'
+// import { register, clearErrors } from '../../../actions/userActions'
 import Loader from '../../layout/Loader'
 
 import BasicInfo from "./BasicInfo";

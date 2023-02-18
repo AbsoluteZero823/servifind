@@ -47,16 +47,17 @@ const Try = () => {
 
 
     }, [dispatch, alert])
+
     useEffect(() => {
         if (error) {
             alert.success('success')
             return alert.error(error)
         }
 
-        dispatch(getServices(currentPage, keyword))
+        dispatch(getServices(keyword))
 
 
-    }, [dispatch, alert, error, currentPage, keyword]);
+    }, [dispatch, alert, error, keyword]);
 
     function setCurrentPageNo(pageNumber) {
         setCurrentPage(pageNumber)
@@ -75,9 +76,9 @@ const Try = () => {
                     <div className='containerz'>
                         <MetaData title={'Buy Best Service Online'} />
 
-                        <h1 id="animals_heading">Latest Services</h1>
+                        <h1 id="animals_heading">Services</h1>
                         <section id="services" className="containerz mt-5">
-                            <div className="row">
+                            <div className="row" style={{justifyContent: 'center'}}>
                                 {services && services.map(service => (
 
                                     <Service key={service._id} service={service} users={users} />

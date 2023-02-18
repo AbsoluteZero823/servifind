@@ -19,27 +19,39 @@ const Login = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+    const { isAuthenticated, error, loading, success, user } = useSelector(state => state.auth);
 
 
     useEffect(() => {
 
-        if (isAuthenticated) {
-            navigate('/')
-        }
+        // if (isAuthenticated) {
+        //     navigate('/')
+        // }
 
         if (error) {
             return alert.error(error);
             dispatch(clearErrors());
         }
+        if (success) {
 
-    }, [dispatch, alert, isAuthenticated, error, navigate])
+            swal("Success!", "Logged in Successfully!", "success");
+if(user.role === 'admin'){
+    navigate('/dashboard')
+}
+else{
+    navigate('/all')
+}
+            
+            // dispatch({ type: NEW_SERVICES_RESET })
+        }
+
+    }, [dispatch, alert, isAuthenticated, error, navigate, success])
 
     const submitHandler = (e) => {
         e.preventDefault();
         dispatch(login(email, password))
 
-        swal("Success!", "Logged In Succesfully!", "success");
+        
         // alert.success('Logged in successfully.')
     }
 

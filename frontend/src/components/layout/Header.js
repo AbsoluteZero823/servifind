@@ -29,12 +29,22 @@ const Header = () => {
         swal("Success!", "Logged Out Succesfully!", "success");
     }
     return (
+        
         <nav className="navbar">
+            
             <div className='fifteen-percent'>
+               {(!user || user.role === 'admin') && 
                 <a className='logo' href="/">
 
                     <img className='servi_logo' src="../images/ServiFind.png" />
                 </a>
+                }
+                  {(user && user.role != 'admin') && 
+                <a className='logo' href="/all">
+
+                    <img className='servi_logo' src="../images/ServiFind.png" />
+                </a>
+                }
             </div>
             <div className="thirtyfive-percent">
                 <Search />

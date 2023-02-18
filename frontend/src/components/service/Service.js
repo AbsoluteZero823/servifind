@@ -10,7 +10,7 @@ import { allUsers } from '../../actions/userActions'
 const Service = ({ service, users }) => {
 
 
-
+    const { user, isAuthenticated } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
     // const { users } = useSelector(state => state.users)
@@ -69,13 +69,13 @@ service.user_id === users[index]._id && (
 ))}
 		<div className="card__content">
 			<div className="card__label">{service.category.name}</div>
-			<h2><a href="https://konrad.design" className="card__link" target="_blank">service</a></h2>
+			<h2><a href="https://konrad.design" className="card__link" target="_blank">services</a></h2>
 			{/* <p>{service.title}</p> */}
 			
-      <p><span className="fw7">{service.title}</span></p>
+      <p><span className="fw7">{service.name}</span></p>
       
       {/* picture and name */}
-      <div className='row' style={{display: 'flex', flexDirection:'row'}}>
+      <div className='row' style={{display: 'flex', flexDirection:'row', justifyContent: 'center !important'}}>
                             <div style={{width: 25,
         height: 25,
         position: 'relative',
@@ -91,7 +91,13 @@ service.user_id === users[index]._id && (
         {/* end picture and name */}
 			<div className="card__cta-container">
 				<button className="card__cta">
-                <Link to={`/service/details/${service._id}`}>View Details</Link></button>
+                    {(!user && !isAuthenticated) &&
+                    <Link to={`/login`}>View Details</Link>
+                    }
+                    {(user && isAuthenticated) &&
+                <Link to={`/service/details/${service._id}`}>View Details</Link>
+}
+                </button>
 			</div>
 		</div>
 	</div>

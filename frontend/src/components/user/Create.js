@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import MetaData from '../layout/MetaData'
-import Sidebar from '../admin/Sidebar'
+// import Sidebar from '../admin/Sidebar'
 
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
@@ -31,7 +31,7 @@ const Create = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const { isAuthenticated, error, loading, success } = useSelector(state => state.addPersonnel);
+    const { error, loading, success } = useSelector(state => state.addPersonnel);
 
     useEffect(() => {
 

@@ -1,8 +1,10 @@
 import React, { useState, useHistory } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+
 // const Search = ({ history }) => {
 const Search = () => {
-
+    const { user, loading, isAuthenticated } = useSelector(state => state.auth)
     const [keyword, setKeyword] = useState('');
     let navigate = useNavigate();
 
@@ -11,7 +13,13 @@ const Search = () => {
         if (keyword.trim()) {
             navigate(`/search/${keyword}`)
         } else {
-            navigate('/')
+            if(!user || user.role === 'admin'){
+                navigate('/all')  
+            }
+            // else{
+            //   navigate('/')  
+            // }
+            
         }
     }
     return (

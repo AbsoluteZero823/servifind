@@ -48,12 +48,12 @@ import {
 //  })
 //  }
 // }
-export const getServices = () => async (dispatch) => {
+export const getServices = (keyword ='') => async (dispatch) => {
     try {
 
         dispatch({ type: ALL_SERVICES_REQUEST })
 
-        const { data } = await axios.get('/api/v1/services')
+        const { data } = await axios.get(`/api/v1/services?keyword=${keyword}`)
 
         dispatch({
             type: ALL_SERVICES_SUCCESS,

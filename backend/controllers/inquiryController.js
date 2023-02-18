@@ -16,3 +16,13 @@ exports.newInquiry = async (req, res, next) => {
         inquiry
     })
 }
+
+//get all inquiries
+exports.getInquiries = async (req, res, next) => {
+    const inquiries = await Inquiry.find().populate(['customer', {path:'service_id',
+    populate : {path: 'user'}}]);
+    res.status(200).json({
+        success: true,
+       inquiries
+    })
+}

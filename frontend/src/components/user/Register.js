@@ -27,7 +27,7 @@ const Register = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const { isAuthenticated, error, loading } = useSelector(state => state.auth);
+    const { isAuthenticated, error, loading, success } = useSelector(state => state.auth);
 
     useEffect(() => {
 
@@ -38,6 +38,10 @@ const Register = () => {
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
+        }
+        if (success) {
+            alert.success('Registered successfully.')
+            navigate('/')
         }
 
     }, [dispatch, alert, isAuthenticated, error, navigate])
@@ -55,8 +59,7 @@ const Register = () => {
         formData.set('avatar', avatar);
 
         dispatch(register(formData))
-        alert.success('Registered successfully.')
-        navigate('/')
+      
     }
 
     const onChange = e => {

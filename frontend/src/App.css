@@ -331,6 +331,7 @@ nav ul a {
   flex-wrap: wrap;
   margin-right: 0 !important;
   margin-left: 0 !important;
+  
 }
 
 ul {
@@ -921,6 +922,10 @@ ul.CTAs a {
 .card {
   position: relative !important;
   flex-direction: row;
+ 
+}
+#card-rectangle{
+  max-height: 16vh;
 }
 
 .card-title {
@@ -1152,7 +1157,7 @@ a:not([href]):hover {
   /* padding: 20px; */
   background-color: #fff;
   display: flex;
-  column-gap: 20px;
+  /* column-gap: 20px; */
   box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.5);
   -moz-box-shadow: 1px 1px 16px -6px rgba(0, 0, 0, 0.5);
@@ -1190,9 +1195,10 @@ a:hover {
 /* card */
 .imgcard {
 	display: block;
-  height: 220px;
-  width: 220px;
+  height: auto;
+  width: auto;
 	max-width: 100%;
+  
 }
 
 .card {
@@ -1210,6 +1216,17 @@ a:hover {
 	/* padding-top: 2.5rem; */
 	
 }
+.card__inqcontent {
+	padding: 1rem;
+  width: 53%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+	/* padding-top: 2.5rem; */
+
+}
 
 .card__label {
 	position: absolute;
@@ -1218,8 +1235,10 @@ a:hover {
 	background-color: tomato;
 	padding-left: 1rem;
 	padding: 0.25rem 0.75rem 0.25rem 1rem;
+  padding-top: 10;
 	color: #fff;
 	border-radius: 0 4px 4px 0;
+  top: 10%;
 }
 
 .card__link {
@@ -1234,17 +1253,54 @@ a:hover {
 		left: 0;
 	} */
 }
+.card__info {
+  color: inherit;
+  text-decoration: none;
+	/* &::after {
+		content: "";
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+	} */
+  flex: 50%; /* or - flex: 0 50% - or - flex-basis: 50% - */
+  /*demo*/
+  /* box-shadow: 0 0 0 1px black; */
+  margin-bottom: 10px;
+}
 
+.card__btn-container {
+	/* padding-top: 1rem; */
+	/* border-top: 1px solid #bebebe; */
+  /* margin-top: 1rem; */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+ 
+  width: 22%;
+ 
+
+  justify-content: center;
+}
+.card__btn {
+	position: relative;
+	width: 70%;
+  padding: 0.2rem;
+  margin: 0.2rem;
+}
 .card__cta-container {
 	padding-top: 1rem;
 	border-top: 1px solid #bebebe;
   margin-top: 1rem;
 }
 
+
 .card__cta {
 	position: relative;
 	width: 100%;
   padding: 0.5rem;
+  margin: 0.2rem;
 }
 .fw7{
   font-size: 8px;

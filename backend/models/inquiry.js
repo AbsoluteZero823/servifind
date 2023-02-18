@@ -11,7 +11,7 @@ const inquirySchema = new mongoose.Schema({
     },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     

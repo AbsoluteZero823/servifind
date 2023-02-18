@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import React, { Fragment, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { MDBDataTable } from 'mdbreact'
 
 import MetaData from '../layout/MetaData'
 import Loader from '../layout/Loader'
-import Sidebar from '../admin/Sidebar'
+// import Sidebar from '../admin/Sidebar'
 
 
 import { useAlert } from 'react-alert'
@@ -22,7 +22,7 @@ const Freelancers = () => {
     const { loading, error, users } = useSelector(state => state.users);
     const { isUpdated } = useSelector(state => state.user);
     const { isDeleted } = useSelector(state => state.updelUser);
-    const { user } = useSelector(state => state.auth)
+    // const { user } = useSelector(state => state.auth)
     // const {id} = useParams();
     useEffect(() => {
         dispatch(allFreelancers());
@@ -119,6 +119,7 @@ const Freelancers = () => {
                     <img
                         className="anim"
                         src={customer.avatar.url}
+                        alt="profile"
                     />
 
                 </Fragment>,

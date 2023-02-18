@@ -25,22 +25,15 @@ import ProtectedRoute from './components/route/ProtectedRoute'
 import UpdateProfile from './components/user/UpdateProfile'
 import UpdatePassword from './components/user/UpdatePassword'
 import SingleService from './components/service/SingleService';
-// import Animals from './components/animal/Animals'
-// import NewAnimal from './components/animal/NewAnimal'
-// import UpdateAnimal from './components/animal/UpdateAnimal'
-
-// import Adopters from './components/adopter/Adopters'
-// import NewAdopter from './components/adopter/NewAdopter'
-// import UpdateAdopter from './components/adopter/UpdateAdopter'
-
-// import Personnels from './components/personnel/Personnels'
-// import NewPersonnel from './components/personnel/NewPersonnel'
 
 
 
 import Services from './components/service/Services'
 import NewService from './components/service/NewService'
 import UpdateService from './components/service/UpdateService'
+
+import MyInquiries from './components/user/client/MyInquiries';
+import ClientInquiries from './components/user/freelancer/ClientInquiries';
 
 import { loadUser } from './actions/userActions'
 import { useSelector } from 'react-redux'
@@ -97,84 +90,30 @@ function App() {
 
             {/* {!isAuthenticated && } */}
 
-            {user ? (user.role === "admin" && <Route path="/" element={<Dashboard />} exact />
+           
+              <Route path="/" element={<Home />} exact />
+              {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
 
 
-            ) :
-              <Route path="/" element={<Home />} exact />}
-
-
-
-            {user && user.status === 'deactivated' ? <Route path="/" element={<Home />} exact /> : user && (user.role === 'customer' || user.role === 'freelancer')&& (
-              <Route path="/" element={<Try />} exact />
-            )}
+          
 
             <Route path="/all" element={<Try />} exact />
             <Route path="/become-freelancer" element={<Become />} exact />
             <Route path="/application" element={<Application />} exact />
-            {/* <Route path="/search/:keyword" element={<Home />} exact /> */}
+            <Route path="/search/:keyword" element={<Try />} exact />
             <Route path="/login" element={<Login />} exact />
             <Route path="/register" element={<Register />} exact />
             <Route path="/about" element={<About />} exact />
             <Route path="/contact" element={<Contact />} exact />
-            {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
+            <Route path="/dashboard" element={<Dashboard />} exact />
             <Route path="/users" element={<Users />} exact />
             <Route path="/freelancers" element={<Freelancers />} exact />
             <Route path="/create" element={<Create />} exact />
             <Route path="/user/:id" element={<UpdateUser />} exact />
             <Route path="/service/details/:id" element={<SingleService/>} />
             <Route path="/maintenance" element={<Maintenance />} exact />
-
-            {/* <Route exact path="/" component={Login} /> */}
-
-            {/* <Route path="/login" element={<Login />} exact />
-            {user ? (user.role === "admin" && <Navigate exact from="/login" to="/dashboard" />
-
-
-            ) : !loading && <Route path="/" element={<Home />} exact />
-
-            } */}
-
-            {/* {console.log(loadUser)} */}
-            ... ...
-            {/* <Navigate to="/" /> */}
-
-
-            {/* <Route path="/adopt" element={<GetAdopted />} exact />
-          <Route path="/animal/details/:id" element={<AnimalDetails />} exact />
-          <Route path="/animal/adoption/:id" element={<AnimalDetails />} exact /> */}
-
-
-            {/* <Route
-              path="/dashboard"
-              element={
-                <ProtectedRoute isAdmin={true}>
-                  <Dashboard />
-                </ProtectedRoute>
-              }
-            /> */}
-
-            {/* 
-          <Route path="/animals" element={
-            <ProtectedRoute isAdmin={true}>
-              <Animals />
-            </ProtectedRoute>
-          } exact="true" /> */}
-
-
-            {/* <Route path="/animal/new" element={
-            <ProtectedRoute isAdmin={true}>
-              <NewAnimal />
-            </ProtectedRoute>
-          } exact="true" /> */}
-
-
-            {/* <Route path="/animal/:id" element={
-            <ProtectedRoute isAdmin={true}>
-              <UpdateAnimal />
-            </ProtectedRoute>
-          } exact="true" />
- */}
+            <Route path="/my-inquiries" element={<MyInquiries />} exact />
+            <Route path="/client-inquiries" element={<ClientInquiries />} exact />
 
 
 
@@ -209,88 +148,13 @@ function App() {
                 <UpdatePassword />
               </ProtectedRoute>
             } exact="true" />
-{/* 
-            <Route path="/chat" element={
-              <ProtectedRoute>
-                <ChatContainer />
-              </ProtectedRoute>
-            } exact="true" /> */}
 
-            {/*
-
-
-
-          <Route path="/adopters" element={
-            <ProtectedRoute isAdmin={true}>
-              <Adopters />
-            </ProtectedRoute>
-          } exact="true" />
-
-
-          <Route path="/adopter/new" element={
-            <ProtectedRoute isAdmin={true}>
-              <NewAdopter />
-            </ProtectedRoute>
-          } exact="true" />
-          <Route path="/adopter/:id" element={<UpdateAdopter />} exact="true" />
-
-
-
-
-
-
-          <Route path="/personnels" element={
-            <ProtectedRoute adminOnly={true}>
-              <Personnels />
-            </ProtectedRoute>
-          } exact="true" />
-
-
-          <Route path="/personnel/new" element={
-            <ProtectedRoute adminOnly={true}>
-              <NewPersonnel />
-            </ProtectedRoute>
-          } exact="true" />
-
-
-
-          <Route path="/personnel/:id" element={
-            <ProtectedRoute adminOnly={true}>
-              <UpdatePersonnel />
-            </ProtectedRoute>
-          } exact="true" />
- */}
-
-
-
-
-            {/* <Route path="/login" element={<Login />} exact />
-
-          <Route path="/register" element={
-            <Register />
-          } exact /> */}
-
-            {/* <Route path="/activate/user/:id" element={<Adopters/>} exact/> */}
-            {/* <Route path="/me" element={<Profile/>} exact /> */}
-
-
-
-            {/* <Route path="/me/update" element={
-              <ProtectedRoute>
-                <UpdateProfile />
-              </ProtectedRoute>} /> */}
-
-
-
-            {/* <Route path="/password/update" element={
-            <ProtectedRoute >
-              <UpdatePassword />
-            </ProtectedRoute>} /> */}
           </Routes>
 
   </div>
   </div>
 </div>
+//end row
 ) :
 
 <div className='main'>
@@ -322,7 +186,7 @@ function App() {
     <Route path="/all" element={<Try />} exact />
     <Route path="/become-freelancer" element={<Become />} exact />
     <Route path="/application" element={<Application />} exact />
-    {/* <Route path="/search/:keyword" element={<Home />} exact /> */}
+    <Route path="/search/:keyword" element={<Try />} exact />
     <Route path="/login" element={<Login />} exact />
     <Route path="/register" element={<Register />} exact />
     <Route path="/about" element={<About />} exact />
@@ -335,56 +199,7 @@ function App() {
     <Route path="/service/details/:id" element={<SingleService/>} />
     <Route path="/maintenance" element={<Maintenance />} exact />
 
-    {/* <Route exact path="/" component={Login} /> */}
-
-    {/* <Route path="/login" element={<Login />} exact />
-    {user ? (user.role === "admin" && <Navigate exact from="/login" to="/dashboard" />
-
-
-    ) : !loading && <Route path="/" element={<Home />} exact />
-
-    } */}
-
-    {/* {console.log(loadUser)} */}
-    ... ...
-    {/* <Navigate to="/" /> */}
-
-
-    {/* <Route path="/adopt" element={<GetAdopted />} exact />
-  <Route path="/animal/details/:id" element={<AnimalDetails />} exact />
-  <Route path="/animal/adoption/:id" element={<AnimalDetails />} exact /> */}
-
-
-    {/* <Route
-      path="/dashboard"
-      element={
-        <ProtectedRoute isAdmin={true}>
-          <Dashboard />
-        </ProtectedRoute>
-      }
-    /> */}
-
-    {/* 
-  <Route path="/animals" element={
-    <ProtectedRoute isAdmin={true}>
-      <Animals />
-    </ProtectedRoute>
-  } exact="true" /> */}
-
-
-    {/* <Route path="/animal/new" element={
-    <ProtectedRoute isAdmin={true}>
-      <NewAnimal />
-    </ProtectedRoute>
-  } exact="true" /> */}
-
-
-    {/* <Route path="/animal/:id" element={
-    <ProtectedRoute isAdmin={true}>
-      <UpdateAnimal />
-    </ProtectedRoute>
-  } exact="true" />
-*/}
+  
 
 
 
@@ -407,62 +222,7 @@ function App() {
       </ProtectedRoute>
     } exact="true" />
 
-    {/*
-
-
-
-  <Route path="/adopters" element={
-    <ProtectedRoute isAdmin={true}>
-      <Adopters />
-    </ProtectedRoute>
-  } exact="true" />
-
-
-  <Route path="/adopter/new" element={
-    <ProtectedRoute isAdmin={true}>
-      <NewAdopter />
-    </ProtectedRoute>
-  } exact="true" />
-  <Route path="/adopter/:id" element={<UpdateAdopter />} exact="true" />
-
-
-
-
-
-
-  <Route path="/personnels" element={
-    <ProtectedRoute adminOnly={true}>
-      <Personnels />
-    </ProtectedRoute>
-  } exact="true" />
-
-
-  <Route path="/personnel/new" element={
-    <ProtectedRoute adminOnly={true}>
-      <NewPersonnel />
-    </ProtectedRoute>
-  } exact="true" />
-
-
-
-  <Route path="/personnel/:id" element={
-    <ProtectedRoute adminOnly={true}>
-      <UpdatePersonnel />
-    </ProtectedRoute>
-  } exact="true" />
-*/}
-
-
-
-
-    {/* <Route path="/login" element={<Login />} exact />
-
-  <Route path="/register" element={
-    <Register />
-  } exact /> */}
-
-    {/* <Route path="/activate/user/:id" element={<Adopters/>} exact/> */}
-    {/* <Route path="/me" element={<Profile/>} exact /> */}
+  
 
 
 
@@ -473,11 +233,7 @@ function App() {
     }exact="true" />
 
 
-      {/* <Route path="/me/update" element={
-              <ProtectedRoute>
-                <UpdateProfile />
-              </ProtectedRoute>
-            } exact="true" /> */}
+     
     <Route path="/password/update" element={
     <ProtectedRoute >
       <UpdatePassword />

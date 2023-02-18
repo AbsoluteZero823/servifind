@@ -16,12 +16,22 @@ exports.newService = async (req, res, next) => {
     })
 }
 
+
 exports.getServices = async (req, res, next) => {
+    const servicesCount = await Service.countDocuments();
+    const apiFeatures = new APIFeatures(Service.find().populate(['category', 'user']), req.query).search().filter();
 
-
-    const services = await Service.find().populate(['category', 'user']);
+    
+    const services = await apiFeatures.query;
+    let filteredServicesCount = services.length;
+    // const services = await Service.find().populate(['category', 'user']);
     res.status(200).json({
         success: true,
+        // count: services.length,
+        servicesCount,
+
+        // resPerPage,
+        filteredServicesCount,
         services
     })
 

@@ -135,16 +135,16 @@ exports.loginUser = async (req, res, next) => {
         return next(new ErrorHandler('Your account must be active, Please contact support!', 401));
     }
 
-    //    const token = user.getJwtToken();
+      
 
-    // 	 res.status(201).json({
+  
+    else {
+        sendToken(user, 200, res, {success:true})
+    //     const token = user.getJwtToken();
+  	//  res.status(201).json({
     // 	 	success:true,
     // 	 	token
     // 	 });
-    else {
-        sendToken(user, 200, res)
-
-
     }
 
 }

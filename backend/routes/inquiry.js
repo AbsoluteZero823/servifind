@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { getServices,
+const { getInquiries,
     newInquiry,
     getSingleService,
     updateService,
@@ -12,7 +12,7 @@ const { getServices,
 } = require('../controllers/inquiryController');
 
 
-// router.route('/services').get(getServices);
+router.route('/inquiries').get(getInquiries);
 router.route('/inquiry/new').post(newInquiry);
 // router.route('/service/:id').get(getSingleService);
 // router.route('/service/:id').put(updateService).delete(deleteService);

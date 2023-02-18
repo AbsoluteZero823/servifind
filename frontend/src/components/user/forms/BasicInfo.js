@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { useAlert } from 'react-alert'
 import { updateProfile, loadUser, clearErrors } from '../../../actions/userActions'
 import { UPDATE_PROFILE_RESET } from '../../../constants/userConstants'
 
 import Loader from '../../layout/Loader'
-import MetaData from '../../layout/MetaData'
+// import MetaData from '../../layout/MetaData'
 
 function BasicInfo({ formData, setFormData }) {
 
@@ -50,7 +50,7 @@ function BasicInfo({ formData, setFormData }) {
             })
         }
 
-    }, [dispatch, alert, error, navigate, isUpdated])
+    }, [dispatch, alert, error, navigate,user, isUpdated])
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -96,7 +96,7 @@ function BasicInfo({ formData, setFormData }) {
                                     src={avatarPreview}
                                     className='rounded-circle'
                                     id='profile-pic'
-                                // alt='Avatar Preview'
+                                alt='Avatar Preview'
                                 />
                             </figure>
                         </div>
@@ -206,7 +206,7 @@ function BasicInfo({ formData, setFormData }) {
 
                         {/* <a className='edit-right'>edit <i className="fa fa-pencil-square-o"></i></a> */}
                         <button type="button" className="btn btn-primary" id='edit-right' data-toggle="modal" data-target="#exampleModalCenter">
-                            <a>edit <i className="fa fa-pencil-square-o"></i></a>
+                            edit <i className="fa fa-pencil-square-o"></i>
                         </button>
                         <br></br>
                     </div>
