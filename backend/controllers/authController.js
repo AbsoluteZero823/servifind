@@ -31,14 +31,13 @@ exports.registerUser = async (req, res, next) => {
         }
     })
 
-    const token = user.getJwtToken();
+    // const token = user.getJwtToken();
 
-    //  res.status(201).json({
-    //  	success:true,
-    //  	user,
-    //  	token
-    //  })
-    sendToken(user, 200, res)
+     res.status(201).json({
+     	success:true,
+     	user
+     })
+    // sendToken(user, 200, res)
 };
 
 exports.application = async (req, res, next) => {
@@ -47,7 +46,7 @@ exports.application = async (req, res, next) => {
         status: "activated"
     }
     if (!user) {
-        return next(new ErrorHandler('Injury disease not found', 404));
+        return next(new ErrorHandler('User not found', 404));
     }
     user = await User.findByIdAndUpdate(req.params.id, UserData, {
         new: true,
@@ -359,6 +358,7 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.getUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user.id);
+    // console.log(req)
     // const animal = await Animal.find({ adoption: { adopter: req.user.id, adoptername: req.user.name } })
     // if (req.user.role ==="admin"){
 

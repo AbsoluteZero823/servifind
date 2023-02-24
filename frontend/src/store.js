@@ -2,12 +2,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension'
 // import { animalsReducer, animalDetailsReducer, newAnimalReducer, UpDelAnimalReducer, allAnimalsReducer, singleAnimalReducer, adoptReducer, getAdoptReducer } from './reducers/animalReducers'
-import { authReducer, getUsersReducer, userReducer, UpDelUserReducer, newPersonnelReducer, userDetailsReducer } from './reducers/userReducers'
+import { authReducer, getUsersReducer, userReducer, UpDelUserReducer, newUserReducer, userDetailsReducer } from './reducers/userReducers'
 import { servicesReducer, serviceDetailsReducer, newServiceReducer, UpDelServiceReducer } from './reducers/serviceReducers'
-import { newInquiryReducer } from './reducers/inquiryReducers';
+import { newInquiryReducer, inquiriesReducer, inquiryDetailsReducer, statusReducer } from './reducers/inquiryReducers';
+import { newTransactionReducer} from './reducers/transactionReducers';
 const reducer = combineReducers({
 
-    addPersonnel: newPersonnelReducer,
+    addPersonnel: newUserReducer,
 
 
     services: servicesReducer,
@@ -21,8 +22,11 @@ const reducer = combineReducers({
     updelUser: UpDelUserReducer,
 
     inquiry: newInquiryReducer,
+    inquiries: inquiriesReducer,
+    singleInquiry: inquiryDetailsReducer,
+    updateStatus: statusReducer,
 
-
+    transaction: newTransactionReducer
 
 })
 let initialState = {

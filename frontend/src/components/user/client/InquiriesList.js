@@ -1,38 +1,38 @@
 
 import React, { Fragment, useState, useEffect } from 'react'
-import Pagination from 'react-js-pagination';
-import { useParams } from "react-router-dom";
-import MetaData from './layout/MetaData'
-import Service from './service/Service'
-import Loader from './layout/Loader'
+// import Pagination from 'react-js-pagination';
+// import { useParams } from "react-router-dom";
+import MetaData from '../../layout/MetaData';
+import MyInquiries from './MyInquiries';
+import Loader from '../../layout/Loader';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert';
-import { getServices } from '../actions/serviceActions'
-// import { allUsers } from '../actions/userActions'
+import { getMyInquiries } from '../../../actions/inquiryActions';
+// import { allUsers } from '../../../actions/userActions';
 // import Slider from 'rc-slider'
 // import 'rc-slider/assets/index.css'
 
 
-const Try = () => {
+const InquiriesList = () => {
 
     // const { createSliderWithToolTip } = Slider;
     // const Range = createSliderWithToolTip(Slider.Range);
-
+    const { user } = useSelector(state => state.auth)
 
     const alert = useAlert();
     const dispatch = useDispatch();
 
 
     // const { users } = useSelector(state => state.users)
-    const { loading, services, error, servicesCount, resPerPage, filteredServicesCount } = useSelector(state => state.services);
+    const { loading, inquiries, error,  } = useSelector(state => state.inquiries);
 
 
-    const [currentPage, setCurrentPage] = useState(1)
-    let { keyword } = useParams();
+    // const [currentPage, setCurrentPage] = useState(1)
+    // let { keyword } = useParams();
 
     useEffect(() => {
-    
+        // dispatch(allUsers())
 
         // if (error) {
         //     alert.error(error);
@@ -54,19 +54,14 @@ const Try = () => {
             return alert.error(error)
         }
 
-        dispatch(getServices(keyword))
+        dispatch(getMyInquiries())
 
 
-    }, [dispatch, alert, error, keyword]);
+    }, [dispatch, alert, error]);
 
-    function setCurrentPageNo(pageNumber) {
-        setCurrentPage(pageNumber)
-    }
-    let count = servicesCount;
 
-    if (keyword) {
-        count = filteredServicesCount
-    }
+
+    
     return (
         <Fragment>
 
@@ -76,12 +71,12 @@ const Try = () => {
                     <div className='containerz'>
                         <MetaData title={'Buy Best Service Online'} />
 
-                        <h1 id="animals_heading">Services</h1>
+                        <h1 id="animals_heading">My Inquiries</h1>
                         <section id="services" className="containerz mt-5">
                             <div className="row" style={{justifyContent: 'center'}}>
-                                {services && services.map(service => (
+                                {inquiries && inquiries.map(inquiry => (
 
-                                    <Service key={service._id} service={service} />
+                                    <MyInquiries key={inquiry._id} inquiry={inquiry} />
                                 ))}
                             </div>
                         </section>
@@ -119,4 +114,4 @@ const Try = () => {
         </Fragment >
     );
 }
-export default Try
+export default InquiriesList

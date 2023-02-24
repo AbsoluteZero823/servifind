@@ -5,7 +5,10 @@ import MetaData from '../layout/MetaData'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { register, clearErrors } from '../../actions/userActions'
+import { REGISTER_USER_RESET } from '../../constants/userConstants';
+// import { UPDATE_ORDER_RESET } from '../../constants/orderConstants'
 
+import swal from 'sweetalert';
 
 const Register = () => {
 
@@ -27,24 +30,23 @@ const Register = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const { isAuthenticated, error, loading, success } = useSelector(state => state.auth);
+    const {  error, loading, success } = useSelector(state => state.addPersonnel);
 
     useEffect(() => {
 
-        if (isAuthenticated) {
-            navigate('/')
-        }
-
+     
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
         }
         if (success) {
-            alert.success('Registered successfully.')
-            navigate('/')
+            swal("Success!", "Registered successfully. wait to be accepted", "success");
+            // alert.success('Registered successfully. wait to be accepted')
+            navigate('/login')
+            dispatch({ type: REGISTER_USER_RESET })
         }
 
-    }, [dispatch, alert, isAuthenticated, error, navigate])
+    }, [dispatch, alert,error, navigate, success])
 
     const submitHandler = (e) => {
         e.preventDefault();

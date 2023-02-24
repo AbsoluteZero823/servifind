@@ -6,6 +6,7 @@ import {
     REGISTER_USER_REQUEST,
     REGISTER_USER_SUCCESS,
     REGISTER_USER_FAIL,
+    REGISTER_USER_RESET,
 
     APPLICATION_USER_REQUEST,
     APPLICATION_USER_SUCCESS,
@@ -69,10 +70,10 @@ import {
     NEW_USERS_FAIL,
     NEW_USERS_RESET,
 
-    NEW_ADOPTERS_REQUEST,
-    NEW_ADOPTERS_SUCCESS,
-    NEW_ADOPTERS_FAIL,
-    NEW_ADOPTERS_RESET,
+    // NEW_ADOPTERS_REQUEST,
+    // NEW_ADOPTERS_SUCCESS,
+    // NEW_ADOPTERS_FAIL,
+    // NEW_ADOPTERS_RESET,
 
     // NEW_FREELANCERS_REQUEST,
     // NEW_FREELANCERS_SUCCESS,
@@ -90,7 +91,7 @@ export const authReducer = (state = { user: {} }, action) => {
     switch (action.type) {
 
         case LOGIN_REQUEST:
-        case REGISTER_USER_REQUEST:
+        // case REGISTER_USER_REQUEST:
         case APPLICATION_USER_REQUEST:
         case LOAD_USER_REQUEST:
 
@@ -101,7 +102,7 @@ export const authReducer = (state = { user: {} }, action) => {
             }
 
         case LOGIN_SUCCESS:
-        case REGISTER_USER_SUCCESS:
+        // case REGISTER_USER_SUCCESS:
         case APPLICATION_USER_SUCCESS:
         case LOAD_USER_SUCCESS:
             return {
@@ -134,7 +135,7 @@ export const authReducer = (state = { user: {} }, action) => {
             }
 
         case LOGIN_FAIL:
-        case REGISTER_USER_FAIL:
+        // case REGISTER_USER_FAIL:
         case APPLICATION_USER_FAIL:
             return {
                 ...state,
@@ -156,36 +157,37 @@ export const authReducer = (state = { user: {} }, action) => {
 }
 
 
-export const newPersonnelReducer = (state = { user: {} }, action) => {
+export const newUserReducer = (state = { user: {} }, action) => {
     switch (action.type) {
 
         case NEW_USERS_REQUEST:
-        case NEW_ADOPTERS_REQUEST:
-
+        // case NEW_ADOPTERS_REQUEST:
+            case REGISTER_USER_REQUEST:
             return {
                 ...state,
                 loading: true
             }
 
         case NEW_USERS_SUCCESS:
-        case NEW_ADOPTERS_SUCCESS:
-
+        // case NEW_ADOPTERS_SUCCESS:
+            case REGISTER_USER_SUCCESS:
             return {
                 loading: false,
-                success: action.payload.success,
+                success:true,
                 user: action.payload.user
             }
 
         case NEW_USERS_FAIL:
-        case NEW_ADOPTERS_FAIL:
-
+        // case NEW_ADOPTERS_FAIL:
+            case REGISTER_USER_FAIL:
             return {
                 ...state,
                 error: action.payload
             }
 
         case NEW_USERS_RESET:
-        case NEW_ADOPTERS_RESET:
+        // case NEW_ADOPTERS_RESET:
+        case REGISTER_USER_RESET:
 
             return {
                 ...state,

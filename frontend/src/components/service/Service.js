@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { allUsers } from '../../actions/userActions'
 
-const Service = ({ service, users }) => {
 
+const Service = ({ service }) => {
+// console.log(users)
 
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
-    // const { users } = useSelector(state => state.users)
+  
     const alert = useAlert();
 
 
@@ -49,24 +49,20 @@ const Service = ({ service, users }) => {
 
 	<div className="card">
 		<img className='imgcard'  src={service.image}></img>
-        {users && users.map((user, index) => (
+   
 
-service.user_id === users[index]._id && (
-
-    <div className='freelancer-info'>
+    {/* <div className='freelancer-info'>
         <img
-            src={user.avatar && user.avatar.url}
-            alt={users && users.name}
+            src={service.user.avatar && service.user.avatar.url}
+            alt={service.user && service.user.name}
             key={service._id}
             className="rounded-img"
         />
-        {/* <a>adw</a> */}
-        <a className='black-name'>{user.name}</a>
+    
+        <a className='black-name'>{service.user.name}</a>
         
-    </div>
-)
+    </div> */}
 
-))}
 		<div className="card__content">
 			<div className="card__label">{service.category.name}</div>
 			<h2><a href="https://konrad.design" className="card__link" target="_blank">services</a></h2>

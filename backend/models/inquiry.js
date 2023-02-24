@@ -14,7 +14,11 @@ const inquirySchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-    
+    freelancer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true
+    },
     service_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Service',

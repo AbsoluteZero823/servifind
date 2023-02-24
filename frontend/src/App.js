@@ -33,6 +33,8 @@ import NewService from './components/service/NewService'
 import UpdateService from './components/service/UpdateService'
 
 import MyInquiries from './components/user/client/MyInquiries';
+import InquiriesList from './components/user/client/InquiriesList'
+import InquiriesListC from './components/user/freelancer/InquiriesListC'
 import ClientInquiries from './components/user/freelancer/ClientInquiries';
 
 import { loadUser } from './actions/userActions'
@@ -98,6 +100,7 @@ function App() {
           
 
             <Route path="/all" element={<Try />} exact />
+            <Route path="/my-inquiries" element={<InquiriesList />} exact />
             <Route path="/become-freelancer" element={<Become />} exact />
             <Route path="/application" element={<Application />} exact />
             <Route path="/search/:keyword" element={<Try />} exact />
@@ -112,8 +115,8 @@ function App() {
             <Route path="/user/:id" element={<UpdateUser />} exact />
             <Route path="/service/details/:id" element={<SingleService/>} />
             <Route path="/maintenance" element={<Maintenance />} exact />
-            <Route path="/my-inquiries" element={<MyInquiries />} exact />
-            <Route path="/client-inquiries" element={<ClientInquiries />} exact />
+            {/* <Route path="/my-inquiries" element={<MyInquiries />} exact /> */}
+            <Route path="/client-inquiries" element={<InquiriesListC />} exact />
 
 
 

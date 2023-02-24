@@ -3,7 +3,7 @@ import { useNavigate, useParams, Link } from "react-router-dom";
 
 import MetaData from '../layout/MetaData'
 // import Sidebar from './Sidebar'
-
+import Loader from '../layout/Loader';
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateService, getServiceDetails, clearErrors } from '../../actions/serviceActions'
@@ -18,6 +18,7 @@ const SingleService = () => {
     const [instruction, setInstruction] = useState('')
     const [service_id, setService_id] = useState('')
     const [customer, setCustomer] = useState('')
+    const [freelancer,setFreelancer] = useState('')
     const [attachments,setAttachments] = useState('')
 
     const alert = useAlert();
@@ -25,23 +26,37 @@ const SingleService = () => {
     let navigate = useNavigate();
 
     // const { error, isUpdated } = useSelector(state => state.updelService);
-    const { service } = useSelector(state => state.serviceDetails)
+    const { service, loading } = useSelector(state => state.serviceDetails)
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
-    const { inquiry, error, loading, success} = useSelector(state => state.inquiry)
+    const { inquiry, error, success} = useSelector(state => state.inquiry)
     // const { loading, error, services } = useSelector(state => state.services);
     const { id } = useParams();
 
     useEffect(() => {
-
-        setInstruction(inquiry.instruction);
+        dispatch(getServiceDetails(id))
+        // if (service && service._id !== id) {
+           
+        // } 
+        setInstruction(instruction);
         setService_id(id);
-        setCustomer(user._id);
-        setAttachments("trial");
+        setCustomer(user && user._id);
+        
+          
+        
+       
+setAttachments("trial");
 
-        if (service && service._id !== id) {
-            dispatch(getServiceDetails(id))
-        } 
+       
+      
+       
+   
+            
+       
+       
+        
+// console.log(service.user._id)
+      
         if (error) {
             alert.error(error);
             dispatch(clearErrors())
@@ -53,49 +68,39 @@ const SingleService = () => {
             dispatch({ type: NEW_INQUIRY_RESET })
         }
 
-        // if (error) {
-        //     alert.error(error);
-        //     dispatch(clearErrors());
-        // }
-
-        // if (isUpdated) {
-        //     alert.success('Service updated successfully')
-
-        //     navigate('/services')
-
-        //     dispatch({
-        //         type: UPDATE_SERVICES_RESET,
-
-        //     })
-        // }
+  
 
     }, [dispatch, alert, navigate,error,success])
 
+   
     const submitHandler = (e) => {
         e.preventDefault();
-
+        setFreelancer(service.user && service.user._id)
+        console.log(service.user && service.user._id) 
         const formData = new FormData();
         formData.set('instruction', instruction);
         formData.set('service_id', service_id);
         formData.set('customer', customer);
+        formData.set('freelancer', service.user._id);
         formData.set('attachments',attachments);
 
-        
-
+        // console.log(service.user._id);
+ 
         dispatch(newInquiry( formData))
-        // ('#exampleModalCenter').modal({ backdrop: 'static', keyboard: false })
-        $('.modal-backdrop').hide();
+        
+       $('.modal-backdrop').hide();
         $('body').removeClass('modal-open');
-        $('#myModal').modal('hide');
-        $('#<%=hfImg.ClientID%>').val("");
+        // $('#exampleModalCenter').modal('hide');
+        // $('#<%=hfImg.ClientID%>').val("");
     }
-    // function closeModal() {
-      
-    // }
-
+  
   
 
     return (
+        <Fragment>
+
+
+        {loading ? <Loader /> : (
         <Fragment>
          <div className='row ey' style={{paddingLeft:'-10 !important'}}>
 <div className='1st' style={{backgroundColor:"#FFD4D4", width: "30%", paddingLeft:'-5px'}}>
@@ -112,8 +117,9 @@ const SingleService = () => {
 
 
 <div className='row'>
-<button className="custom-btn btn-5" style={{margin:'20px'}} data-toggle="modal" data-target="#exampleModalCenter"><span style={{margin:'10px'}}>Inquire</span></button>
+<button className="custom-btn btn-5" style={{margin:'20px'}} data-toggle="modal" data-target="#exampleModalCenter" ><span style={{margin:'10px'}} >Inquire</span></button>
 <button className="custom-btn btn-5" style={{margin:'20px'}}><span>Read More</span></button>
+<label>{service.user && service.user.name}</label>
 </div>
 </center>
 
@@ -170,6 +176,9 @@ const SingleService = () => {
 
 
         </Fragment>
+         )
+        }
+    </Fragment >
         
     )
 }
