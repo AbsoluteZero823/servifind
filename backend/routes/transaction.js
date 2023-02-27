@@ -8,12 +8,16 @@ const { getTransactions,
     deleteTransaction,
     createTransactionReview,
     getTransactionReviews,
-    deleteReview
+    deleteReview,
+    getMyFTransactions,
+    getMyCTransactions
 } = require('../controllers/transactionController');
-
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 // router.route('/transactions').get(getTransactions);
 router.route('/transaction/new').post(newTransaction);
 // router.route('/transaction/:id').get(getSingleTransaction);
 // router.route('/transaction/:id').put(updateTransaction).delete(deleteTransaction);
+router.route('/my/transactionsf').get(isAuthenticatedUser, getMyFTransactions);
+router.route('/my/transactionsc').get(isAuthenticatedUser, getMyCTransactions);
 module.exports = router;
