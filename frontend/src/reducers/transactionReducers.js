@@ -4,13 +4,19 @@ import {
     NEW_TRANSACTION_RESET,
     NEW_TRANSACTION_FAIL,
 
-    MY_FTRANSACTION_REQUEST,
-    MY_FTRANSACTION_SUCCESS,
-    MY_FTRANSACTION_FAIL,
 
-    MY_CTRANSACTION_REQUEST,
-    MY_CTRANSACTION_SUCCESS,
-    MY_CTRANSACTION_FAIL,
+    GET_TRANSACTIONS_REQUEST,
+    GET_TRANSACTIONS_SUCCESS,
+    GET_TRANSACTIONS_FAIL,
+
+    // MY_FTRANSACTION_REQUEST,
+    // MY_FTRANSACTION_SUCCESS,
+    // MY_FTRANSACTION_FAIL,
+
+    // MY_CTRANSACTION_REQUEST,
+    // MY_CTRANSACTION_SUCCESS,
+    // MY_CTRANSACTION_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/transactionConstants'
 
@@ -55,27 +61,24 @@ export const newTransactionReducer = (state = { transaction: {} }, action) => {
 }
 
 
-export const transactionsReducer = (state = { transactions: [] }, action) => {
+export const getTransactionsReducer = (state = { transactions: [] }, action) => {
     switch (action.type) {
 
 
-        case MY_FTRANSACTION_REQUEST:
-        case MY_CTRANSACTION_REQUEST:
+        case GET_TRANSACTIONS_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
 
-        case MY_FTRANSACTION_SUCCESS:
-        case MY_CTRANSACTION_SUCCESS:
+        case GET_TRANSACTIONS_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 transactions: action.payload.transactions,
             }
 
-        case MY_FTRANSACTION_FAIL:
-        case MY_CTRANSACTION_FAIL:
+        case GET_TRANSACTIONS_FAIL:
             return {
                 ...state,
                 loading: false,

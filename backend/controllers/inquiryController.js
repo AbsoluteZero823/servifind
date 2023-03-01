@@ -4,7 +4,7 @@ const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-const  Category  = require('../models/category');
+const Category = require('../models/category');
 //create new service
 
 exports.newInquiry = async (req, res, next) => {
@@ -20,14 +20,18 @@ exports.newInquiry = async (req, res, next) => {
 
 //get all inquiries
 exports.getInquiries = async (req, res, next) => {
-    
-  
-    const inquiries = await Inquiry.find( ).populate(['customer', {path:'service_id',
-    populate : {path: 'user'}}, {path:'service_id',
-    populate : {path: 'category'}}]);
+
+
+    const inquiries = await Inquiry.find().populate(['customer', {
+        path: 'service_id',
+        populate: { path: 'user' }
+    }, {
+            path: 'service_id',
+            populate: { path: 'category' }
+        }]);
     res.status(200).json({
         success: true,
-       inquiries
+        inquiries
     })
 }
 
@@ -37,16 +41,20 @@ exports.getMyInquiries = async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
 
-    const inquiries = await Inquiry.find({ customer: user._id }).populate(['customer', {path:'service_id',
-    
-    populate : {path: 'user'}}, {path:'service_id',
-    populate : {path: 'category'}}]);
+    const inquiries = await Inquiry.find({ customer: user._id }).populate(['customer', {
+        path: 'service_id',
 
-   
+        populate: { path: 'user' }
+    }, {
+            path: 'service_id',
+            populate: { path: 'category' }
+        }]);
+
+
     res.status(200).json({
         success: true,
-       inquiries
-      
+        inquiries
+
     })
 }
 
@@ -56,24 +64,32 @@ exports.getClientInquiries = async (req, res, next) => {
 
     const user = await User.findById(req.user.id);
 
-    const inquiries = await Inquiry.find({ freelancer: user._id }).populate(['customer', {path:'service_id',
-    
-    populate : {path: 'user'}}, {path:'service_id',
-    populate : {path: 'category'}}]);
+    const inquiries = await Inquiry.find({ freelancer: user._id }).populate(['customer', {
+        path: 'service_id',
 
-   
+        populate: { path: 'user' }
+    }, {
+            path: 'service_id',
+            populate: { path: 'category' }
+        }]);
+
+
     res.status(200).json({
         success: true,
-       inquiries
-      
+        inquiries
+
     })
 }
 
 exports.getSingleInquiry = async (req, res, next) => {
     const inquiry = await Inquiry.findById(req.params.id)
-    .populate(['customer', {path:'service_id',
-    populate : {path: 'user'}}, {path:'service_id',
-    populate : {path: 'category'}}]);
+        .populate(['customer', {
+            path: 'service_id',
+            populate: { path: 'user' }
+        }, {
+                path: 'service_id',
+                populate: { path: 'category' }
+            }]);
 
     // if(!injury_disease) {
     //     return res.status(404).json({
@@ -127,7 +143,7 @@ exports.updateStatus = async (req, res, next) => {
     console.log(req.body);
     const statusData = {
         status: req.body.status,
-   
+
     }
 
 
@@ -139,6 +155,8 @@ exports.updateStatus = async (req, res, next) => {
     })
     res.status(200).json({
         success: true,
-        
+
     })
 }
+
+

@@ -37,6 +37,8 @@ import InquiriesList from './components/user/client/InquiriesList'
 import InquiriesListC from './components/user/freelancer/InquiriesListC'
 import ClientInquiries from './components/user/freelancer/ClientInquiries';
 
+import MyTransactions from './components/user/MyTransactions';
+
 import { loadUser } from './actions/userActions'
 import { useSelector } from 'react-redux'
 import store from './store'
@@ -57,204 +59,204 @@ function App() {
 
 
         <Header />
-        {user ? (isAuthenticated && 
+        {user ? (isAuthenticated &&
 
 
-        // {isAuthenticated && (
-        <div className="row">
-       
-         
-       
-        <div className="col-12 col-md-2">
-                    <Sidebar />
-                </div>
-              
+          // {isAuthenticated && (
+          <div className="row">
 
-                <div className="col-13 col-md-2">
-                </div>
 
-                <div className="col-13 col-md-10" id='no-padding'>
-        <div className='main'>
-       
-       
-  {/* <div className="container pt-4"> */}
-  
-  <Routes>
-            {/* <Route path="/me" element={<Profile />} /> */}
-            <Route
-              path="/me"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            />
 
-            {/* {!isAuthenticated && } */}
+            <div className="col-12 col-md-2">
+              <Sidebar />
+            </div>
 
-           
-              <Route path="/" element={<Home />} exact />
+
+            <div className="col-13 col-md-2">
+            </div>
+
+            <div className="col-13 col-md-10" id='no-padding'>
+              <div className='main'>
+
+
+                {/* <div className="container pt-4"> */}
+
+                <Routes>
+                  {/* <Route path="/me" element={<Profile />} /> */}
+                  <Route
+                    path="/me"
+                    element={
+                      <ProtectedRoute>
+                        <Profile />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  {/* {!isAuthenticated && } */}
+
+
+                  <Route path="/" element={<Home />} exact />
+                  {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
+
+
+
+
+                  <Route path="/all" element={<Try />} exact />
+                  <Route path="/my-inquiries" element={<InquiriesList />} exact />
+                  <Route path="/become-freelancer" element={<Become />} exact />
+                  <Route path="/application" element={<Application />} exact />
+                  <Route path="/search/:keyword" element={<Try />} exact />
+                  <Route path="/login" element={<Login />} exact />
+                  <Route path="/register" element={<Register />} exact />
+                  <Route path="/about" element={<About />} exact />
+                  <Route path="/contact" element={<Contact />} exact />
+                  <Route path="/dashboard" element={<Dashboard />} exact />
+                  <Route path="/users" element={<Users />} exact />
+                  <Route path="/freelancers" element={<Freelancers />} exact />
+                  <Route path="/create" element={<Create />} exact />
+                  <Route path="/user/:id" element={<UpdateUser />} exact />
+                  <Route path="/service/details/:id" element={<SingleService />} />
+                  <Route path="/maintenance" element={<Maintenance />} exact />
+                  {/* <Route path="/my-inquiries" element={<MyInquiries />} exact /> */}
+                  <Route path="/client-inquiries" element={<InquiriesListC />} exact />
+
+                  <Route path="/transactions" element={<MyTransactions />} exact />
+
+                  <Route path="/services" element={
+                    <ProtectedRoute isAdmin={true}>
+                      <Services />
+                    </ProtectedRoute>
+                  } exact="true" />
+
+                  <Route path="/service/new" element={
+                    <ProtectedRoute isAdmin={true}>
+                      <NewService />
+                    </ProtectedRoute>
+                  } exact="true" />
+
+
+                  <Route path="/service/:id" element={
+                    <ProtectedRoute isAdmin={true}>
+                      <UpdateService />
+                    </ProtectedRoute>
+                  } exact="true" />
+
+
+                  <Route path="/me/update" element={
+                    // <ProtectedRoute>
+                    <UpdateProfile />
+                    // {/* </ProtectedRoute> */}
+                  } exact="true" />
+
+                  <Route path="/password/update" element={
+                    <ProtectedRoute>
+                      <UpdatePassword />
+                    </ProtectedRoute>
+                  } exact="true" />
+
+                </Routes>
+
+              </div>
+            </div>
+          </div>
+          //end row
+        ) :
+
+          <div className='main'>
+
+
+            {/* <div className="container pt-4"> */}
+
+            <Routes>
+              {/* <Route path="/me" element={<Profile />} /> */}
+              <Route
+                path="/me"
+                element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                }
+              />
+
+              {/* {!isAuthenticated && } */}
+
+              {user ? (user.role === "admin" && <Route path="/" element={<Dashboard />} exact />
+
+
+              ) : <Route path="/" element={<Home />} exact />}
+              {user && user.role === 'customer' && (
+                <Route path="/" element={<Try />} exact />
+              )}
+
+              <Route path="/all" element={<Try />} exact />
+              <Route path="/become-freelancer" element={<Become />} exact />
+              <Route path="/application" element={<Application />} exact />
+              <Route path="/search/:keyword" element={<Try />} exact />
+              <Route path="/login" element={<Login />} exact />
+              <Route path="/register" element={<Register />} exact />
+              <Route path="/about" element={<About />} exact />
+              <Route path="/contact" element={<Contact />} exact />
               {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
-
-
-          
-
-            <Route path="/all" element={<Try />} exact />
-            <Route path="/my-inquiries" element={<InquiriesList />} exact />
-            <Route path="/become-freelancer" element={<Become />} exact />
-            <Route path="/application" element={<Application />} exact />
-            <Route path="/search/:keyword" element={<Try />} exact />
-            <Route path="/login" element={<Login />} exact />
-            <Route path="/register" element={<Register />} exact />
-            <Route path="/about" element={<About />} exact />
-            <Route path="/contact" element={<Contact />} exact />
-            <Route path="/dashboard" element={<Dashboard />} exact />
-            <Route path="/users" element={<Users />} exact />
-            <Route path="/freelancers" element={<Freelancers />} exact />
-            <Route path="/create" element={<Create />} exact />
-            <Route path="/user/:id" element={<UpdateUser />} exact />
-            <Route path="/service/details/:id" element={<SingleService/>} />
-            <Route path="/maintenance" element={<Maintenance />} exact />
-            {/* <Route path="/my-inquiries" element={<MyInquiries />} exact /> */}
-            <Route path="/client-inquiries" element={<InquiriesListC />} exact />
+              <Route path="/users" element={<Users />} exact />
+              <Route path="/freelancers" element={<Freelancers />} exact />
+              <Route path="/create" element={<Create />} exact />
+              <Route path="/user/:id" element={<UpdateUser />} exact />
+              <Route path="/service/details/:id" element={<SingleService />} />
+              <Route path="/maintenance" element={<Maintenance />} exact />
 
 
 
-            <Route path="/services" element={
-              <ProtectedRoute isAdmin={true}>
-                <Services />
-              </ProtectedRoute>
-            } exact="true" />
-
-            <Route path="/service/new" element={
-              <ProtectedRoute isAdmin={true}>
-                <NewService />
-              </ProtectedRoute>
-            } exact="true" />
 
 
-            <Route path="/service/:id" element={
-              <ProtectedRoute isAdmin={true}>
-                <UpdateService />
-              </ProtectedRoute>
-            } exact="true" />
+              <Route path="/services" element={
+                <ProtectedRoute isAdmin={true}>
+                  <Services />
+                </ProtectedRoute>
+              } exact="true" />
+
+              <Route path="/service/new" element={
+                <ProtectedRoute isAdmin={true}>
+                  <NewService />
+                </ProtectedRoute>
+              } exact="true" />
 
 
-            <Route path="/me/update" element={
-              // <ProtectedRoute>
+              <Route path="/service/:id" element={
+                <ProtectedRoute isAdmin={true}>
+                  <UpdateService />
+                </ProtectedRoute>
+              } exact="true" />
+
+
+
+
+
+              <Route path="/me/update" element={
+                // <ProtectedRoute>
                 <UpdateProfile />
-              // {/* </ProtectedRoute> */}
-            } exact="true" />
-
-            <Route path="/password/update" element={
-              <ProtectedRoute>
-                <UpdatePassword />
-              </ProtectedRoute>
-            } exact="true" />
-
-          </Routes>
-
-  </div>
-  </div>
-</div>
-//end row
-) :
-
-<div className='main'>
-
-
-{/* <div className="container pt-4"> */}
-
-<Routes>
-    {/* <Route path="/me" element={<Profile />} /> */}
-    <Route
-      path="/me"
-      element={
-        <ProtectedRoute>
-          <Profile />
-        </ProtectedRoute>
-      }
-    />
-
-    {/* {!isAuthenticated && } */}
-
-    {user ? (user.role === "admin" && <Route path="/" element={<Dashboard />} exact />
-
-
-    ) : <Route path="/" element={<Home />} exact />}
-    {user && user.role === 'customer' && (
-      <Route path="/" element={<Try />} exact />
-    )}
-
-    <Route path="/all" element={<Try />} exact />
-    <Route path="/become-freelancer" element={<Become />} exact />
-    <Route path="/application" element={<Application />} exact />
-    <Route path="/search/:keyword" element={<Try />} exact />
-    <Route path="/login" element={<Login />} exact />
-    <Route path="/register" element={<Register />} exact />
-    <Route path="/about" element={<About />} exact />
-    <Route path="/contact" element={<Contact />} exact />
-    {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
-    <Route path="/users" element={<Users />} exact />
-    <Route path="/freelancers" element={<Freelancers />} exact />
-    <Route path="/create" element={<Create />} exact />
-    <Route path="/user/:id" element={<UpdateUser />} exact />
-    <Route path="/service/details/:id" element={<SingleService/>} />
-    <Route path="/maintenance" element={<Maintenance />} exact />
-
-  
+                // {/* </ProtectedRoute> */}
+              } exact="true" />
 
 
 
-    <Route path="/services" element={
-      <ProtectedRoute isAdmin={true}>
-        <Services />
-      </ProtectedRoute>
-    } exact="true" />
+              <Route path="/password/update" element={
+                <ProtectedRoute >
+                  <UpdatePassword />
+                </ProtectedRoute>} />
+            </Routes>
 
-    <Route path="/service/new" element={
-      <ProtectedRoute isAdmin={true}>
-        <NewService />
-      </ProtectedRoute>
-    } exact="true" />
+          </div>
 
 
-    <Route path="/service/:id" element={
-      <ProtectedRoute isAdmin={true}>
-        <UpdateService />
-      </ProtectedRoute>
-    } exact="true" />
+        }
+      </div>
+      {/* <div className="main"> */}
 
-  
+      {/* </div> */}
 
-
-
-    <Route path="/me/update" element={
-      // <ProtectedRoute>
-        <UpdateProfile />
-      // {/* </ProtectedRoute> */}
-    }exact="true" />
-
-
-     
-    <Route path="/password/update" element={
-    <ProtectedRoute >
-      <UpdatePassword />
-    </ProtectedRoute>} />
-  </Routes>
-
-</div>
-
-
-}
-</div>
-        {/* <div className="main"> */}
-         
-        {/* </div> */}
-
-        {!loading && (!isAuthenticated) && (
-          <Footer />
-        )}
+      {!loading && (!isAuthenticated) && (
+        <Footer />
+      )}
       {/* </div> */}
 
     </Router>

@@ -92,32 +92,32 @@ const Services = () => {
         <Fragment>
             <MetaData title={'All Services'} />
 
-          
-            
-            
 
 
-                <div className="Details col-13 col-md-9">
-                    <Fragment>
-                        <h1 className="my-5">ALL Services</h1>
-                        <h3 className="my-5">Add Services
-                            <span> <Link to="/service/new" className="btn update-btn fa fa-plus">
-                            </Link> </span>
-                        </h3>
 
-                        {loading ? <Loader /> : (
-                            <MDBDataTable
-                                data={setServices()}
-                                className="px-3"
-                                bordered
-                                striped
-                                hover
-                            />
-                        )}
 
-                    </Fragment>
-                </div>
-            
+
+            <div className="Details col-13 col-md-9">
+                <Fragment>
+                    <h1 className="my-5">ALL Services</h1>
+                    <h3 className="my-5">Add Services
+                        <span> <Link to="/service/new" className="btn update-btn fa fa-plus">
+                        </Link> </span>
+                    </h3>
+
+                    {loading ? <Loader /> : (
+                        <MDBDataTable
+                            data={setServices()}
+                            className="px-3"
+                            bordered
+                            striped
+                            hover
+                        />
+                    )}
+
+                </Fragment>
+            </div>
+
 
         </Fragment>
     )

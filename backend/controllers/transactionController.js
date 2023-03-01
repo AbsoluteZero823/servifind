@@ -17,54 +17,15 @@ exports.newTransaction = async (req, res, next) => {
     })
 }
 
-// //all Transactions
-// exports.getTransactions = async (req, res, next) => {
+//all Transactions
+exports.getTransactions = async (req, res, next) => {
 
 
-//     const transactions = await Inquiry.find().populate(['customer', {
-//         path: 'service_id',
-//         populate: { path: 'user' }
-//     }, {
-//             path: 'service_id',
-//             populate: { path: 'category' }
-//         }]);
-//     res.status(200).json({
-//         success: true,
-//         transactions
-//     })
-// }
-
-// get Freelancer Transaction
-exports.getMyFTransactions = async (req, res, next) => {
-
-
-    const transactions = await Inquiry.find().populate(['customer', {
-        path: 'service_id',
-        populate: { path: 'user' }
-    }, {
-            path: 'service_id',
-            populate: { path: 'category' }
-        }]);
+    const transactions = await Transaction.find().populate('inquiry_id');
     res.status(200).json({
         success: true,
         transactions
     })
 }
 
-// get Client Transaction
-exports.getMyCTransactions = async (req, res, next) => {
-
-
-    const transactions = await Inquiry.find().populate(['customer', {
-        path: 'service_id',
-        populate: { path: 'user' }
-    }, {
-            path: 'service_id',
-            populate: { path: 'category' }
-        }]);
-    res.status(200).json({
-        success: true,
-        transactions
-    })
-}
 

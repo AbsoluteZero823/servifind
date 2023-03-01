@@ -5,7 +5,8 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import { authReducer, getUsersReducer, userReducer, UpDelUserReducer, newUserReducer, userDetailsReducer } from './reducers/userReducers'
 import { servicesReducer, serviceDetailsReducer, newServiceReducer, UpDelServiceReducer } from './reducers/serviceReducers'
 import { newInquiryReducer, inquiriesReducer, inquiryDetailsReducer, statusReducer } from './reducers/inquiryReducers';
-import { newTransactionReducer} from './reducers/transactionReducers';
+import { getTransactionsReducer, newTransactionReducer } from './reducers/transactionReducers';
+// import { getTransactions } from '../../backend/controllers/transactionController';
 const reducer = combineReducers({
 
     addPersonnel: newUserReducer,
@@ -26,7 +27,8 @@ const reducer = combineReducers({
     singleInquiry: inquiryDetailsReducer,
     updateStatus: statusReducer,
 
-    transaction: newTransactionReducer
+    transaction: newTransactionReducer,
+    transactions: getTransactionsReducer
 
 })
 let initialState = {

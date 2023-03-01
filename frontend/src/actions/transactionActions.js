@@ -6,13 +6,13 @@ import {
     NEW_TRANSACTION_SUCCESS,
     NEW_TRANSACTION_FAIL,
 
-    MY_FTRANSACTION_REQUEST,
-    MY_FTRANSACTION_SUCCESS,
-    MY_FTRANSACTION_FAIL,
+    // MY_FTRANSACTION_REQUEST,
+    // MY_FTRANSACTION_SUCCESS,
+    // MY_FTRANSACTION_FAIL,
 
-    MY_CTRANSACTION_REQUEST,
-    MY_CTRANSACTION_SUCCESS,
-    MY_CTRANSACTION_FAIL,
+    GET_TRANSACTIONS_REQUEST,
+    GET_TRANSACTIONS_SUCCESS,
+    GET_TRANSACTIONS_FAIL,
 
 
     CLEAR_ERRORS
@@ -58,43 +58,43 @@ export const newTransaction = (transactionData) => async (dispatch) => {
 
 
 
-export const getMyCTransactions = () => async (dispatch) => {
+export const getTransactions = () => async (dispatch) => {
     try {
 
-        dispatch({ type: MY_CTRANSACTION_REQUEST })
+        dispatch({ type: GET_TRANSACTIONS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/my/transactionsc`)
+        const { data } = await axios.get(`/api/v1/transactions`)
 
         dispatch({
-            type: MY_CTRANSACTION_SUCCESS,
+            type: GET_TRANSACTIONS_SUCCESS,
             payload: data
         })
 
     } catch (error) {
         dispatch({
-            type: MY_CTRANSACTION_FAIL,
+            type: GET_TRANSACTIONS_FAIL,
             payload: error.response.data.message
         })
     }
 }
 
-export const getMyFTransactions = () => async (dispatch) => {
-    try {
+// export const getMyFTransactions = () => async (dispatch) => {
+//     try {
 
-        dispatch({ type: MY_FTRANSACTION_REQUEST })
+//         dispatch({ type: MY_FTRANSACTION_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/my/transactionsf`)
+//         const { data } = await axios.get(`/api/v1/my/transactionsf`)
 
-        dispatch({
-            type: MY_FTRANSACTION_SUCCESS,
+//         dispatch({
+//             type: MY_FTRANSACTION_SUCCESS,
 
-            payload: data
-        })
+//             payload: data
+//         })
 
-    } catch (error) {
-        dispatch({
-            type: MY_FTRANSACTION_FAIL,
-            payload: error.response.data.message
-        })
-    }
-}
+//     } catch (error) {
+//         dispatch({
+//             type: MY_FTRANSACTION_FAIL,
+//             payload: error.response.data.message
+//         })
+//     }
+// }

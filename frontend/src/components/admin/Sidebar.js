@@ -69,7 +69,7 @@ const Sidebar = () => {
                         <Link to="/all"><i className="fa fa-cogs"></i>Available Services</Link>
                     </li>
                     <li>
-                        <Link to="/my/transactions"><i className="fa fa-history"></i>Transactions</Link>
+                        <Link to="/transactions"><i className="fa fa-history"></i>Transactions</Link>
                     </li>
                     <li>
                         <Link to="/admin/reviews"><i className="fa fa-star"></i> Reviews</Link>
