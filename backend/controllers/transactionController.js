@@ -21,11 +21,29 @@ exports.newTransaction = async (req, res, next) => {
 exports.getTransactions = async (req, res, next) => {
 
 
-    const transactions = await Transaction.find().populate('inquiry_id');
+    const transactions = await Transaction.find().populate([{
+        path: 'inquiry_id',
+
+        populate: { path: 'customer' }
+    },
+    {
+        path: 'inquiry_id',
+
+        populate: { path: 'freelancer' }
+    }
+    ]);
     res.status(200).json({
         success: true,
         transactions
     })
 }
 
+// const inquiries = await Inquiry.find({ freelancer: user._id }).populate(['customer', {
+//     path: 'service_id',
+
+//     populate: { path: 'user' }
+// }, {
+//         path: 'service_id',
+//         populate: { path: 'category' }
+//     }]);
 
