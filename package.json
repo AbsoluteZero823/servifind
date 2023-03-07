@@ -38,6 +38,7 @@
     "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
     "sweetalert": "^2.1.2",
+    "sweetalert2": "^11.7.3",
     "validator": "^13.7.0"
   },
   "devDependencies": {

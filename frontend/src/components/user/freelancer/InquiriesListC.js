@@ -59,6 +59,10 @@ const InquiriesListC = () => {
 
     }, [dispatch, alert, error]);
 
+    const clientinquiries = inquiries.filter(function (cinquiries) {
+        return cinquiries.freelancer.user_id._id === user._id;
+
+    });
 
 
     
@@ -73,8 +77,9 @@ const InquiriesListC = () => {
 
                         <h1 id="animals_heading">Client Inquiries</h1>
                         <section id="services" className="containerz mt-5">
+                            
                             <div className="row" style={{justifyContent: 'center'}}>
-                                {inquiries && inquiries.map(inquiry => (
+                                {clientinquiries && clientinquiries.map(inquiry => (
 
                                     <ClientInquiries key={inquiry._id} inquiry={inquiry} />
                                 ))}

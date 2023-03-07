@@ -4,8 +4,9 @@ const router = express.Router();
 const { getTransactions,
     newTransaction,
     getSingleTransaction,
-    updateTransaction,
-    deleteTransaction,
+    PaymentReceived,
+    PaymentSent,
+    transactionDone,
     createTransactionReview,
     getTransactionReviews,
     deleteReview,
@@ -16,7 +17,11 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/transactions').get(getTransactions);
 router.route('/transaction/new').post(newTransaction);
-// router.route('/transaction/:id').get(getSingleTransaction);
+router.route('/transaction/:id').get(getSingleTransaction);
+router.route('/transaction/:id').put(PaymentSent);
+router.route('/transaction/received/:id').put(PaymentReceived);
+router.route('/transaction/done/:id').put(transactionDone);
+// router.route('/transaction/client/done/:id').put(transactionDoneC);
 // router.route('/transaction/:id').put(updateTransaction).delete(deleteTransaction);
 // router.route('/my/transactionsf').get(getMyFTransactions);
 // router.route('/my/transactionsc').get(isAuthenticatedUser, getMyCTransactions);

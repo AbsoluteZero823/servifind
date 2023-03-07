@@ -11,6 +11,16 @@ const transactionSchema = new mongoose.Schema({
         default: 'false',
         required: true
     },
+    paymentSent:{
+        type: String,
+        default: 'false',
+        required: true
+    },
+    paymentReceived:{
+        type: String,
+        default: 'false',
+        required: true
+    },
     created_At: {
         type: Date,
         required: true,
@@ -33,8 +43,27 @@ const transactionSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'processing'
+    },
+    transaction_done: {
+        client: {
+            type: String,
+            required: false,
+            default:'false'
+        },
+        freelancer: {
+            type: String,
+            required: false,
+            default:'false'
+        }, 
+        workCompleted: {
+            type: Date,
+            required: false
+        },
+        transactionCompleted: {
+            type: Date,
+            required: false
+        }
     }
-
  
 
 })
