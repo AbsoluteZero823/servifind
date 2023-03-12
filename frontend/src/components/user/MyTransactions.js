@@ -422,9 +422,11 @@ const [transactionID,setTransactionID] = useState('')
                 )} */}
 
                 { ctransaction && ctransaction.transaction_done.client === 'true' && (
-                    <Link to={''} className="btn btn-warning py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Review or Rate the Service" >
+                    <div data-toggle="tooltip" data-placement="bottom" title="Review or Rate the Service">
+                    <Link to={''} className="btn btn-warning py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)} >
                         <i className="fa fa-star" ></i>
                     </Link>
+                    </div>
                 )}
                     <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Report this Client" >
                         <i className="fa fa-exclamation-circle" ></i>
@@ -485,13 +487,84 @@ const [transactionID,setTransactionID] = useState('')
 
 
 
-{/* MODAL */}
+{/* PAYMENT MODAL */}
 <Fragment>
             <div className="modal fade" id="PaymentDetailsModal" tabIndex="-1" role="dialog" aria-labelledby="PaymentDetailsModalTitle" aria-hidden="true" >
                         <div className="modal-dialog modal-dialog-centered" role="document" style={{maxWidth: '800px'}}>
                             <div className="modal-content">
                                 <div className="modal-header">
                                     <h5 className="modal-title" id="PaymentDetailsModalTitle">Payment</h5>
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form className="a" onSubmit={submitHandler} encType='multipart/form-data' >
+            {loadings ? <Loader /> : (                         
+                                    <div className="modal-body">
+ 
+                                        <div className='row' >
+
+
+<div className='sixty' style={{width: '60%', backgroundColor: 'transparent', padding:'10px'}}>
+<img
+            src={transaction.inquiry_id && transaction.inquiry_id.freelancer.user_id.avatar.url}
+            // alt={service.user && service.user.name}
+            // key={service._id}
+            // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+            className="rounded-img-big"
+            
+            
+        />
+        <h4>Amount to pay: 100</h4>
+        {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
+<h4>Gcash Name: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_name}</h4>
+<h4>Gcash Number: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_num}</h4>
+</div>
+<div className='forty' style={{width: '40%', backgroundColor: 'transparent', alignContent:'center', alignItems:'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap'}}>
+
+    <img 
+    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.qrCode.url} 
+    style={{ height: '250px', width: '250px', border: '5px solid', margin:'10px'}}
+    
+    
+    />
+<h4>Gcash QR Code</h4>
+</div>
+
+
+                                        </div>
+
+                                       
+                                      
+
+                                    
+
+                         
+
+
+                                    </div>
+)}
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" className="btn btn-primary" >Payment Done</button>
+
+
+                                    </div>
+                                </form>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    </Fragment>
+
+                    
+{/* RATE SERVICE MODAL */}
+<Fragment>
+            <div className="modal fade" id="RateServiceModal" tabIndex="-1" role="dialog" aria-labelledby="RateServiceModalTitle" aria-hidden="true" >
+                        <div className="modal-dialog modal-dialog-centered" role="document" style={{maxWidth: '800px'}}>
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title" id="RateServiceModalTitle">Rate Service</h5>
                                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
