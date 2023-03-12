@@ -29,8 +29,8 @@ const Header = () => {
         swal("Success!", "Logged Out Succesfully!", "success");
     }
     return (
-        
-        <nav className="navbar">
+        <div>
+        <nav className="navbar" style={{zIndex:'6'}}>
             
             <div className='fifteen-percent'>
                {(!user || user.role === 'admin') && 
@@ -150,6 +150,8 @@ const Header = () => {
                     (<i ><FaBars></FaBars></i>)}
             </button>
         </nav>
+        <nav className='navbar' style={{position: 'static'}}></nav>
+        </div>
     )
 };
 

@@ -52,6 +52,9 @@ const [transactionID,setTransactionID] = useState('')
         if (user) {
             console.log(user._id);
         }
+        if (transactions) {
+            console.log(transactions._id);
+        }
         // if (isDeleted) {
         //     alert.success('User deleted successfully');
         //     navigate('/users');

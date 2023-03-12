@@ -92,7 +92,7 @@ const UpdateUser = () => {
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
                     <form className="shadow-lg" onSubmit={submitHandler} encType='multipart/form-data'>
-                        <h1 className="mt-2 mb-5">Update User</h1>
+                        <h1 className="mt-2 mb-5"></h1>
 
                         <div className="form-group">
                             <label htmlFor="email_field">Name</label>

@@ -47,8 +47,8 @@ const Service = ({ service }) => {
     return (
 
 
-	<div className="card">
-		<img className='imgcard'  src={service.image}></img>
+	<div className="card" style={{}}>
+		<img className='imgcard'  src={service.image} style={{maxWidth:'160px'}}></img>
    
 
     {/* <div className='freelancer-info'>
@@ -64,14 +64,14 @@ const Service = ({ service }) => {
     </div> */}
 
 		<div className="card__content">
-			<div className="card__label">{service.category.name}</div>
-			<h2><a href="https://konrad.design" className="card__link" target="_blank">services</a></h2>
+			<div className="card__label" style={{fontSize:'12px'}}>{service.category.name}</div>
+			<h4><a href="https://konrad.design" className="card__link" target="_blank">services</a></h4>
 			{/* <p>{service.title}</p> */}
 			
       <p><span className="fw7">{service.name}</span></p>
       
       {/* picture and name */}
-      <div className='row' style={{display: 'flex', flexDirection:'row', justifyContent: 'center !important'}}>
+      <div className='row' style={{display: 'flex', flexDirection:'row', justifyContent: 'space-between !important'}}>
                             <div style={{width: 25,
         height: 25,
         position: 'relative',

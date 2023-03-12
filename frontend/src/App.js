@@ -35,9 +35,10 @@ import UpdateService from './components/service/UpdateService'
 import MyInquiries from './components/user/client/MyInquiries';
 import InquiriesList from './components/user/client/InquiriesList'
 import InquiriesListC from './components/user/freelancer/InquiriesListC'
-import ClientInquiries from './components/user/freelancer/ClientInquiries';
+
 
 import MyTransactions from './components/user/MyTransactions';
+import UserTransactions from './components/user/client/UserTransactions';
 
 import { loadUser } from './actions/userActions'
 import { useSelector } from 'react-redux'
@@ -121,6 +122,7 @@ function App() {
                   <Route path="/client-inquiries" element={<InquiriesListC />} exact />
 
                   <Route path="/transactions" element={<MyTransactions />} exact />
+                  <Route path="/user/transactions" element={<UserTransactions />} exact />
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>

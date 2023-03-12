@@ -71,9 +71,9 @@ const Sidebar = () => {
                     <li>
                         <Link to="/transactions"><i className="fa fa-history"></i>Transactions</Link>
                     </li>
-                    <li>
+                    {/* <li>
                         <Link to="/admin/reviews"><i className="fa fa-star"></i> Reviews</Link>
-                    </li>
+                    </li> */}
                     <li>
                         <Link to="/admin/reviews"><i className="fa fa-flag"></i> Reports</Link>
                     </li>

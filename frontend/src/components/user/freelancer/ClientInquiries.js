@@ -78,7 +78,7 @@ const MyInquiries = (inquiries) => {
     return (
 
         <Fragment>
-            <div style={{ marginLeft: '10vh', marginRight: '10vh', width: '130vh' }}>
+            <div>
 
 
 

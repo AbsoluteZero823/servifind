@@ -37,6 +37,13 @@ exports.getTransactions = async (req, res, next) => {
             path: 'user_id',
             model: 'user'
            }}
+    },
+    {
+        path: 'inquiry_id',
+        model: 'Inquiry',
+        populate: { 
+            path: 'service_id'
+           }
     }
     ]);
     res.status(200).json({

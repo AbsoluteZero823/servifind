@@ -2,19 +2,20 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import Pagination from 'react-js-pagination';
 import { useParams } from "react-router-dom";
-import MetaData from './layout/MetaData'
-import Service from './service/Service'
-import Loader from './layout/Loader'
+import MetaData from '../../layout/MetaData';
+import Transaction from './Transaction';
+import Loader from '../../layout/Loader';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert';
-import { getServices } from '../actions/serviceActions'
+import { getServices } from '../../../actions/serviceActions';
 // import { allUsers } from '../actions/userActions'
 // import Slider from 'rc-slider'
 // import 'rc-slider/assets/index.css'
 
-
-const Try = () => {
+import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone  } from '../../../actions/transactionActions';
+import { UPDATE_PSENT_RESET, UPDATE_PRECEIVED_RESET, UPDATE_TRANSACTIONDONE_RESET } from '../../../actions/transactionActions';
+const UserTransactions = () => {
 
     // const { createSliderWithToolTip } = Slider;
     // const Range = createSliderWithToolTip(Slider.Range);
@@ -25,11 +26,13 @@ const Try = () => {
 
 
     // const { users } = useSelector(state => state.users)
-    const { loading, services, error, servicesCount, resPerPage, filteredServicesCount } = useSelector(state => state.services);
+    // const { loading, services, error, servicesCount, resPerPage, filteredServicesCount } = useSelector(state => state.services);
 
-
-    const [currentPage, setCurrentPage] = useState(1)
-    let { keyword } = useParams();
+    const { loading, error, transactions } = useSelector(state => state.transactions);
+    const { loadings,detailserror, transaction} = useSelector(state => state.transactionDetails);
+    const { user, isAuthenticated } = useSelector(state => state.auth)
+    // const [currentPage, setCurrentPage] = useState(1)
+    // let { keyword } = useParams();
 
     useEffect(() => {
     
@@ -54,37 +57,70 @@ const Try = () => {
             return alert.error(error)
         }
 
-        dispatch(getServices(keyword))
+        dispatch(getTransactions())
+        if (user) {
+            console.log(user._id);
+        }
 
 
-    }, [dispatch, alert, error, keyword]);
+    }, [dispatch, alert, error]);
 
-    function setCurrentPageNo(pageNumber) {
-        setCurrentPage(pageNumber)
-    }
-    let count = servicesCount;
+    // function setCurrentPageNo(pageNumber) {
+    //     setCurrentPage(pageNumber)
+    // }
+    // let count = servicesCount;
 
-    if (keyword) {
-        count = filteredServicesCount
-    }
+    // if (keyword) {
+    //     count = filteredServicesCount
+    // }
+
+    const ClientTransactions = transactions.filter(function (ctransaction) {
+        return ctransaction.inquiry_id.customer._id === user._id;
+        console.log(ctransaction)
+    });
     return (
+        
         <Fragment>
 
 
             {loading ? <Loader /> : (
                 <Fragment>
-                    <div className='containerz'>
-                        <MetaData title={'Buy Best Service Online'} />
+                    <div className='firstcontainer'>
+                        <div className='secondcontainer'>
+                            <div className='stickyOne'>
+                                <a className='selection'>All</a>
+                                <a className='selection'>To Pay</a>
+                                <a className='selection'>On Process</a>
+                                <a className='selection'>To Rate</a>
+                                <a className='selection'>Completed</a>
+                            </div>
+
+{/* sa mga transaction na */}
+                            <div>
+                                {/* dito nagsimula ang isang service */}
+                              
+                                {ClientTransactions && ClientTransactions.map(transaction => (
+
+                                    <Transaction key={transaction._id} transaction={transaction} />
+                                ))}
+                         
+
+                                {/* dito nagtapos ang isang service */}   
+                                                        
+                            </div>
+                                    
+                        {/* <MetaData title={'Buy Best Service Online'} />
 
                         <h1 id="animals_heading">Services</h1>
                         <section id="services" className="containerz mt-5">
-                            <div className="row" style={{justifyContent: 'space-between'}}>
+                            <div className="row" style={{justifyContent: 'center'}}>
                                 {services && services.map(service => (
 
                                     <Service key={service._id} service={service} />
                                 ))}
                             </div>
-                        </section>
+                        </section> */}
+                        </div>
                     </div>
                     {/* <MetaData title={'Buy Best Animals Online'} />
                     <h1 id="animals_heading">Latest Animals</h1>
@@ -119,4 +155,4 @@ const Try = () => {
         </Fragment >
     );
 }
-export default Try
+export default UserTransactions
