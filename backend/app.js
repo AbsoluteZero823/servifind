@@ -17,7 +17,8 @@ const service = require('./routes/service');
 const auth = require('./routes/auth');
 const inquiry = require('./routes/inquiry');
 const transaction = require('./routes/transaction');
-const freelancer = require('./routes/freelancer')
+const freelancer = require('./routes/freelancer');
+const rating = require('./routes/rating');
 // const message = require('./routes/message');
 // app.use('/api/v1', products);
 // app.use('/api/v1', auth);
@@ -30,6 +31,7 @@ app.use('/api/v1', auth);
 app.use('/api/v1', inquiry);
 app.use('/api/v1', transaction);
 app.use('/api/v1', freelancer);
+app.use('/api/v1', rating);
 app.use(errorMiddleware);
 
 module.exports = app

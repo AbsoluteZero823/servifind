@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ratingSchema = new mongoose.Schema({
     rating: {
-        type: String,
+        type: Number,
         required: true
     },
     comment: {
@@ -14,19 +14,19 @@ const ratingSchema = new mongoose.Schema({
         required: true,
         default: Date.now
     },
-    updated_At: {
-        type: Date,
-        required: false,
-    },
+    // updated_At: {
+    //     type: Date,
+    //     required: false,
+    // },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
         required: true
     },
 
-    freelancer_id: {
+    service_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Freelancer',
+        ref: 'Service',
         required: true
     },
 })

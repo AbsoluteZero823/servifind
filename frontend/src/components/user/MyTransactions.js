@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // import { allUsers, deleteUser, activateUser, deactivateUser, clearErrors } from '../../actions/userActions'
 // import { DELETE_USER_RESET, ACTIVATE_USER_RESET, DEACTIVATE_USER_RESET } from '../../constants/userConstants'
 import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone } from '../../actions/transactionActions'
+import { newRating } from '../../actions/ratingActions'
 import { UPDATE_PSENT_RESET, UPDATE_PRECEIVED_RESET, UPDATE_TRANSACTIONDONE_RESET } from '../../constants/transactionConstants'
 
 
@@ -25,16 +26,18 @@ const MyTransactions = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState('');
+
 
     // const { loading, error, users } = useSelector(state => state.users);
     const { loading, error, transactions } = useSelector(state => state.transactions);
-    const { loadings,detailserror, transaction} = useSelector(state => state.transactionDetails);
+    const { loadings, detailserror, transaction } = useSelector(state => state.transactionDetails);
     const { user, isAuthenticated } = useSelector(state => state.auth)
-const{ isUpdated, loadingpayment} = useSelector(state => state.updatePayment)
+    const { isUpdated, loadingpayment } = useSelector(state => state.updatePayment)
 
 
-const [transactionID,setTransactionID] = useState('')
+    const [transactionID, setTransactionID] = useState('')
 
     // const { isUpdated } = useSelector(state => state.user);
     // const { isDeleted } = useSelector(state => state.updelUser);
@@ -61,9 +64,9 @@ const [transactionID,setTransactionID] = useState('')
         //     dispatch({ type: DELETE_USER_RESET })
         // }
         if (isUpdated) {
-            
-            
-           
+
+
+
             dispatch({ type: UPDATE_PSENT_RESET })
             dispatch({ type: UPDATE_PRECEIVED_RESET })
         }
@@ -77,6 +80,7 @@ const [transactionID,setTransactionID] = useState('')
 
 
     }
+
     const submitHandler = (e) => {
         e.preventDefault();
         const statusData = new FormData();
@@ -89,25 +93,50 @@ const [transactionID,setTransactionID] = useState('')
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, payment is done'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
 
                 dispatch(PaymentSent(transaction._id, statusData));
-            
-              Swal.fire(
-                'Payment Sent!',
-                'Wait for the freelancer to check your payment',
-                'success'
-              )
-           //closes the modal
-              $('.close').click(); 
-       
+
+                Swal.fire(
+                    'Payment Sent!',
+                    'Wait for the freelancer to check your payment',
+                    'success'
+                )
+                //closes the modal
+                $('.close').click();
+
             }
-          })
-        
-   
+        })
+
+
     }
 
+    const submitRateHandler = (e) => {
+        e.preventDefault();
+        const ratingData = new FormData();
+        ratingData.set('comment', comment);
+        ratingData.set('rating', rating);
+        ratingData.set('service_id', transaction.inquiry_id.service_id._id);
+        ratingData.set('user', user._id)
+
+
+        dispatch(newRating(ratingData));
+
+        Swal.fire(
+            'Rate Success!',
+            '',
+            'success'
+        )
+        //closes the modal
+        $('.close').click();
+
+
+
+
+        // dispatch(updateProfile(formData))
+
+    }
     const paymentReceivedHandler = (id) => {
         const statusData = new FormData();
         statusData.set('paymentReceived', 'true');
@@ -121,27 +150,27 @@ const [transactionID,setTransactionID] = useState('')
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, payment Received'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
 
                 dispatch(PaymentReceived(id, statusData))
-           
-               
-        Swal.fire(
-            'Payment Received!',
-            'Thank you',
-            'success'
-          )
-           //closes the modal
-              $('.close').click(); 
-       
+
+
+                Swal.fire(
+                    'Payment Received!',
+                    'Thank you',
+                    'success'
+                )
+                //closes the modal
+                $('.close').click();
+
             }
-          })
+        })
 
 
     }
 
-    
+
     const confirmTransactionHandler = (id, workCompleted) => {
         const formData = new FormData();
         formData.set('freelancer', 'true');
@@ -156,27 +185,27 @@ const [transactionID,setTransactionID] = useState('')
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
 
                 dispatch(TransactionDone(id, formData))
-               
-               
-        Swal.fire(
-            'Transaction Done!',
-            'Thank you',
-            'success'
-          )
-           //closes the modal
-              $('.close').click(); 
-       
+
+
+                Swal.fire(
+                    'Transaction Done!',
+                    'Thank you',
+                    'success'
+                )
+                //closes the modal
+                $('.close').click();
+
             }
-          })
+        })
 
 
     }
 
-     
+
     const workDoneHandler = (id) => {
         const formData = new FormData();
         formData.set('freelancer', 'true');
@@ -190,23 +219,64 @@ const [transactionID,setTransactionID] = useState('')
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
 
                 dispatch(TransactionDone(id, formData))
-           
-               
-        Swal.fire(
-            'Work Done!',
-            'Thank you',
-            'success'
-          )
-           //closes the modal
-              $('.close').click(); 
-       
-            }
-          })
 
+
+                Swal.fire(
+                    'Work Done!',
+                    'Thank you',
+                    'success'
+                )
+                //closes the modal
+                $('.close').click();
+
+            }
+        })
+
+
+    }
+
+    function setUserRatings(id) {
+        dispatch(SingleTransaction(id))
+        const stars = document.querySelectorAll('.star');
+
+        stars.forEach((star, index) => {
+            star.starValue = index + 1;
+
+            ['click', 'mouseover', 'mouseout'].forEach(function (e) {
+                star.addEventListener(e, showRatings);
+            })
+        })
+
+        function showRatings(e) {
+
+            stars.forEach((star, index) => {
+                if (e.type === 'click') {
+                    if (index < this.starValue) {
+                        star.classList.add('orange');
+                        // console.log(this.starValue);
+                        setRating(this.starValue)
+                    } else {
+                        star.classList.remove('orange')
+                    }
+                }
+
+                if (e.type === 'mouseover') {
+                    if (index < this.starValue) {
+                        star.classList.add('yellow');
+                    } else {
+                        star.classList.remove('yellow')
+                    }
+                }
+
+                if (e.type === 'mouseout') {
+                    star.classList.remove('yellow')
+                }
+            })
+        }
 
     }
     // const deleteUserHandler = (id) => {
@@ -244,7 +314,7 @@ const [transactionID,setTransactionID] = useState('')
                     field: 'created_At',
                     sort: 'asc'
                 },
-          
+
                 {
                     label: 'Payment Sent',
                     field: 'paymentSent'
@@ -274,14 +344,14 @@ const [transactionID,setTransactionID] = useState('')
                 created_At: moment(transaction.created_At).format('MMM/DD/yy'),
                 paymentSent: transaction.paymentSent,
                 paymentReceived: transaction.paymentReceived,
-                
+
                 actions: <Fragment>
 
 
                     {transaction.transaction_done && transaction.transaction_done.freelancer === 'false' && (
-                    <Link to={''} className="btn btn-success py-1 px-2" onClick={() => workDoneHandler(transaction._id)} data-toggle="tooltip" data-placement="bottom" title="is Work done?">
-                        <i className="fa fa-clipboard-check" ></i>
-                    </Link>
+                        <Link to={''} className="btn btn-success py-1 px-2" onClick={() => workDoneHandler(transaction._id)} data-toggle="tooltip" data-placement="bottom" title="is Work done?">
+                            <i className="fa fa-clipboard-check" ></i>
+                        </Link>
                     )}
 
                     {/* {transaction.transaction_done && transaction.transaction_done.freelancer === 'true' && (
@@ -291,32 +361,32 @@ const [transactionID,setTransactionID] = useState('')
                     )} */}
 
                     {transaction && transaction.paymentReceived === 'false' && transaction.paymentSent === 'true' && (
-                    <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Confirm if client is Paid" onClick={ ()=> (paymentReceivedHandler(transaction._id))}>
-                        <i className="fa fa-hand-holding-usd" ></i>
-                    </Link>
+                        <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Confirm if client is Paid" onClick={() => (paymentReceivedHandler(transaction._id))}>
+                            <i className="fa fa-hand-holding-usd" ></i>
+                        </Link>
                     )}
-                     {transaction && transaction.paymentSent === 'false' && (
-                    <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Client is not paid yet - Not Clickable" disabled>
-                        <i className="fa fa-hand-holding-usd" ></i>
-                    </Link>
+                    {transaction && transaction.paymentSent === 'false' && (
+                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Client is not paid yet - Not Clickable" disabled>
+                            <i className="fa fa-hand-holding-usd" ></i>
+                        </Link>
                     )}
                     {transaction && transaction.paymentReceived === 'true' && transaction.status === 'processing' && (
-                    <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Payment is already Received - Not Clickable" disabled>
-                        <i className="fa fa-hand-holding-usd" ></i>
-                    </Link>
+                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Payment is already Received - Not Clickable" disabled>
+                            <i className="fa fa-hand-holding-usd" ></i>
+                        </Link>
                     )}
 
                     <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Report this Client">
                         <i className="fa fa-exclamation-circle" ></i>
                     </Link>
-                  
+
                     {/* {transaction && transaction.paymentReceived === 'true' && (
                     <Link to={''} className="btn btn-success py-1 px-2" onClick={() => confirmTransactionHandler(transaction._id)}>
                         <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
                     </Link>
                     )} */}
 
-                  
+
                     {/* {user && user.role === 'admin' && (
                         <Link to={`/user/${customer._id}`} className="btn btn-primary py-1 px-2 ml-2">
                             <i className="fa fa-eye"></i>
@@ -357,7 +427,7 @@ const [transactionID,setTransactionID] = useState('')
                     field: 'created_At',
                     sort: 'asc'
                 },
- 
+
                 {
                     label: 'PaymentSent?',
                     field: 'paymentSent',
@@ -380,58 +450,58 @@ const [transactionID,setTransactionID] = useState('')
                 Freelancer: ctransaction.inquiry_id.freelancer.user_id.name,
                 status: ctransaction.status,
                 created_At: moment(ctransaction.created_At).format('MMM/DD/yy'),
-                paymentSent:ctransaction.paymentSent,
+                paymentSent: ctransaction.paymentSent,
 
                 actions: <Fragment>
-                    
-                {ctransaction.paymentSent === 'false' && (
-                    <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)}>
-                        <i className="fa fa-coins"  data-toggle="tooltip" data-placement="bottom" title="Make Payment"></i>
-                    </Link>
-                 )}
 
-{ctransaction.paymentSent === 'true' && ctransaction.status === 'processing' && (
-                    <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="You already send payment" disabled>
-                        <i className="fa fa-coins"></i>
-                    </Link>
-                 )}
-                {ctransaction && ctransaction.paymentSent === 'false' && (
-                    <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={()=> Swal.fire(
-                        'Warning!',
-                        'You should proceed to make payment before clicking this button.',
-                        'warning'
-                      )}>
-                        <i className="fa fa-check"  data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
-                    </Link>
-                )}
+                    {ctransaction.paymentSent === 'false' && (
+                        <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)}>
+                            <i className="fa fa-coins" data-toggle="tooltip" data-placement="bottom" title="Make Payment"></i>
+                        </Link>
+                    )}
 
-                {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing' && (
-                    <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => confirmTransactionHandler(ctransaction._id, ctransaction.transaction_done.workCompleted)}>
-                        <i className="fa fa-check"  data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
-                    </Link>
-                )}
-                {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'false' && (
-                    <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Work of Freelancer is not Done yet - Not Clickable">
-                        <i className="fa fa-check"  ></i>
-                    </Link>
-                )}
-                {/* {ctransaction && ctransaction.paymentSent === 'false' && (
+                    {ctransaction.paymentSent === 'true' && ctransaction.status === 'processing' && (
+                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="You already send payment" disabled>
+                            <i className="fa fa-coins"></i>
+                        </Link>
+                    )}
+                    {ctransaction && ctransaction.paymentSent === 'false' && (
+                        <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => Swal.fire(
+                            'Warning!',
+                            'You should proceed to make payment before clicking this button.',
+                            'warning'
+                        )}>
+                            <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
+                        </Link>
+                    )}
+
+                    {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing' && (
+                        <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => confirmTransactionHandler(ctransaction._id, ctransaction.transaction_done.workCompleted)}>
+                            <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
+                        </Link>
+                    )}
+                    {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'false' && (
+                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Work of Freelancer is not Done yet - Not Clickable">
+                            <i className="fa fa-check"  ></i>
+                        </Link>
+                    )}
+                    {/* {ctransaction && ctransaction.paymentSent === 'false' && (
                     <Link to={''} className="btn py-1 px-2 ml-2" disabled>
                         <i className="fa fa-check"  data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
                     </Link>
                 )} */}
 
-                { ctransaction && ctransaction.transaction_done.client === 'true' && (
-                    <div data-toggle="tooltip" data-placement="bottom" title="Review or Rate the Service">
-                    <Link to={''} className="btn btn-warning py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)} >
-                        <i className="fa fa-star" ></i>
-                    </Link>
-                    </div>
-                )}
+                    {ctransaction && ctransaction.transaction_done.client === 'true' && (
+                        <div data-toggle="tooltip" data-placement="bottom" title="Review or Rate the Service"  >
+                            <Link to={''} className="btn btn-warning py-1 px-2 ml-2" data-toggle="modal" data-target="#RateServiceModal" onClick={() => { setUserRatings(ctransaction._id); }} >
+                                <i className="fa fa-star" ></i>
+                            </Link>
+                        </div>
+                    )}
                     <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Report this Client" >
                         <i className="fa fa-exclamation-circle" ></i>
                     </Link>
-            </Fragment>
+                </Fragment>
 
             })
         })
@@ -451,7 +521,7 @@ const [transactionID,setTransactionID] = useState('')
             {user && user.role === 'freelancer' && (
                 <Fragment>
                     <h1 className="my-5">Transactions as a Freelancer
-                
+
                     </h1>
 
                     {(loading && loadingpayment) ? <Loader /> : (
@@ -469,7 +539,7 @@ const [transactionID,setTransactionID] = useState('')
             )}
             <Fragment>
                 <h1 className="my-5">Transactions as a Client
-                 
+
                 </h1>
 
                 {(loading && loadingpayment) ? <Loader /> : (
@@ -487,146 +557,159 @@ const [transactionID,setTransactionID] = useState('')
 
 
 
-{/* PAYMENT MODAL */}
-<Fragment>
-            <div className="modal fade" id="PaymentDetailsModal" tabIndex="-1" role="dialog" aria-labelledby="PaymentDetailsModalTitle" aria-hidden="true" >
-                        <div className="modal-dialog modal-dialog-centered" role="document" style={{maxWidth: '800px'}}>
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="PaymentDetailsModalTitle">Payment</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form className="a" onSubmit={submitHandler} encType='multipart/form-data' >
-            {loadings ? <Loader /> : (                         
+            {/* PAYMENT MODAL */}
+            <Fragment>
+                <div className="modal fade" id="PaymentDetailsModal" tabIndex="-1" role="dialog" aria-labelledby="PaymentDetailsModalTitle" aria-hidden="true" >
+                    <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '800px' }}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="PaymentDetailsModalTitle">Payment</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form className="a" onSubmit={submitHandler} encType='multipart/form-data' >
+                                {loadings ? <Loader /> : (
                                     <div className="modal-body">
- 
+
                                         <div className='row' >
 
 
-<div className='sixty' style={{width: '60%', backgroundColor: 'transparent', padding:'10px'}}>
-<img
-            src={transaction.inquiry_id && transaction.inquiry_id.freelancer.user_id.avatar.url}
-            // alt={service.user && service.user.name}
-            // key={service._id}
-            // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-            className="rounded-img-big"
-            
-            
-        />
-        <h4>Amount to pay: 100</h4>
-        {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
-<h4>Gcash Name: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_name}</h4>
-<h4>Gcash Number: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_num}</h4>
-</div>
-<div className='forty' style={{width: '40%', backgroundColor: 'transparent', alignContent:'center', alignItems:'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap'}}>
+                                            <div className='sixty' style={{ width: '60%', backgroundColor: 'transparent', padding: '10px' }}>
+                                                <img
+                                                    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.user_id.avatar.url}
+                                                    // alt={service.user && service.user.name}
+                                                    // key={service._id}
+                                                    // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+                                                    className="rounded-img-big"
 
-    <img 
-    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.qrCode.url} 
-    style={{ height: '250px', width: '250px', border: '5px solid', margin:'10px'}}
-    
-    
-    />
-<h4>Gcash QR Code</h4>
-</div>
+
+                                                />
+                                                <h4>Amount to pay: 100</h4>
+                                                {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
+                                                <h4>Gcash Name: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_name}</h4>
+                                                <h4>Gcash Number: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_num}</h4>
+                                            </div>
+                                            <div className='forty' style={{ width: '40%', backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+
+                                                <img
+                                                    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.qrCode.url}
+                                                    style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
+
+
+                                                />
+                                                <h4>Gcash QR Code</h4>
+                                            </div>
 
 
                                         </div>
 
-                                       
-                                      
-
-                                    
-
-                         
 
 
-                                    </div>
-)}
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" className="btn btn-primary" >Payment Done</button>
+
+
+
+
 
 
                                     </div>
-                                </form>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    </Fragment>
+                                )}
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary" >Payment Done</button>
 
-                    
-{/* RATE SERVICE MODAL */}
-<Fragment>
-            <div className="modal fade" id="RateServiceModal" tabIndex="-1" role="dialog" aria-labelledby="RateServiceModalTitle" aria-hidden="true" >
-                        <div className="modal-dialog modal-dialog-centered" role="document" style={{maxWidth: '800px'}}>
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title" id="RateServiceModalTitle">Rate Service</h5>
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+
                                 </div>
-                                <form className="a" onSubmit={submitHandler} encType='multipart/form-data' >
-            {loadings ? <Loader /> : (                         
-                                    <div className="modal-body">
- 
-                                        <div className='row' >
+                            </form>
 
-
-<div className='sixty' style={{width: '60%', backgroundColor: 'transparent', padding:'10px'}}>
-<img
-            src={transaction.inquiry_id && transaction.inquiry_id.freelancer.user_id.avatar.url}
-            // alt={service.user && service.user.name}
-            // key={service._id}
-            // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-            className="rounded-img-big"
-            
-            
-        />
-        <h4>Amount to pay: 100</h4>
-        {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
-<h4>Gcash Name: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_name}</h4>
-<h4>Gcash Number: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_num}</h4>
-</div>
-<div className='forty' style={{width: '40%', backgroundColor: 'transparent', alignContent:'center', alignItems:'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap'}}>
-
-    <img 
-    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.qrCode.url} 
-    style={{ height: '250px', width: '250px', border: '5px solid', margin:'10px'}}
-    
-    
-    />
-<h4>Gcash QR Code</h4>
-</div>
-
-
-                                        </div>
-
-                                       
-                                      
-
-                                    
-
-                         
-
-
-                                    </div>
-)}
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="submit" className="btn btn-primary" >Payment Done</button>
-
-
-                                    </div>
-                                </form>
-                                
-                            </div>
                         </div>
                     </div>
-                    </Fragment>
+                </div>
+            </Fragment>
+
+
+            {/* RATE SERVICE MODAL */}
+            <Fragment>
+                <div className="modal fade" id="RateServiceModal" tabIndex="-1" role="dialog" aria-labelledby="RateServiceModalTitle" aria-hidden="true" >
+                    <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '800px' }}>
+                        <div className="modal-content" >
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="RateServiceModalTitle">Rate Service</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form className="a" onSubmit={submitRateHandler} encType='multipart/form-data' >
+
+                                <div className="modal-body">
+
+                                    <div style={{ padding: '10px 10px' }}>
+                                        {loadings ? <Loader /> : (
+                                            <div style={{ display: 'block' }}>
+                                                <div>
+                                                    <span>
+                                                        <div style={{ display: 'block' }}></div>
+                                                        <div className='imagePriceColumn'>
+                                                            <div className='picFrame' style={{ border: '1px solid #e1e1e1', background: '#e1e1e1' }}>
+                                                                <div style={{ position: 'relative' }}>
+
+                                                                    <div>
+                                                                        <img src={transaction.inquiry_id && transaction.inquiry_id.service_id.image} className='picFrame' />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        )}
+                                        <p>Service Rating: </p>
+                                        <ul className="stars" >
+                                            <li className="star"><i className="fa fa-star"></i></li>
+                                            <li className="star"><i className="fa fa-star"></i></li>
+                                            <li className="star"><i className="fa fa-star"></i></li>
+                                            <li className="star"><i className="fa fa-star"></i></li>
+                                            <li className="star"><i className="fa fa-star"></i></li>
+                                        </ul>
+
+                                        <label>Comments: </label>
+                                        <textarea
+                                            name="comment"
+                                            id="comment" className="form-control mt-3"
+                                            style={{ minHeight: '200px' }}
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                        >
+                                        </textarea>
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary" >Submit</button>
+
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
         </Fragment>
     )
 }
