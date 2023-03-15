@@ -137,6 +137,31 @@ const MyTransactions = () => {
         // dispatch(updateProfile(formData))
 
     }
+    const submitReportHandler = (e) => {
+        e.preventDefault();
+        // const ratingData = new FormData();
+        // ratingData.set('comment', comment);
+        // ratingData.set('rating', rating);
+        // ratingData.set('service_id', transaction.inquiry_id.service_id._id);
+        // ratingData.set('user', user._id)
+
+
+        // dispatch(newRating(ratingData));
+
+        Swal.fire(
+            'Reported Successfully!',
+            '',
+            'success'
+        )
+        //closes the modal
+        $('.close').click();
+
+
+
+
+        // dispatch(updateProfile(formData))
+
+    }
     const paymentReceivedHandler = (id) => {
         const statusData = new FormData();
         statusData.set('paymentReceived', 'true');
@@ -498,9 +523,13 @@ const MyTransactions = () => {
                             </Link>
                         </div>
                     )}
-                    <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Report this Client" >
-                        <i className="fa fa-exclamation-circle" ></i>
-                    </Link>
+                    <div data-toggle="tooltip" data-placement="bottom" title="Report this Freelancer">
+
+
+                        <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
+                            <i className="fa fa-exclamation-circle" ></i>
+                        </Link>
+                    </div>
                 </Fragment>
 
             })
@@ -704,6 +733,71 @@ const MyTransactions = () => {
 
 
                                 </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+            {/* REPORT SERVICE MODAL */}
+            <Fragment>
+                <div className="modal fade" id="ReportServiceModal" tabIndex="-1" role="dialog" aria-labelledby="ReportServiceModalTitle" aria-hidden="true" >
+                    <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '700px' }}>
+                        <div className="modal-content" >
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="ReportServiceModalTitle">Report User</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+
+                            <form className="a" onSubmit={submitReportHandler} encType='multipart/form-data' >
+                                <div className="modal-body">
+
+                                    <div style={{ padding: '10px 10px' }}>
+
+                                        <label htmlFor="reason">Reason:</label>
+
+                                        <select
+                                            name="reason"
+                                            id="reason"
+                                            className='form-control'
+                                        // value={reason}
+                                        // onChange={(e) => setReason(e.target.value)}
+                                        >
+                                            <option value="">Select Reason</option>
+                                            <option value="spam">Spam</option>
+                                            <option value="harassment">Harassment</option>
+                                            <option value="inappropriate-content">Inappropriate Content</option>
+                                        </select>
+                                        <br />
+                                        <label>Description: </label>
+                                        <textarea
+                                            name="description"
+                                            id="description" className="form-control mt-3"
+                                            style={{ minHeight: '200px' }}
+                                        // value={comment}
+                                        // onChange={(e) => setComment(e.target.value)}
+                                        >
+                                        </textarea>
+                                    </div>
+
+
+
+
+
+
+
+
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary" >Submit</button>
+
+
+                                </div>
+
                             </form>
 
                         </div>

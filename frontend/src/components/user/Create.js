@@ -88,145 +88,145 @@ const Create = () => {
         <Fragment>
 
             <MetaData title={'New Personnels'} />
-          
-               
-                <div className="row wrapper col-13 col-md-10">
-                    <div className="col-10 col-lg-5">
-                        <form className="shadow-lg" id='formz' onSubmit={submitHandler} encType='multipart/form-data'>
-                            <h1 className="mb-3">Create User</h1>
 
-                            <div className="form-group">
-                                <label htmlFor="email_field">Name</label>
-                                <input
-                                    type="name"
-                                    id="name_field"
-                                    className="form-control"
-                                    name='name'
-                                    value={name}
-                                    onChange={onChange}
-                                />
-                            </div>
 
-                            <div className="form-group">
-                                <label htmlFor="email_field">Age</label>
-                                <input
-                                    type="age"
-                                    id="age_field"
-                                    className="form-control"
-                                    name='age'
-                                    value={age}
-                                    onChange={onChange}
-                                />
-                            </div>
+            <div className="row wrapper col-13 col-md-10">
+                <div className="col-10 col-lg-5">
+                    <form className="shadow-lg" id='formz' onSubmit={submitHandler} encType='multipart/form-data'>
+                        <h1 className="mb-3">Create User</h1>
 
-                            <div className="form-group">
-                                <label htmlFor="email_field">Gender</label>
-                                <select
-                                    type="gender"
-                                    id="gender_field"
-                                    className="form-control"
-                                    name='gender'
-                                    value={gender}
-                                    onChange={onChange} placeholder="Select Gender">
-                                    <option value="" disabled hidden>Select Gender</option>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="email_field">Name</label>
+                            <input
+                                type="name"
+                                id="name_field"
+                                className="form-control"
+                                name='name'
+                                value={name}
+                                onChange={onChange}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="email_field">Contact Number</label>
-                                <input
-                                    type="contact"
-                                    id="contact_field"
-                                    className="form-control"
-                                    name='contact'
-                                    value={contact}
-                                    onChange={onChange}
-                                />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="email_field">Role</label>
-                                <select
-                                    type="role"
-                                    id="role_field"
-                                    className="form-control"
-                                    name='role'
-                                    value={role}
-                                    onChange={onChange} placeholder="Select Role">
-                                    <option value="" disabled hidden>Select Role</option>
-                                    <option value="customer">Customer</option>
-                                    <option value="freelancer">Freelancer</option>
-                                    {/* <option value="veterenarian">Veterenarian</option>
+                        <div className="form-group">
+                            <label htmlFor="email_field">Age</label>
+                            <input
+                                type="age"
+                                id="age_field"
+                                className="form-control"
+                                name='age'
+                                value={age}
+                                onChange={onChange}
+                            />
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="email_field">Gender</label>
+                            <select
+                                type="gender"
+                                id="gender_field"
+                                className="form-control"
+                                name='gender'
+                                value={gender}
+                                onChange={onChange} placeholder="Select Gender">
+                                <option value="" disabled hidden>Select Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="email_field">Contact Number</label>
+                            <input
+                                type="contact"
+                                id="contact_field"
+                                className="form-control"
+                                name='contact'
+                                value={contact}
+                                onChange={onChange}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email_field">Role</label>
+                            <select
+                                type="role"
+                                id="role_field"
+                                className="form-control"
+                                name='role'
+                                value={role}
+                                onChange={onChange} placeholder="Select Role">
+                                <option value="" disabled hidden>Select Role</option>
+                                <option value="customer">Customer</option>
+                                <option value="freelancer">Freelancer</option>
+                                {/* <option value="veterenarian">Veterenarian</option>
                                     <option value="volunteer">Volunteer</option> */}
 
-                                </select>
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="email_field">Email</label>
-                                <input
-                                    type="email"
-                                    id="email_field"
-                                    className="form-control"
-                                    name='email'
-                                    value={email}
-                                    onChange={onChange}
-                                />
-                            </div>
+                            </select>
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="email_field">Email</label>
+                            <input
+                                type="email"
+                                id="email_field"
+                                className="form-control"
+                                name='email'
+                                value={email}
+                                onChange={onChange}
+                            />
+                        </div>
 
-                            <div className="form-group">
-                                <label htmlFor="password_field">Password</label>
-                                <input
-                                    type="password"
-                                    id="password_field"
-                                    className="form-control"
-                                    name='password'
-                                    value={password}
-                                    onChange={onChange}
-                                />
-                            </div>
+                        <div className="form-group">
+                            <label htmlFor="password_field">Password</label>
+                            <input
+                                type="password"
+                                id="password_field"
+                                className="form-control"
+                                name='password'
+                                value={password}
+                                onChange={onChange}
+                            />
+                        </div>
 
 
-                            <div className='form-group'>
-                                <label htmlFor='avatar_upload'>Avatar</label>
-                                <div className='d-flex align-items-center'>
-                                    <div>
-                                        <figure className='avatar mr-3 item-rtl'>
-                                            <img
-                                                src={avatarPreview}
-                                                className='rounded-circle'
-                                                alt='Avatar Preview'
-                                            />
-                                        </figure>
-                                    </div>
-                                    <div className='custom-file'>
-                                        <input
-                                            type='file'
-                                            name='avatar'
-                                            className='custom-file-input'
-                                            id='customFile'
-                                            accept="iamges/*"
-                                            onChange={onChange}
+                        <div className='form-group'>
+                            <label htmlFor='avatar_upload'>Avatar</label>
+                            <div className='d-flex align-items-center'>
+                                <div>
+                                    <figure className='avatar mr-3 item-rtl'>
+                                        <img
+                                            src={avatarPreview}
+                                            className='rounded-circle'
+                                            alt='Avatar Preview'
                                         />
-                                        <label className='custom-file-label' htmlFor='customFile'>
-                                            Choose Avatar
-                                        </label>
-                                    </div>
+                                    </figure>
+                                </div>
+                                <div className='custom-file'>
+                                    <input
+                                        type='file'
+                                        name='avatar'
+                                        className='custom-file-input'
+                                        id='customFile'
+                                        accept="iamges/*"
+                                        onChange={onChange}
+                                    />
+                                    <label className='custom-file-label' htmlFor='customFile'>
+                                        Choose Avatar
+                                    </label>
                                 </div>
                             </div>
+                        </div>
 
-                            <button
-                                id="create_button"
-                                type="submit"
-                                className="btn btn-block py-3"
-                                disabled={loading ? true : false}
-                            >
-                                CREATE
-                            </button>
-                        </form>
-                    </div>
+                        <button
+                            id="create_button"
+                            type="submit"
+                            className="btn btn-block py-3"
+                            disabled={loading ? true : false}
+                        >
+                            CREATE
+                        </button>
+                    </form>
                 </div>
-          
+            </div>
+
         </Fragment>
     )
 }

@@ -49,17 +49,17 @@ router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 router.route('/users').get(isAuthenticatedUser, authorizeRoles('admin'), allUsers)
 router.route('/freelancers').get(isAuthenticatedUser, authorizeRoles('admin'), allFreelancers)
 
-router.route('/adopters').get(getAdopters, isAuthenticatedUser, authorizeRoles('admin', 'employee', 'rescuer', 'veterenarian', 'volunteer'))
+router.route('/adopters').get(getAdopters, isAuthenticatedUser, authorizeRoles('admin'))
 router.route('/personnels').get(getPersonnels, isAuthenticatedUser, authorizeRoles('admin'))
 
-router.route('/user/:id').put(activateUser, isAuthenticatedUser, authorizeRoles('admin', 'employee', 'rescuer', 'veterenarian', 'volunteer')).delete(deleteUser, isAuthenticatedUser, authorizeRoles('admin', 'employee', 'rescuer', 'veterenarian', 'volunteer'))
-router.route('/userd/:id').put(deactivateUser, isAuthenticatedUser, authorizeRoles('admin', 'employee', 'rescuer', 'veterenarian', 'volunteer'))
+router.route('/user/:id').put(activateUser, isAuthenticatedUser, authorizeRoles('admin')).delete(deleteUser, isAuthenticatedUser, authorizeRoles('admin'))
+router.route('/userd/:id').put(deactivateUser, isAuthenticatedUser, authorizeRoles('admin'))
 
 router.route('/customer/:id').put(updateUser, isAuthenticatedUser, authorizeRoles('admin'));
-router.route('/adopter/:id').put(updateAdopter, isAuthenticatedUser, authorizeRoles('admin'));
+// router.route('/adopter/:id').put(updateAdopter, isAuthenticatedUser, authorizeRoles('admin'));
 
 // router.route('/user/new').post(newUser, isAuthenticatedUser, authorizeRoles('admin'));
-router.route('/adopter/new').post(newAdopter, isAuthenticatedUser, authorizeRoles('admin'));
+// router.route('/adopter/new').post(newAdopter, isAuthenticatedUser, authorizeRoles('admin'));
 router.route('/user/:id').get(getUserDetails);
 
 // router.route('/me/update').put(isAuthenticatedUser, updateProfile)

@@ -1,5 +1,5 @@
 const { reset } = require('nodemon');
-const Rating = require('../models/rating');
+const Report = require('../models/report');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
@@ -7,22 +7,22 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const { now } = require('mongoose');
 // const  Category  = require('../models/category');
 
-exports.newRating = async (req, res, next) => {
+exports.newReport = async (req, res, next) => {
     console.log(req.body);
     // req.body.user = req.user.id;
-    const rating = await Rating.create(req.body);
+    const report = await Report.create(req.body);
 
     res.status(201).json({
         success: true,
-        rating
+        report
     })
 }
 
-//all Ratings
-exports.getRatings = async (req, res, next) => {
+//all Reports
+exports.getReports = async (req, res, next) => {
 
 
-    const ratings = await Rating.find().populate([{
+    const reports = await Report.find().populate([{
         path: 'inquiry_id',
 
         populate: { path: 'customer' }
@@ -49,12 +49,12 @@ exports.getRatings = async (req, res, next) => {
     ]);
     res.status(200).json({
         success: true,
-        ratings
+        reports
     })
 }
 
-exports.getSingleRating = async (req, res, next) => {
-    const rating = await Rating.findById(req.params.id)
+exports.getSingleReport = async (req, res, next) => {
+    const report = await Report.findById(req.params.id)
         .populate([{
             path: 'inquiry_id',
 
@@ -80,17 +80,13 @@ exports.getSingleRating = async (req, res, next) => {
     //         message: 'Injury_disease not found'
     //     })
     // }
-    if (!rating) {
+    if (!report) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }
     res.status(200).json({
         success: true,
-        rating
+        report
     })
 }
-
-
-
-
 
 
