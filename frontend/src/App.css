@@ -1598,4 +1598,9 @@ a:hover {
   white-space: nowrap;
 }
 
+.action{
+  display: flex;
+  /* flex-direction: row; */
+}
 /* END USER TRANSACTION */
+

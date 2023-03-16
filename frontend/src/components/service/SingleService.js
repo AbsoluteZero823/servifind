@@ -81,7 +81,7 @@ setAttachments("trial");
         formData.set('instruction', instruction);
         formData.set('service_id', service_id);
         formData.set('customer', customer);
-        formData.set('freelancer', service.user._id);
+        formData.set('freelancer', service.freelancer_id);
         formData.set('attachments',attachments);
 
         // console.log(service.user._id);

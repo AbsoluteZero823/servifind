@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 // import { DELETE_USER_RESET, ACTIVATE_USER_RESET, DEACTIVATE_USER_RESET } from '../../constants/userConstants'
 import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone } from '../../actions/transactionActions'
 import { newRating } from '../../actions/ratingActions'
+import { newReport } from '../../actions/reportActions'
 import { UPDATE_PSENT_RESET, UPDATE_PRECEIVED_RESET, UPDATE_TRANSACTIONDONE_RESET } from '../../constants/transactionConstants'
 
 
@@ -29,6 +30,8 @@ const MyTransactions = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
 
+    const [reason, setReason] = useState('');
+    const [description, setDescription] = useState('');
 
     // const { loading, error, users } = useSelector(state => state.users);
     const { loading, error, transactions } = useSelector(state => state.transactions);
@@ -139,14 +142,19 @@ const MyTransactions = () => {
     }
     const submitReportHandler = (e) => {
         e.preventDefault();
-        // const ratingData = new FormData();
-        // ratingData.set('comment', comment);
-        // ratingData.set('rating', rating);
-        // ratingData.set('service_id', transaction.inquiry_id.service_id._id);
-        // ratingData.set('user', user._id)
+        const reportData = new FormData();
+        reportData.set('reason', reason);
+        reportData.set('description',description);
+        reportData.set('reported_by', user._id);
+        if (user.role === "freelancer") {
+            reportData.set('user_reported', transaction.inquiry_id.customer._id)
+        } else if(user.role === "customer") {
+            reportData.set('user_reported', transaction.inquiry_id.service_id.user)
+        }
+        
 
 
-        // dispatch(newRating(ratingData));
+        dispatch(newReport(reportData));
 
         Swal.fire(
             'Reported Successfully!',
@@ -203,8 +211,8 @@ const MyTransactions = () => {
         formData.set('workCompleted', workCompleted);
 
         Swal.fire({
-            title: 'Are you sure?',
-            text: "Transaction is Done?",
+            title: 'Transaction is Done?',
+            text: "Once you click done, you can't report this user anymore",
             icon: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -372,7 +380,7 @@ const MyTransactions = () => {
 
                 actions: <Fragment>
 
-
+<div  className='action'>
                     {transaction.transaction_done && transaction.transaction_done.freelancer === 'false' && (
                         <Link to={''} className="btn btn-success py-1 px-2" onClick={() => workDoneHandler(transaction._id)} data-toggle="tooltip" data-placement="bottom" title="is Work done?">
                             <i className="fa fa-clipboard-check" ></i>
@@ -400,26 +408,12 @@ const MyTransactions = () => {
                             <i className="fa fa-hand-holding-usd" ></i>
                         </Link>
                     )}
-
-                    <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Report this Client">
+<div data-toggle="tooltip" data-placement="bottom" title="Report this Client" onClick={()=> transactionDetailsHandler(transaction._id)}>
+                    <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
                         <i className="fa fa-exclamation-circle" ></i>
                     </Link>
-
-                    {/* {transaction && transaction.paymentReceived === 'true' && (
-                    <Link to={''} className="btn btn-success py-1 px-2" onClick={() => confirmTransactionHandler(transaction._id)}>
-                        <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
-                    </Link>
-                    )} */}
-
-
-                    {/* {user && user.role === 'admin' && (
-                        <Link to={`/user/${customer._id}`} className="btn btn-primary py-1 px-2 ml-2">
-                            <i className="fa fa-eye"></i>
-                        </Link>
-                    )}
-                    <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteUserHandler(customer._id)}>
-                        <i className="fa fa-trash"></i>
-                    </button> */}
+</div>
+                    </div>
 
                 </Fragment>
             })
@@ -478,7 +472,7 @@ const MyTransactions = () => {
                 paymentSent: ctransaction.paymentSent,
 
                 actions: <Fragment>
-
+<div  className='action'>
                     {ctransaction.paymentSent === 'false' && (
                         <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)}>
                             <i className="fa fa-coins" data-toggle="tooltip" data-placement="bottom" title="Make Payment"></i>
@@ -501,9 +495,11 @@ const MyTransactions = () => {
                     )}
 
                     {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing' && (
+                        <div data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done">
                         <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => confirmTransactionHandler(ctransaction._id, ctransaction.transaction_done.workCompleted)}>
-                            <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
+                            <i className="fa fa-check" ></i>
                         </Link>
+                        </div>
                     )}
                     {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'false' && (
                         <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Work of Freelancer is not Done yet - Not Clickable">
@@ -523,12 +519,15 @@ const MyTransactions = () => {
                             </Link>
                         </div>
                     )}
-                    <div data-toggle="tooltip" data-placement="bottom" title="Report this Freelancer">
 
 
+                    {ctransaction && ctransaction.transaction_done.client === 'false' && (
+                    <div data-toggle="tooltip" data-placement="bottom" title="Report this Freelancer" onClick={()=> transactionDetailsHandler(transaction._id)}>
                         <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
                             <i className="fa fa-exclamation-circle" ></i>
                         </Link>
+                    </div>
+                    )}
                     </div>
                 </Fragment>
 
@@ -762,8 +761,8 @@ const MyTransactions = () => {
                                             name="reason"
                                             id="reason"
                                             className='form-control'
-                                        // value={reason}
-                                        // onChange={(e) => setReason(e.target.value)}
+                                        value={reason}
+                                        onChange={(e) => setReason(e.target.value)}
                                         >
                                             <option value="">Select Reason</option>
                                             <option value="spam">Spam</option>
@@ -776,8 +775,8 @@ const MyTransactions = () => {
                                             name="description"
                                             id="description" className="form-control mt-3"
                                             style={{ minHeight: '200px' }}
-                                        // value={comment}
-                                        // onChange={(e) => setComment(e.target.value)}
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
                                         >
                                         </textarea>
                                     </div>

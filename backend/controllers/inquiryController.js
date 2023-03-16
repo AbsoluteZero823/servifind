@@ -24,11 +24,17 @@ exports.getInquiries = async (req, res, next) => {
 
     const inquiries = await Inquiry.find().populate(['customer', {
         path: 'service_id',
+
         populate: { path: 'user' }
     }, {
             path: 'service_id',
             populate: { path: 'category' }
-        }]);
+        },
+        {
+            path: 'freelancer',
+            populate: {path: 'user_id'}
+        }
+    ]);
     res.status(200).json({
         success: true,
         inquiries
