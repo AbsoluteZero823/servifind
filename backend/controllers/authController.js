@@ -33,12 +33,13 @@ exports.registerUser = async (req, res, next) => {
 
     // const token = user.getJwtToken();
 
-     res.status(201).json({
-     	success:true,
-     	user
-     })
+    res.status(201).json({
+        success: true,
+        user
+    })
     // sendToken(user, 200, res)
 };
+
 
 exports.application = async (req, res, next) => {
     let user = await User.findById(req.params.id);
@@ -134,16 +135,16 @@ exports.loginUser = async (req, res, next) => {
         return next(new ErrorHandler('Your account must be active, Please contact support!', 401));
     }
 
-      
 
-  
+
+
     else {
-        sendToken(user, 200, res, {success:true})
-    //     const token = user.getJwtToken();
-  	//  res.status(201).json({
-    // 	 	success:true,
-    // 	 	token
-    // 	 });
+        sendToken(user, 200, res, { success: true })
+        //     const token = user.getJwtToken();
+        //  res.status(201).json({
+        // 	 	success:true,
+        // 	 	token
+        // 	 });
     }
 
 }
@@ -233,7 +234,7 @@ exports.updateUser = async (req, res, next) => {
     })
     res.status(200).json({
         success: true,
-        
+
     })
 }
 
@@ -403,7 +404,8 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         name: req.body.name,
         age: req.body.age,
         gender: req.body.gender,
-        contact: req.body.contact
+        contact: req.body.contact,
+        email: req.body.email
     }
     // Update avatar
     if (req.body.avatar !== '') {

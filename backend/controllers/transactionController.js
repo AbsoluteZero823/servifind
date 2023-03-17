@@ -176,8 +176,47 @@ exports.transactionDone = async (req, res, next) => {
 
         }
     }
+    const transaction = await Transaction.findByIdAndUpdate(req.params.id, formData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        success: true,
+
+    })
+}
+
+exports.rateDone = async (req, res, next) => {
+    // console.log(req.body);
+    const isRatedData = {
+        isRated: 'true',
+
+    }
+
+    const transaction = await Transaction.findByIdAndUpdate(req.params.id, isRatedData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        success: true,
+
+    })
+}
+
+exports.reportDone = async (req, res, next) => {
+    // console.log(req.body);
+
+    formData = {
 
 
+
+    }
+    formData.reportedBy = {
+        client: req.body.client,
+        freelancer: req.body.freelancer,
+    }
 
 
     const transaction = await Transaction.findByIdAndUpdate(req.params.id, formData, {

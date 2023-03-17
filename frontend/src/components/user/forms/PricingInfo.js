@@ -23,7 +23,7 @@ function PricingInfo({ formData, setFormData }) {
                     setFormData({ ...formData, end: e.target.value });
                 }}
             /> */}
-            <label htmlFor="email_field">Experiences</label>
+            {/* <label htmlFor="email_field">Experiences</label>
             <textarea
                 type="text"
                 placeholder="Detailed Experience"
@@ -32,14 +32,14 @@ function PricingInfo({ formData, setFormData }) {
                 onChange={(e) => {
                     setFormData({ ...formData, experience: e.target.value });
                 }}
-            />
+            /> */}
 
 
 
 
             <div className='form-group'>
                 <br />
-                <label htmlFor="email_field">Proof</label>
+                <label htmlFor="email_field">Resumé</label>
                 <div className='d-flex align-items-center'>
                     {/* <div>
                         <figure className='avatar mr-3 item-rtl'>
@@ -60,7 +60,7 @@ function PricingInfo({ formData, setFormData }) {
                         // onChange={onChange}
                         />
                         <label className='custom-file-label' htmlFor='customFile'>
-                            Attach any Proof
+                            resumé must be image
                         </label>
                     </div>
                 </div>

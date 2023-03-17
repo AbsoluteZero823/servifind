@@ -8,7 +8,7 @@ import {
     GET_TRANSACTIONS_REQUEST,
     GET_TRANSACTIONS_SUCCESS,
     GET_TRANSACTIONS_FAIL,
-    
+
     SINGLE_TRANSACTION_REQUEST,
     SINGLE_TRANSACTION_SUCCESS,
     SINGLE_TRANSACTION_FAIL,
@@ -27,6 +27,16 @@ import {
     UPDATE_TRANSACTIONDONE_SUCCESS,
     UPDATE_TRANSACTIONDONE_RESET,
     UPDATE_TRANSACTIONDONE_FAIL,
+
+    UPDATE_RATEDONE_REQUEST,
+    UPDATE_RATEDONE_SUCCESS,
+    UPDATE_RATEDONE_RESET,
+    UPDATE_RATEDONE_FAIL,
+
+    UPDATE_REPORTDONE_REQUEST,
+    UPDATE_REPORTDONE_SUCCESS,
+    UPDATE_REPORTDONE_RESET,
+    UPDATE_REPORTDONE_FAIL,
 
     CLEAR_ERRORS
 } from '../constants/transactionConstants'
@@ -109,20 +119,20 @@ export const getTransactionsReducer = (state = { transactions: [] }, action) => 
 
 export const transactionDetailsReducer = (state = { transaction: {} }, action) => {
     switch (action.type) {
-       
+
         case SINGLE_TRANSACTION_REQUEST:
             return {
                 ...state,
                 loadings: true
             }
-    
+
         case SINGLE_TRANSACTION_SUCCESS:
             return {
                 ...state,
                 loadings: false,
                 transaction: action.payload.transaction,
             }
-        
+
         case SINGLE_TRANSACTION_FAIL:
             return {
                 ...state,
@@ -142,23 +152,25 @@ export const transactionDetailsReducer = (state = { transaction: {} }, action) =
 export const paymentReducer = (state = {}, action) => {
     switch (action.type) {
 
-        
-       case UPDATE_PSENT_REQUEST:
-       case UPDATE_PRECEIVED_REQUEST:
-       case UPDATE_TRANSACTIONDONE_REQUEST:
-       
-            default:
+
+        case UPDATE_PSENT_REQUEST:
+        case UPDATE_PRECEIVED_REQUEST:
+        case UPDATE_TRANSACTIONDONE_REQUEST:
+        case UPDATE_RATEDONE_REQUEST:
+        case UPDATE_REPORTDONE_REQUEST:
+        default:
             return {
-                
+
                 ...state,
                 loadingpayment: true
             }
 
-     
+
         case UPDATE_PSENT_SUCCESS:
         case UPDATE_PRECEIVED_SUCCESS:
         case UPDATE_TRANSACTIONDONE_SUCCESS:
-
+        case UPDATE_RATEDONE_SUCCESS:
+        case UPDATE_REPORTDONE_SUCCESS:
             return {
                 ...state,
                 loadingpayment: false,
@@ -168,7 +180,8 @@ export const paymentReducer = (state = {}, action) => {
         case UPDATE_PSENT_RESET:
         case UPDATE_PRECEIVED_RESET:
         case UPDATE_TRANSACTIONDONE_RESET:
-
+        case UPDATE_RATEDONE_RESET:
+        case UPDATE_REPORTDONE_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -177,9 +190,11 @@ export const paymentReducer = (state = {}, action) => {
         case UPDATE_PSENT_FAIL:
         case UPDATE_PRECEIVED_FAIL:
         case UPDATE_TRANSACTIONDONE_FAIL:
+        case UPDATE_RATEDONE_FAIL:
+        case UPDATE_REPORTDONE_FAIL:
             return {
                 ...state,
                 error: action.payload
             }
-        }
     }
+}

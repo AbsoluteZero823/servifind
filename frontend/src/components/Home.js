@@ -56,7 +56,7 @@ const Home = () => {
       <section id='cm-intro'>
         <div className='intro'>
           <div className='welcome'>
-            <h3>WELCOME TO SERVIFIND</h3>
+            <h3 className='firstTitle'>WELCOME TO SERVIFIND</h3>
             <p>WHERE YOU CAN FIND THE BEST SERVICE IN THE RIGHT TIME ON THE RIGHT PERSON
             </p>
           </div>

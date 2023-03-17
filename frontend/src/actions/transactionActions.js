@@ -27,6 +27,14 @@ import {
     UPDATE_TRANSACTIONDONE_SUCCESS,
     UPDATE_TRANSACTIONDONE_FAIL,
 
+    UPDATE_RATEDONE_REQUEST,
+    UPDATE_RATEDONE_SUCCESS,
+    UPDATE_RATEDONE_FAIL,
+
+    UPDATE_REPORTDONE_REQUEST,
+    UPDATE_REPORTDONE_SUCCESS,
+    UPDATE_REPORTDONE_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/transactionConstants';
 
@@ -94,8 +102,8 @@ export const getTransactions = () => async (dispatch) => {
 export const SingleTransaction = (id) => async (dispatch) => {
     try {
 
-        
-        dispatch({ type: SINGLE_TRANSACTION_REQUEST})
+
+        dispatch({ type: SINGLE_TRANSACTION_REQUEST })
         const { data } = await axios.get(`/api/v1/transaction/${id}`)
         dispatch({
             type: SINGLE_TRANSACTION_SUCCESS,
@@ -183,6 +191,59 @@ export const TransactionDone = (id, formData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_TRANSACTIONDONE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const RateDone = (id, rateData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_RATEDONE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/transaction/rated/${id}`, rateData, config)
+
+        dispatch({
+            type: UPDATE_RATEDONE_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_RATEDONE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const ReportDone = (id, formData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_REPORTDONE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/transaction/reported/${id}`, formData, config)
+
+        dispatch({
+            type: UPDATE_REPORTDONE_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_REPORTDONE_FAIL,
             payload: error.response.data.message
         })
     }

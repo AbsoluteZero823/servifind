@@ -29,6 +29,11 @@ const ratingSchema = new mongoose.Schema({
         ref: 'Service',
         required: true
     },
+    transaction_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transaction',
+        required: true
+    }
 })
 
 module.exports = mongoose.model('Rating', ratingSchema);

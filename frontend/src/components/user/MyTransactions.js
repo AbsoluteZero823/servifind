@@ -14,7 +14,7 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 // import { allUsers, deleteUser, activateUser, deactivateUser, clearErrors } from '../../actions/userActions'
 // import { DELETE_USER_RESET, ACTIVATE_USER_RESET, DEACTIVATE_USER_RESET } from '../../constants/userConstants'
-import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone } from '../../actions/transactionActions'
+import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone, RateDone, ReportDone } from '../../actions/transactionActions'
 import { newRating } from '../../actions/ratingActions'
 import { newReport } from '../../actions/reportActions'
 import { UPDATE_PSENT_RESET, UPDATE_PRECEIVED_RESET, UPDATE_TRANSACTIONDONE_RESET } from '../../constants/transactionConstants'
@@ -122,8 +122,9 @@ const MyTransactions = () => {
         ratingData.set('rating', rating);
         ratingData.set('service_id', transaction.inquiry_id.service_id._id);
         ratingData.set('user', user._id)
+        ratingData.set('transaction_id', transaction._id)
 
-
+        dispatch(RateDone(transaction._id));
         dispatch(newRating(ratingData));
 
         Swal.fire(
@@ -143,17 +144,33 @@ const MyTransactions = () => {
     const submitReportHandler = (e) => {
         e.preventDefault();
         const reportData = new FormData();
+
         reportData.set('reason', reason);
-        reportData.set('description',description);
+        reportData.set('description', description);
         reportData.set('reported_by', user._id);
-        if (user.role === "freelancer") {
+        reportData.set('transaction_id', transaction._id)
+        // if user is the service provider
+        if (user._id === transaction.inquiry_id.service_id.user) {
             reportData.set('user_reported', transaction.inquiry_id.customer._id)
-        } else if(user.role === "customer") {
+
+        } // if user is the client
+        else if (user._id === transaction.inquiry_id.customer._id) {
             reportData.set('user_reported', transaction.inquiry_id.service_id.user)
         }
-        
 
+        const formData = new FormData();
+        // if user is the service provider
+        if (user._id === transaction.inquiry_id.service_id.user) {
+            formData.set('freelancer', 'true')
+            formData.set('client', transaction.reportedBy.client)
 
+        }// if user is the client 
+        else if (user._id === transaction.inquiry_id.customer._id) {
+            formData.set('freelancer', transaction.reportedBy.freelancer)
+            formData.set('client', 'true')
+        }
+
+        dispatch(ReportDone(transaction._id, formData))
         dispatch(newReport(reportData));
 
         Swal.fire(
@@ -380,39 +397,48 @@ const MyTransactions = () => {
 
                 actions: <Fragment>
 
-<div  className='action'>
-                    {transaction.transaction_done && transaction.transaction_done.freelancer === 'false' && (
-                        <Link to={''} className="btn btn-success py-1 px-2" onClick={() => workDoneHandler(transaction._id)} data-toggle="tooltip" data-placement="bottom" title="is Work done?">
-                            <i className="fa fa-clipboard-check" ></i>
-                        </Link>
-                    )}
+                    <div className='action'>
+                        {transaction.transaction_done && transaction.transaction_done.freelancer === 'false' && (
+                            <Link to={''} className="btn btn-success py-1 px-2" onClick={() => workDoneHandler(transaction._id)} data-toggle="tooltip" data-placement="bottom" title="is Work done?">
+                                <i className="fa fa-clipboard-check" ></i>
+                            </Link>
+                        )}
 
-                    {/* {transaction.transaction_done && transaction.transaction_done.freelancer === 'true' && (
+                        {/* {transaction.transaction_done && transaction.transaction_done.freelancer === 'true' && (
                     <Link to={''} className="btn py-1 px-2" data-toggle="tooltip" data-placement="bottom" title="Work is already Done - Not Clickable" disabled>
                         <i className="fa fa-clipboard-check" ></i>
                     </Link>
                     )} */}
 
-                    {transaction && transaction.paymentReceived === 'false' && transaction.paymentSent === 'true' && (
-                        <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Confirm if client is Paid" onClick={() => (paymentReceivedHandler(transaction._id))}>
-                            <i className="fa fa-hand-holding-usd" ></i>
-                        </Link>
-                    )}
-                    {transaction && transaction.paymentSent === 'false' && (
-                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Client is not paid yet - Not Clickable" disabled>
-                            <i className="fa fa-hand-holding-usd" ></i>
-                        </Link>
-                    )}
-                    {transaction && transaction.paymentReceived === 'true' && transaction.status === 'processing' && (
-                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Payment is already Received - Not Clickable" disabled>
-                            <i className="fa fa-hand-holding-usd" ></i>
-                        </Link>
-                    )}
-<div data-toggle="tooltip" data-placement="bottom" title="Report this Client" onClick={()=> transactionDetailsHandler(transaction._id)}>
-                    <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
-                        <i className="fa fa-exclamation-circle" ></i>
-                    </Link>
-</div>
+                        {transaction && transaction.paymentReceived === 'false' && transaction.paymentSent === 'true' && (
+                            <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Confirm if client is Paid" onClick={() => (paymentReceivedHandler(transaction._id))}>
+                                <i className="fa fa-hand-holding-usd" ></i>
+                            </Link>
+                        )}
+                        {transaction && transaction.paymentSent === 'false' && (
+                            <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Client is not paid yet - Not Clickable" disabled>
+                                <i className="fa fa-hand-holding-usd" ></i>
+                            </Link>
+                        )}
+                        {transaction && transaction.paymentReceived === 'true' && transaction.status === 'processing' && (
+                            <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Payment is already Received - Not Clickable" disabled>
+                                <i className="fa fa-hand-holding-usd" ></i>
+                            </Link>
+                        )}
+                        {transaction && transaction.reportedBy.freelancer === 'false' && (
+                            <div data-toggle="tooltip" data-placement="bottom" title="Report this Client" onClick={() => transactionDetailsHandler(transaction._id)}>
+                                <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
+                                    <i className="fa fa-exclamation-circle" ></i>
+                                </Link>
+                            </div>
+                        )}
+                        {transaction && transaction.reportedBy.freelancer === 'true' && (
+                            <div data-toggle="tooltip" data-placement="bottom" title="You reported this user already">
+                                <Link to={''} className="btn py-1 px-2 ml-2" disabled>
+                                    <i className="fa fa-exclamation-circle" ></i>
+                                </Link>
+                            </div>
+                        )}
                     </div>
 
                 </Fragment>
@@ -472,62 +498,62 @@ const MyTransactions = () => {
                 paymentSent: ctransaction.paymentSent,
 
                 actions: <Fragment>
-<div  className='action'>
-                    {ctransaction.paymentSent === 'false' && (
-                        <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)}>
-                            <i className="fa fa-coins" data-toggle="tooltip" data-placement="bottom" title="Make Payment"></i>
-                        </Link>
-                    )}
+                    <div className='action'>
+                        {ctransaction.paymentSent === 'false' && (
+                            <Link to={''} className="btn btn-primary py-1 px-2 ml-2" data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(ctransaction._id)}>
+                                <i className="fa fa-coins" data-toggle="tooltip" data-placement="bottom" title="Make Payment"></i>
+                            </Link>
+                        )}
 
-                    {ctransaction.paymentSent === 'true' && ctransaction.status === 'processing' && (
-                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="You already send payment" disabled>
-                            <i className="fa fa-coins"></i>
-                        </Link>
-                    )}
-                    {ctransaction && ctransaction.paymentSent === 'false' && (
-                        <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => Swal.fire(
-                            'Warning!',
-                            'You should proceed to make payment before clicking this button.',
-                            'warning'
-                        )}>
-                            <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
-                        </Link>
-                    )}
+                        {ctransaction.paymentSent === 'true' && ctransaction.status === 'processing' && (
+                            <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="You already send payment" disabled>
+                                <i className="fa fa-coins"></i>
+                            </Link>
+                        )}
+                        {ctransaction && ctransaction.paymentSent === 'false' && (
+                            <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => Swal.fire(
+                                'Warning!',
+                                'You should proceed to make payment before clicking this button.',
+                                'warning'
+                            )}>
+                                <i className="fa fa-check" data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
+                            </Link>
+                        )}
 
-                    {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing' && (
-                        <div data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done">
-                        <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => confirmTransactionHandler(ctransaction._id, ctransaction.transaction_done.workCompleted)}>
-                            <i className="fa fa-check" ></i>
-                        </Link>
-                        </div>
-                    )}
-                    {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'false' && (
-                        <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Work of Freelancer is not Done yet - Not Clickable">
-                            <i className="fa fa-check"  ></i>
-                        </Link>
-                    )}
-                    {/* {ctransaction && ctransaction.paymentSent === 'false' && (
+                        {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing' && (
+                            <div data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done">
+                                <Link to={''} className="btn btn-success py-1 px-2 ml-2" onClick={() => confirmTransactionHandler(ctransaction._id, ctransaction.transaction_done.workCompleted)}>
+                                    <i className="fa fa-check" ></i>
+                                </Link>
+                            </div>
+                        )}
+                        {ctransaction && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'false' && (
+                            <Link to={''} className="btn py-1 px-2 ml-2" data-toggle="tooltip" data-placement="bottom" title="Work of Freelancer is not Done yet - Not Clickable">
+                                <i className="fa fa-check"  ></i>
+                            </Link>
+                        )}
+                        {/* {ctransaction && ctransaction.paymentSent === 'false' && (
                     <Link to={''} className="btn py-1 px-2 ml-2" disabled>
                         <i className="fa fa-check"  data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done"></i>
                     </Link>
                 )} */}
 
-                    {ctransaction && ctransaction.transaction_done.client === 'true' && (
-                        <div data-toggle="tooltip" data-placement="bottom" title="Review or Rate the Service"  >
-                            <Link to={''} className="btn btn-warning py-1 px-2 ml-2" data-toggle="modal" data-target="#RateServiceModal" onClick={() => { setUserRatings(ctransaction._id); }} >
-                                <i className="fa fa-star" ></i>
-                            </Link>
-                        </div>
-                    )}
+                        {ctransaction && ctransaction.transaction_done.client === 'true' && ctransaction.isRated === 'false' && (
+                            <div data-toggle="tooltip" data-placement="bottom" title="Review or Rate the Service"  >
+                                <Link to={''} className="btn btn-warning py-1 px-2 ml-2" data-toggle="modal" data-target="#RateServiceModal" onClick={() => { setUserRatings(ctransaction._id); }} >
+                                    <i className="fa fa-star" ></i>
+                                </Link>
+                            </div>
+                        )}
 
 
-                    {ctransaction && ctransaction.transaction_done.client === 'false' && (
-                    <div data-toggle="tooltip" data-placement="bottom" title="Report this Freelancer" onClick={()=> transactionDetailsHandler(transaction._id)}>
-                        <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
-                            <i className="fa fa-exclamation-circle" ></i>
-                        </Link>
-                    </div>
-                    )}
+                        {ctransaction && ctransaction.transaction_done.client === 'false' && (
+                            <div data-toggle="tooltip" data-placement="bottom" title="Report this Freelancer" onClick={() => transactionDetailsHandler(transaction._id)}>
+                                <Link to={''} className="btn btn-danger py-1 px-2 ml-2" data-toggle="modal" data-target="#ReportServiceModal">
+                                    <i className="fa fa-exclamation-circle" ></i>
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </Fragment>
 
@@ -761,8 +787,8 @@ const MyTransactions = () => {
                                             name="reason"
                                             id="reason"
                                             className='form-control'
-                                        value={reason}
-                                        onChange={(e) => setReason(e.target.value)}
+                                            value={reason}
+                                            onChange={(e) => setReason(e.target.value)}
                                         >
                                             <option value="">Select Reason</option>
                                             <option value="spam">Spam</option>
@@ -775,8 +801,8 @@ const MyTransactions = () => {
                                             name="description"
                                             id="description" className="form-control mt-3"
                                             style={{ minHeight: '200px' }}
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
+                                            value={description}
+                                            onChange={(e) => setDescription(e.target.value)}
                                         >
                                         </textarea>
                                     </div>

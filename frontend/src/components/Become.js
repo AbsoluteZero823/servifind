@@ -24,42 +24,54 @@ const Become = () => {
   const dispatch = useDispatch();
 
 
-
-  // const { loading, animals, error, animalsCount, resPerPage, filteredAnimalsCount } = useSelector(state => state.animals);
-
-
-  // const [currentPage, setCurrentPage] = useState(1)
-  // let { keyword } = useParams();
-
-
-  // useEffect(() => {
-  //   if (error) {
-  //     alert.success('success')
-  //     return alert.error(error)
-  //   }
-
-  // dispatch(getAnimals(currentPage, keyword))
-
-
-  // }, [dispatch, alert, error, currentPage, keyword]);
-
-  // function setCurrentPageNo(pageNumber) {
-  //   setCurrentPage(pageNumber)
-  // }
-  // let count = animalsCount;
-
-  // if (keyword) {
-  //   count = filteredAnimalsCount
-  // }
   return (
     <Fragment>
-      <div className='welcome'>
+      <section id='cm-intro'>
+        <div className='intro'>
+          <div className='welcome' style={{ padding: '0px 100px' }}>
+
+            <h3 className='firstTitle'>Who are Eligible?</h3>
+
+            <div className='infoBody' style={{ display: 'flex', }}>
+              <div className='thirtyfive-percent'>
+                <img src='../images/students-college.png' ></img>
+              </div>
+              <div style={{ width: '65%', paddingLeft: '110px', display: 'flex', flexDirection: 'column', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <div style={{ color: 'white', }}>
+                  <h3 className='' style={{ paddingBottom: '10px' }}>To apply for freelancer, user must:</h3>
+
+                  <h3 className=''>— Currently enrolled at Technological University of the Philippines Taguig Branch.</h3>
+                  <h3 className=''>— Uses a verified TUP email account.</h3>
+                  <h3 className=''>— Pass the requirements needed.</h3>
+
+                  {/* <h3 className=''>Any student currently enrolled at Technological University of the Philippines Taguig Branch</h3> */}
+
+                </div>
+                <div style={{ paddingTop: '50px', display: 'flex', justifyContent: 'flex-start' }}>
+                  <Link to='/application'><button className='nav-button'>Become a Freelancer</button></Link>
+                </div>
+              </div>
+            </div>
+            {/* <h4 className='firstTitle' style={{ fontSize: "80px" }}>Want to Become a Freelancer?</h4> */}
+
+            {/* <p>WHERE YOU CAN FIND THE BEST SERVICE IN THE RIGHT TIME ON THE RIGHT PERSON
+            </p> */}
+
+
+
+          </div>
+          <img id='home' className='bg-pic' src='../images/TUPT.jpg'></img>
+
+        </div>
+
+      </section>
+
+      {/* <div className='welcome'>
         <h3>WELCOME TO SERVIFIND</h3>
-        {/* <p>WHERE YOU CAN FIND THE BEST SERVICE IN THE RIGHT TIME ON THE RIGHT PERSON
-        </p> */}
-        <Link to='/application'><button className='nav-button'>Become a Freelancer</button></Link>
+
+       
       </div>
-      <img id='home' className='bg-pic' src='../images/bg.jpg'></img>
+      <img id='home' className='bg-pic' src='../images/bg.jpg'></img> */}
       {/* <h1 className='gitna'>HOME</h1> */}
 
 
@@ -149,7 +161,7 @@ const Become = () => {
         </Fragment>
       )
       } */}
-    </Fragment>
+    </Fragment >
   );
 }
 export default Become

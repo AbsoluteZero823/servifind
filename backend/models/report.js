@@ -29,6 +29,11 @@ const reportSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
+    transaction_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Transaction',
+        required: true
+    }
 })
 
 module.exports = mongoose.model('Report', reportSchema);

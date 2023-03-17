@@ -267,7 +267,7 @@ nav ul a {
   z-index: 4;
 }
 
-.welcome h3 {
+.firstTitle {
   /* margin: auto;
   align-items: center;
   align-content: center; */
@@ -1598,9 +1598,9 @@ a:hover {
   white-space: nowrap;
 }
 
-.action{
+.action {
   display: flex;
   /* flex-direction: row; */
 }
-/* END USER TRANSACTION */
 
+/* END USER TRANSACTION */

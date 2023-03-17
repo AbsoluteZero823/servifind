@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-    
+
     price: {
         type: String,
         required: false
@@ -11,12 +11,12 @@ const transactionSchema = new mongoose.Schema({
         default: 'false',
         required: true
     },
-    paymentSent:{
+    paymentSent: {
         type: String,
         default: 'false',
         required: true
     },
-    paymentReceived:{
+    paymentReceived: {
         type: String,
         default: 'false',
         required: true
@@ -48,13 +48,13 @@ const transactionSchema = new mongoose.Schema({
         client: {
             type: String,
             required: false,
-            default:'false'
+            default: 'false'
         },
         freelancer: {
             type: String,
             required: false,
-            default:'false'
-        }, 
+            default: 'false'
+        },
         workCompleted: {
             type: Date,
             required: false
@@ -63,9 +63,26 @@ const transactionSchema = new mongoose.Schema({
             type: Date,
             required: false
         }
+    },
+    isRated: {
+        type: String,
+        required: true,
+        default: 'false'
+    },
+    reportedBy: {
+        client: {
+            type: String,
+            required: false,
+            default: 'false'
+        },
+        freelancer: {
+            type: String,
+            required: false,
+            default: 'false'
+        },
     }
- 
+
 
 })
 
-module.exports= mongoose.model('Transaction', transactionSchema);
+module.exports = mongoose.model('Transaction', transactionSchema);
