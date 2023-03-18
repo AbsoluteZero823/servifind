@@ -20,9 +20,9 @@ const Sidebar = () => {
 
 
 
-                    <li>
+                    {/* <li>
                         <Link to="/admin/orders"><i className="fa fa-shopping-basket"></i> Orders</Link>
-                    </li>
+                    </li> */}
 
                     {/* <li>
                         <Link to="/admin/users"><i className="fa fa-users"></i> Users</Link>
@@ -74,9 +74,17 @@ const Sidebar = () => {
                     {/* <li>
                         <Link to="/admin/reviews"><i className="fa fa-star"></i> Reviews</Link>
                     </li> */}
-                    <li>
-                        <Link to="/admin/reviews"><i className="fa fa-flag"></i> Reports</Link>
-                    </li>
+
+                    {user && user.role === 'freelancer' && (
+                        <li>
+                            <Link to="/feed"><i className="fa fa-flag"></i>Requests Feed</Link>
+                        </li>
+                    )}
+                    {user && user.role === 'admin' && (
+                        <li>
+                            <Link to="/admin/reviews"><i className="fa fa-flag"></i> Reports</Link>
+                        </li>
+                    )}
                 </ul>
             </nav>
         </div>
