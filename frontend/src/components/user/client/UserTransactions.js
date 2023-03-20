@@ -8,12 +8,12 @@ import Loader from '../../layout/Loader';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert';
-import { getServices } from '../../../actions/serviceActions';
+
 // import { allUsers } from '../actions/userActions'
 // import Slider from 'rc-slider'
 // import 'rc-slider/assets/index.css'
 
-import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone  } from '../../../actions/transactionActions';
+import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone } from '../../../actions/transactionActions';
 import { UPDATE_PSENT_RESET, UPDATE_PRECEIVED_RESET, UPDATE_TRANSACTIONDONE_RESET } from '../../../actions/transactionActions';
 const UserTransactions = () => {
 
@@ -29,13 +29,13 @@ const UserTransactions = () => {
     // const { loading, services, error, servicesCount, resPerPage, filteredServicesCount } = useSelector(state => state.services);
 
     const { loading, error, transactions } = useSelector(state => state.transactions);
-    const { loadings,detailserror, transaction} = useSelector(state => state.transactionDetails);
+    const { loadings, detailserror, transaction } = useSelector(state => state.transactionDetails);
     const { user, isAuthenticated } = useSelector(state => state.auth)
     // const [currentPage, setCurrentPage] = useState(1)
     // let { keyword } = useParams();
 
     useEffect(() => {
-    
+
 
         // if (error) {
         //     alert.error(error);
@@ -79,7 +79,7 @@ const UserTransactions = () => {
         console.log(ctransaction)
     });
     return (
-        
+
         <Fragment>
 
 
@@ -95,21 +95,21 @@ const UserTransactions = () => {
                                 <a className='selection'>Completed</a>
                             </div>
 
-{/* sa mga transaction na */}
+                            {/* sa mga transaction na */}
                             <div>
                                 {/* dito nagsimula ang isang service */}
-                              
+
                                 {ClientTransactions && ClientTransactions.map(transaction => (
 
                                     <Transaction key={transaction._id} transaction={transaction} />
                                 ))}
-                         
 
-                                {/* dito nagtapos ang isang service */}   
-                                                        
+
+                                {/* dito nagtapos ang isang service */}
+
                             </div>
-                                    
-                        {/* <MetaData title={'Buy Best Service Online'} />
+
+                            {/* <MetaData title={'Buy Best Service Online'} />
 
                         <h1 id="animals_heading">Services</h1>
                         <section id="services" className="containerz mt-5">

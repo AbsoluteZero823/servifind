@@ -26,15 +26,16 @@ function ServiceInfo({ formData, setFormData }) {
                     setFormData({ ...formData, category: e.target.value });
                 }}>
                 <option value="" disabled hidden>Select Category</option>
-                <option value="GD">Graphics & Design</option>
-                <option value="DM">Digital Marketing</option>
-                <option value="WT">Writing & Translation</option>
-                <option value="VA">Video & Animation</option>
-                <option value="MA">Music & Audio</option>
-                <option value="PT">Programming & Tech</option>
-                <option value="Data">Data</option>
-                <option value="Business">Business</option>
-                <option value="Lifestyle">Lifestyle</option>
+                <option value="Writing & Translation">Writing & Translation</option>
+                <option value="Graphic Design and Multimedia">Graphic Design and Multimedia</option>
+                <option value="Programming and IT">Programming and IT</option>
+                {/* <option value="VA">Administrative Support</option> */}
+                {/* <option value="MA">Marketing and Sales</option> */}
+                <option value="Creative and Artistic">Creative and Artistic</option>
+                {/* <option value="Data">Consulting and Business</option> */}
+                <option value="Engineering and Architecture">Engineering and Architecture</option>
+                <option value="Education and Training">Education and Training</option>
+                {/* <option value="Lifestyle">Health and Wellness</option> */}
             </select>
             <br />
             <label htmlFor="email_field">Service Description</label>

@@ -791,9 +791,15 @@ const MyTransactions = () => {
                                             onChange={(e) => setReason(e.target.value)}
                                         >
                                             <option value="">Select Reason</option>
-                                            <option value="spam">Spam</option>
-                                            <option value="harassment">Harassment</option>
-                                            <option value="inappropriate-content">Inappropriate Content</option>
+                                            <option value="spam">Missed deadlines</option>
+                                            <option value="harassment">Poor work quality</option>
+                                            <option value="inappropriate-content">Plagiarism</option>
+                                            <option value="inappropriate-content">Unprofessional behavior</option>
+                                            <option value="inappropriate-content">Harassment</option>
+                                            <option value="inappropriate-content">Nudity or sexual content</option>
+                                            <option value="inappropriate-content">Terrorism or violence</option>
+
+
                                         </select>
                                         <br />
                                         <label>Description: </label>
@@ -805,6 +811,10 @@ const MyTransactions = () => {
                                             onChange={(e) => setDescription(e.target.value)}
                                         >
                                         </textarea>
+
+                                        {/* Add proof or evidence here(optional) */}
+
+
                                     </div>
 
 

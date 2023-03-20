@@ -1606,6 +1606,8 @@ a:hover {
 
 /* END USER TRANSACTION */
 
+/* Feed */
+
 .post {
   width: 100%;
   max-width: 800px;
@@ -1697,4 +1699,24 @@ a:hover {
   align-items: center;
   width: 100%;
   padding: 6px 2px;
+
+}
+
+/* End Feed */
+
+
+.firstsection {
+  width: 30%;
+  height: 100%;
+}
+
+.secondsection {
+  width: 70%;
+  height: 100%;
+}
+
+.newstyle {
+  height: calc(100vh - 100px);
+  display: flex;
+  padding: 0px 150px
 }
