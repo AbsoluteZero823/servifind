@@ -12,7 +12,7 @@ import { getCategoriesReducer } from './reducers/categoryReducers';
 // import { getTransactions } from '../../backend/controllers/transactionController';
 const reducer = combineReducers({
 
-    addPersonnel: newUserReducer,
+    addUser: newUserReducer,
 
 
     services: servicesReducer,

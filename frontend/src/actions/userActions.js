@@ -48,9 +48,7 @@ import {
     UPDATE_PASSWORD_SUCCESS,
     UPDATE_PASSWORD_FAIL,
 
-    ALL_ADOPTERS_REQUEST,
-    ALL_ADOPTERS_SUCCESS,
-    ALL_ADOPTERS_FAIL,
+
 
     ALL_USERS_REQUEST,
     ALL_USERS_SUCCESS,
@@ -66,9 +64,7 @@ import {
     NEW_USERS_SUCCESS,
     NEW_USERS_FAIL,
 
-    NEW_ADOPTERS_REQUEST,
-    NEW_ADOPTERS_SUCCESS,
-    NEW_ADOPTERS_FAIL,
+
 
     USER_DETAILS_REQUEST,
     USER_DETAILS_SUCCESS,
@@ -250,27 +246,6 @@ export const updatePassword = (passwords) => async (dispatch) => {
 }
 
 
-
-export const getAdopters = () => async (dispatch) => {
-    try {
-
-        dispatch({ type: ALL_ADOPTERS_REQUEST })
-
-        const { data } = await axios.get('/api/v1/adopters')
-
-        dispatch({
-            type: ALL_ADOPTERS_SUCCESS,
-            payload: data
-        })
-
-    } catch (error) {
-        dispatch({
-            type: ALL_ADOPTERS_FAIL,
-            payload: error.response.data.message
-        })
-    }
-}
-
 export const allUsers = () => async (dispatch) => {
     try {
 
@@ -309,25 +284,6 @@ export const allFreelancers = () => async (dispatch) => {
         })
     }
 }
-// export const getPersonnels = () => async (dispatch) => {
-//     try {
-
-//         dispatch({ type: ALL_PERSONNELS_REQUEST })
-
-//         const { data } = await axios.get('/api/v1/personnels')
-
-//         dispatch({
-//             type: ALL_PERSONNELS_SUCCESS,
-//             payload: data
-//         })
-
-//     } catch (error) {
-//         dispatch({
-//             type: ALL_PERSONNELS_FAIL,
-//             payload: error.response.data.message
-//         })
-//     }
-// }
 export const newUser = (userData) => async (dispatch) => {
     try {
 
@@ -353,31 +309,7 @@ export const newUser = (userData) => async (dispatch) => {
         })
     }
 }
-export const newAdopter = (adopterData) => async (dispatch) => {
-    try {
 
-        dispatch({ type: NEW_ADOPTERS_REQUEST })
-
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-
-        const { data } = await axios.post('/api/v1/adopter/new', adopterData, config)
-
-        dispatch({
-            type: NEW_ADOPTERS_SUCCESS,
-            payload: data
-        })
-
-    } catch (error) {
-        dispatch({
-            type: NEW_ADOPTERS_FAIL,
-            payload: error.response.data.message
-        })
-    }
-}
 export const getUserDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: USER_DETAILS_REQUEST })
@@ -515,31 +447,6 @@ export const updateUser = (id, userData) => async (dispatch) => {
     }
 }
 
-export const updateAdopter = (id, adopterData) => async (dispatch) => {
-    try {
-
-        dispatch({ type: UPDATE_PROFILE_REQUEST })
-
-        const config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }
-
-        const { data } = await axios.put(`/api/v1/adopter/${id}`, adopterData, config)
-
-        dispatch({
-            type: UPDATE_PROFILE_SUCCESS,
-            payload: data.success
-        })
-
-    } catch (error) {
-        dispatch({
-            type: UPDATE_PROFILE_FAIL,
-            payload: error.response.data.message
-        })
-    }
-}
 
 export const clearErrors = () => async (dispatch) => {
     dispatch({

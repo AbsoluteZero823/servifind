@@ -30,11 +30,11 @@ const Register = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const {  error, loading, success } = useSelector(state => state.addPersonnel);
+    const { error, loading, success } = useSelector(state => state.addUser);
 
     useEffect(() => {
 
-     
+
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
@@ -46,7 +46,7 @@ const Register = () => {
             dispatch({ type: REGISTER_USER_RESET })
         }
 
-    }, [dispatch, alert,error, navigate, success])
+    }, [dispatch, alert, error, navigate, success])
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -61,7 +61,7 @@ const Register = () => {
         formData.set('avatar', avatar);
 
         dispatch(register(formData))
-      
+
     }
 
     const onChange = e => {

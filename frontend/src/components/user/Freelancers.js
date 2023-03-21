@@ -33,12 +33,12 @@ const Freelancers = () => {
         }
 
         if (isDeleted) {
-            alert.success('Adopter deleted successfully');
+            alert.success('Freelancer deleted successfully');
             navigate('/freelancers');
             dispatch({ type: DELETE_USER_RESET })
         }
         if (isUpdated) {
-            alert.success('Adopter Updated successfully');
+            alert.success('Freelancer Updated successfully');
             navigate('/freelancers');
             dispatch({ type: ACTIVATE_USER_RESET })
             dispatch({ type: DEACTIVATE_USER_RESET })
@@ -176,27 +176,27 @@ const Freelancers = () => {
         <Fragment>
             <MetaData title={'All Users'} />
 
-          
-               
-                    <Fragment>
-                        <h1 className="my-5">All Freelancers
-                            <span> <Link to="/create" className="btn update-btn fa fa-plus">
-                            </Link> </span>
-                        </h1>
 
-                        {loading ? <Loader /> : (
-                            <MDBDataTable
-                                data={setUsers()}
-                                className="px-3"
-                                bordered
-                                striped
-                                hover
-                            />
-                        )}
 
-                    </Fragment>
-                
-           
+            <Fragment>
+                <h1 className="my-5">All Freelancers
+                    <span> <Link to="/create" className="btn update-btn fa fa-plus">
+                    </Link> </span>
+                </h1>
+
+                {loading ? <Loader /> : (
+                    <MDBDataTable
+                        data={setUsers()}
+                        className="px-3"
+                        bordered
+                        striped
+                        hover
+                    />
+                )}
+
+            </Fragment>
+
+
 
         </Fragment>
     )
