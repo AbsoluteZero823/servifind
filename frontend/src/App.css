@@ -1409,7 +1409,7 @@ a:hover {
 }
 
 .secondcontainer {
-  miN-height: 740px;
+  /* miN-height: 740px; */
   background: #fdb6b1;
   box-shadow: 0 0 0 2px #fdb6b1;
 }
@@ -1717,6 +1717,15 @@ a:hover {
 
 .newstyle {
   height: calc(100vh - 100px);
+  
+  padding: 80px 150px;
+ 
+}
+
+.mainsection{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   display: flex;
-  padding: 0px 150px
+  background-color: gainsboro;
+  padding: 40px;
+  border-radius: 10px;
 }

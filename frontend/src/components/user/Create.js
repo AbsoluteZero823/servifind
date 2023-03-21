@@ -7,7 +7,7 @@ import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { newUser, clearErrors } from '../../actions/userActions'
 import { NEW_USERS_RESET } from '../../constants/userConstants'
-// import { newPersonnel } from '../../../../backend/controllers/authController';
+
 
 
 const Create = () => {
@@ -31,13 +31,13 @@ const Create = () => {
     const dispatch = useDispatch();
     let navigate = useNavigate();
 
-    const { error, loading, success } = useSelector(state => state.addPersonnel);
+    const { error, loading, success } = useSelector(state => state.addUser);
 
     useEffect(() => {
 
         if (success) {
             navigate('/users');
-            alert.success('Personnel created successfully');
+            alert.success('User created successfully');
             dispatch({ type: NEW_USERS_RESET })
         }
 
@@ -87,7 +87,7 @@ const Create = () => {
     return (
         <Fragment>
 
-            <MetaData title={'New Personnels'} />
+            <MetaData title={'New User'} />
 
 
             <div className="row wrapper col-13 col-md-10">
@@ -157,8 +157,7 @@ const Create = () => {
                                 <option value="" disabled hidden>Select Role</option>
                                 <option value="customer">Customer</option>
                                 <option value="freelancer">Freelancer</option>
-                                {/* <option value="veterenarian">Veterenarian</option>
-                                    <option value="volunteer">Volunteer</option> */}
+
 
                             </select>
                         </div>

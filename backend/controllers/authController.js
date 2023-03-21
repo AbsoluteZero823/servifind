@@ -152,18 +152,6 @@ exports.loginUser = async (req, res, next) => {
 
 
 
-// exports.logout = async (req, res, next) => {
-//     res.cookie('token', null, {
-//         expires: new Date(Date.now()),
-//         httpOnly: true
-//     })
-
-//     res.status(200).json({
-//         success: true,
-//         message: 'Logged out'
-//     })
-// }
-
 // Get all users   =>   /api/v1/users
 exports.allUsers = async (req, res, next) => {
     const users = await User.find();
@@ -238,96 +226,6 @@ exports.updateUser = async (req, res, next) => {
     })
 }
 
-
-
-
-
-
-
-exports.newAdopter = async (req, res, next) => {
-
-    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: 'avatars',
-        width: 150,
-        crop: "scale"
-    })
-
-    const { name, age, gender, contact, email, password } = req.body;
-    const user = await User.create({
-        name,
-        age,
-        gender,
-        contact,
-        email,
-        password,
-
-        avatar: {
-            public_id: result.public_id,
-            url: result.secure_url
-        }
-    })
-
-    // const token = user.getJwtToken();
-
-    //  res.status(201).json({
-    //  	success:true,
-    //  	user,
-    //  	token
-    //  })
-    res.status(201).json({
-        success: true,
-        user
-    })
-};
-
-
-exports.updateAdopter = async (req, res, next) => {
-    // console.log(req.animal);
-    const newAdopterData = {
-        name: req.body.name,
-        age: req.body.age,
-        gender: req.body.gender,
-        contact: req.body.contact,
-        email: req.body.email,
-        role: req.body.role
-
-    }
-
-    // Update avatar
-    if (req.body.avatar !== '') {
-        const user = await User.findById(req.params.id)
-        const image_id = user.avatar.public_id;
-        const res = await cloudinary.v2.uploader.destroy(image_id);
-        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'avatars',
-            width: 150,
-            crop: "scale"
-        })
-
-
-
-
-        newAdopterData.avatar = {
-            public_id: result.public_id,
-            url: result.secure_url
-        }
-    }
-
-
-    const user = await User.findByIdAndUpdate(req.params.id, newAdopterData, {
-        new: true,
-        runValidators: true,
-        // useFindandModify:false
-    })
-    res.status(200).json({
-        success: true,
-        user
-    })
-}
-
-
-
-
 exports.forgotPassword = async (req, res, next) => {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -359,9 +257,7 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.getUserProfile = async (req, res, next) => {
     const user = await User.findById(req.user.id);
-    // console.log(req)
-    // const animal = await Animal.find({ adoption: { adopter: req.user.id, adoptername: req.user.name } })
-    // if (req.user.role ==="admin"){
+
 
     res.status(200).json({
         success: true,
@@ -464,34 +360,10 @@ exports.resetPassword = async (req, res, next) => {
 }
 
 
-// exports.getPersonnels = async (req, res, next) => {
-//     const personnel = await User.find({role:''});
 
-//     res.status(200).json({
-//         success: true,
-//         personnel
-//     })
 
-// }
 
-exports.getAdopters = async (req, res, next) => {
-    const users = await User.find({ role: 'adopter' });
 
-    res.status(200).json({
-        success: true,
-        users
-    })
-
-}
-exports.getPersonnels = async (req, res, next) => {
-    const users = await User.find({ role: ['veterenarian', 'rescuer', 'employee', 'volunteer'] });
-
-    res.status(200).json({
-        success: true,
-        users
-    })
-
-}
 
 
 

@@ -49,9 +49,7 @@ import {
     UPDATE_PASSWORD_RESET,
     UPDATE_PASSWORD_FAIL,
 
-    ALL_ADOPTERS_REQUEST,
-    ALL_ADOPTERS_SUCCESS,
-    ALL_ADOPTERS_FAIL,
+
 
     ALL_USERS_REQUEST,
     ALL_USERS_SUCCESS,
@@ -61,19 +59,14 @@ import {
     ALL_FREELANCERS_SUCCESS,
     ALL_FREELANCERS_FAIL,
 
-    ALL_PERSONNELS_REQUEST,
-    ALL_PERSONNELS_SUCCESS,
-    ALL_PERSONNELS_FAIL,
+
 
     NEW_USERS_REQUEST,
     NEW_USERS_SUCCESS,
     NEW_USERS_FAIL,
     NEW_USERS_RESET,
 
-    // NEW_ADOPTERS_REQUEST,
-    // NEW_ADOPTERS_SUCCESS,
-    // NEW_ADOPTERS_FAIL,
-    // NEW_ADOPTERS_RESET,
+
 
     // NEW_FREELANCERS_REQUEST,
     // NEW_FREELANCERS_SUCCESS,
@@ -109,7 +102,7 @@ export const authReducer = (state = { user: {} }, action) => {
                 ...state,
                 loading: false,
                 isAuthenticated: true,
-                success:true,
+                success: true,
                 user: action.payload
             }
 
@@ -161,32 +154,32 @@ export const newUserReducer = (state = { user: {} }, action) => {
     switch (action.type) {
 
         case NEW_USERS_REQUEST:
-        // case NEW_ADOPTERS_REQUEST:
-            case REGISTER_USER_REQUEST:
+
+        case REGISTER_USER_REQUEST:
             return {
                 ...state,
                 loading: true
             }
 
         case NEW_USERS_SUCCESS:
-        // case NEW_ADOPTERS_SUCCESS:
-            case REGISTER_USER_SUCCESS:
+
+        case REGISTER_USER_SUCCESS:
             return {
                 loading: false,
-                success:true,
+                success: true,
                 user: action.payload.user
             }
 
         case NEW_USERS_FAIL:
-        // case NEW_ADOPTERS_FAIL:
-            case REGISTER_USER_FAIL:
+
+        case REGISTER_USER_FAIL:
             return {
                 ...state,
                 error: action.payload
             }
 
         case NEW_USERS_RESET:
-        // case NEW_ADOPTERS_RESET:
+
         case REGISTER_USER_RESET:
 
             return {
@@ -273,18 +266,18 @@ export const userReducer = (state = {}, action) => {
 export const getUsersReducer = (state = { users: [] }, action) => {
     switch (action.type) {
 
-        case ALL_ADOPTERS_REQUEST:
+
         case ALL_USERS_REQUEST:
-        case ALL_PERSONNELS_REQUEST:
+
         case ALL_FREELANCERS_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
 
-        case ALL_ADOPTERS_SUCCESS:
+
         case ALL_USERS_SUCCESS:
-        case ALL_PERSONNELS_SUCCESS:
+
         case ALL_FREELANCERS_SUCCESS:
             return {
                 ...state,
@@ -292,9 +285,9 @@ export const getUsersReducer = (state = { users: [] }, action) => {
                 users: action.payload.users,
             }
 
-        case ALL_ADOPTERS_FAIL:
+
         case ALL_USERS_FAIL:
-        case ALL_PERSONNELS_FAIL:
+
         case ALL_FREELANCERS_FAIL:
             return {
                 ...state,

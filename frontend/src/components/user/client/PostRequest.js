@@ -5,30 +5,134 @@ import { Link, useParams } from "react-router-dom";
 // import MetaData from './layout/MetaData'
 // import Animal from './animal/Animal'
 // import Loader from './layout/Loader'
+import Swal from 'sweetalert2';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert';
+import { getCategories, clearErrors, newCategory } from '../../../actions/categoryActions';
+import { newRequest } from '../../../actions/requestActions';
+import { useNavigate } from 'react-router-dom';
+import { NEW_CATEGORY_RESET } from '../../../constants/categoryConstants';
+// import React, { useEffect, useState } from 'react'
 
-
-
-
-const Become = () => {
+const PostRequest = () => {
 
 
     const alert = useAlert();
     const dispatch = useDispatch();
 
+    let navigate = useNavigate();
 
+
+    const { loading, error, categories } = useSelector(state => state.categories);
+    const { user, isAuthenticated } = useSelector(state => state.auth)
+
+    const { success } = useSelector(state => state.addRequest);
+
+    const [category_id, setId] = useState('');
+    const [description, setDescription] = useState('');
+
+    useEffect(() => {
+      dispatch(getCategories())
+    
+      if (success) {
+        navigate('/manage-request');
+        // alert.success('Service created successfully');
+        Swal.fire(
+            'Request Successfully Created!',
+            '',
+            'success'
+        )
+        dispatch({ type: NEW_CATEGORY_RESET })
+    }
+
+      }, [dispatch, alert, error, success, navigate])
+
+      const submitHandler = (e) => {
+        e.preventDefault();
+        const requestData = new FormData();
+        requestData.set('category', category_id);
+        requestData.set('description', description);
+        requestData.set('requested_by', user._id)
+        // categoryData.set('service_id', transaction.inquiry_id.service_id._id);
+        // categoryData.set('user', user._id)
+        // categoryData.set('transaction_id', transaction._id)
+
+        // dispatch(RateDone(transaction._id));
+        dispatch(newRequest(requestData));
+
+      
+
+
+// TODO:
+//         KEN INAVIGATE MO DAPAT SA MANAGE REQUEST AFTER MAG SUCCESS TO
+
+
+
+
+        // dispatch(updateProfile(formData))
+
+    }
     return (
         <Fragment>
             <div className='newstyle'>
+                <div className='mainsection'>
                 <div className='firstsection'>
-
+                    <h3 className=''>Post Request</h3>
+<img src='https://peopleintouch.com/wp-content/uploads/2019/11/illustratie-partner-compact.png' style={{height:'50%', width:'100%'}}></img>
                 </div>
+                {/* forms */}
                 <div className='secondsection'>
+                <div style={{ padding: '10px 10px' }}>
 
+                                    {/* populate the service of the logged in freelancer */}
+                                  
+
+                                    <form onSubmit={submitHandler}>
+                                    <br />
+                                    <label>What are you looking for? </label>
+                                    <textarea
+                                        name="description"
+                                        id="description" className="form-control mt-3"
+                                        style={{ minHeight: '200px' }}
+                                        placeholder='compose a detailed description of your request'
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                    >
+                                    </textarea>
+<br/>
+                                    <label htmlFor="category">Category that best fit for your request</label>
+                      <select
+                                        name="reason"
+                                        id="reason"
+                                        className='form-control'
+                                    value={category_id}
+                                    onChange={(e) => setId(e.target.value)}
+                                    >
+                                  <option value="">Select Category</option>      
+                                  
+
+        {categories.map((category) => (
+            <option value={category._id}>{category.name}</option>
+        //   <li key={season.id}>{season}</li>
+        ))}
+                {/* categories.forEach(category => {
+                    
+                                        <option value={category._id}>{category.name}</option>
+                                      
+
+  
+}) */}
+
+</select>
+<div style={{ paddingTop: '50px', display: 'flex', justifyContent: 'flex-end' }}>
+                  <button className='nav-button' type="submit">Submit Request</button>
                 </div>
-
+</form>
+{/* <button>Submit</button> */}
+                                </div>
+                </div>
+</div>
             </div>
             {/* <section id='cm-intro'>
                 <div className='intro'>
@@ -70,4 +174,4 @@ const Become = () => {
         </Fragment >
     );
 }
-export default Become
+export default PostRequest
