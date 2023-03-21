@@ -83,7 +83,7 @@ const Feed = () => {
 
             {loading ? <Loader /> : (
                 <Fragment>
-                    <div className='firstcontainer'>
+                    <div className='firstcontainer' style={{}}>
                         <div className='secondcontainer'>
 
                             {/* sa mga transaction na */}
