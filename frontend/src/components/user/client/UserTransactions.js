@@ -85,7 +85,9 @@ const UserTransactions = () => {
 
             {loading ? <Loader /> : (
                 <Fragment>
+                    <MetaData title={'Transaction'} />
                     <div className='firstcontainer'>
+
                         <div className='secondcontainer'>
                             <div className='stickyOne'>
                                 <a className='selection'>All</a>
@@ -109,7 +111,7 @@ const UserTransactions = () => {
 
                             </div>
 
-                            {/* <MetaData title={'Buy Best Service Online'} />
+                            {/* 
 
                         <h1 id="animals_heading">Services</h1>
                         <section id="services" className="containerz mt-5">
@@ -122,7 +124,7 @@ const UserTransactions = () => {
                         </section> */}
                         </div>
                     </div>
-                    {/* <MetaData title={'Buy Best Animals Online'} />
+                    {/* 
                     <h1 id="animals_heading">Latest Animals</h1>
                     <section id="animals" className="container mt-5">
                         <div className="row">

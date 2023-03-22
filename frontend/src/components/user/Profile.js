@@ -1,8 +1,10 @@
 import React, { Fragment } from 'react'
-import { Link
+import {
+    Link
     // , useNavigate 
 } from 'react-router-dom'
-import { useSelector
+import {
+    useSelector
     // , useDispatch 
 } from 'react-redux'
 
@@ -20,7 +22,7 @@ const Profile = () => {
         <Fragment>
             {loading ? <Loader /> : (
                 <Fragment>
-                    <MetaData title={'Your Profile'} />
+                    <MetaData title={'My Profile'} />
 
                     <h2 className="mt-5 ml-5">My Profile</h2>
                     <div className="flex-container space-between">

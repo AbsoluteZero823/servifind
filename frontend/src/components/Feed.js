@@ -80,7 +80,7 @@ const Feed = () => {
 
         <Fragment>
 
-
+            <MetaData title={'Feed'} />
             {loading ? <Loader /> : (
                 <Fragment>
                     <div className='firstcontainer' style={{}}>
