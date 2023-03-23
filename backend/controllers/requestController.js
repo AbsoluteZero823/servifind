@@ -10,11 +10,11 @@ const { now } = require('mongoose');
 exports.newRequest = async (req, res, next) => {
     req.body.requested_by = req.user._id;
     const request = await Request.create(req.body);
-    console.log(request);
     if(request){
+        const addeddata = await Request.find({_id: request._id}).populate('requested_by category');
         res.status(201).json({
             success: true,
-            request
+            addeddata
         })
     }else{
         return next(new ErrorHandler('Server Error',400));
@@ -33,11 +33,42 @@ exports.getRequests = async (req, res, next) => {
 
 exports.getMyRequests = async (req, res, next) => {
     const requests = await Request.find({requested_by: req.user.id}).populate('requested_by category');
-    console.log(requests);
-    res.status(200).json({
-        success: true,
-        requests
+    if (requests){
+        res.status(200).json({
+            success: true,
+            requests
+        })
+    }else{
+        return next(new ErrorHandler('Server Error',400));
+    }
+    
+}
+
+exports.editMyRequest = async (req, res, next) => {
+    const requests = await Request.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
     })
+    if(requests){
+        res.status(200).json({
+            success: true,
+            requests
+        })
+    }else{
+        return next(new ErrorHandler('Server Error',400));
+    }
+}
+
+exports.deleteMyRequest = async (req, res, next) => {
+    const deleterequests = await Request.findByIdAndUpdate(req.params.id, {request_status: 'cancelled'});
+    if(deleterequests){
+        res.status(200).json({
+            success: true,
+            deleterequests
+        })
+    }else{
+        return next(new ErrorHandler('Server Error',400));
+    }
 }
 
 exports.getSingleRequest = async (req, res, next) => {

@@ -5,6 +5,9 @@ const { getRequests,
     newRequest,
     getSingleRequest,
     getMyRequests,
+    editMyRequest,
+    deleteMyRequest,
+
     PaymentReceived,
     PaymentSent,
     requestDone,
@@ -20,6 +23,9 @@ router.route('/requests').get(getRequests);
 router.route('/request/new').post(isAuthenticatedUser, newRequest);
 router.route('/request/:id').get(getSingleRequest);
 router.route('/myrequests').get(isAuthenticatedUser, getMyRequests);
+router.route('/myrequest/edit/:id').put(isAuthenticatedUser, editMyRequest);
+router.route('/myrequest/cancel/:id').put(isAuthenticatedUser, deleteMyRequest);
+
 // router.route('/request/:id').put(PaymentSent);
 // router.route('/request/received/:id').put(PaymentReceived);
 // router.route('/request/done/:id').put(requestDone);
