@@ -8,21 +8,32 @@ const { now } = require('mongoose');
 // const  Category  = require('../models/category');
 
 exports.newRequest = async (req, res, next) => {
-    console.log(req.body);
-    // req.body.user = req.user.id;
+    req.body.requested_by = req.user._id;
     const request = await Request.create(req.body);
-
-    res.status(201).json({
-        success: true,
-        request
-    })
+    console.log(request);
+    if(request){
+        res.status(201).json({
+            success: true,
+            request
+        })
+    }else{
+        return next(new ErrorHandler('Server Error',400));
+    }
+    
 }
 
 //all Requests
 exports.getRequests = async (req, res, next) => {
-
-
     const requests = await Request.find().populate('requested_by');
+    res.status(200).json({
+        success: true,
+        requests
+    })
+}
+
+exports.getMyRequests = async (req, res, next) => {
+    const requests = await Request.find({requested_by: req.user.id}).populate('requested_by category');
+    console.log(requests);
     res.status(200).json({
         success: true,
         requests

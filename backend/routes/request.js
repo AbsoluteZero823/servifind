@@ -4,6 +4,7 @@ const router = express.Router();
 const { getRequests,
     newRequest,
     getSingleRequest,
+    getMyRequests,
     PaymentReceived,
     PaymentSent,
     requestDone,
@@ -16,8 +17,9 @@ const { getRequests,
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/requests').get(getRequests);
-router.route('/request/new').post(newRequest);
+router.route('/request/new').post(isAuthenticatedUser, newRequest);
 router.route('/request/:id').get(getSingleRequest);
+router.route('/myrequests').get(isAuthenticatedUser, getMyRequests);
 // router.route('/request/:id').put(PaymentSent);
 // router.route('/request/received/:id').put(PaymentReceived);
 // router.route('/request/done/:id').put(requestDone);
