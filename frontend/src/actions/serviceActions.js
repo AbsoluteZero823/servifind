@@ -32,23 +32,8 @@ import {
     CLEAR_ERRORS
 } from '../constants/serviceConstants';
 
-//  export const getDiseases = (currentPage=1,keyword='') => async (dispatch) => {
-//  try {
-//  dispatch({type: ALL_SERVICES_REQUEST })
-//  const { data }   = await axios.get(`/api/v1/adoptables?keyword=${keyword}&page=${currentPage}`);
 
-//  dispatch({
-//  type: ALL_SERVICES_SUCCESS,
-//  payload: data
-//  })
-//  } catch(error) {
-//  dispatch({
-//  type: ALL_SERVICES_FAIL,
-//  payload: error.response.data.message
-//  })
-//  }
-// }
-export const getServices = (keyword ='') => async (dispatch) => {
+export const getServices = (keyword = '') => async (dispatch) => {
     try {
 
         dispatch({ type: ALL_SERVICES_REQUEST })
@@ -166,7 +151,7 @@ export const deleteService = (id) => async (dispatch) => {
     }
 
 
-    
+
 }
 
 export const SingleService = (id) => async (dispatch) => {

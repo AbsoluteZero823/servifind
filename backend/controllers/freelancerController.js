@@ -52,12 +52,7 @@ exports.getSingleFreelancer = async (req, res, next) => {
     const freelancer = await Freelancer.findById(req.params.id)
         .populate('user_id');
 
-    // if(!injury_disease) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Injury_disease not found'
-    //     })
-    // }
+
     if (!freelancer) {
         return next(new ErrorHandler('Freelancer not found', 404));
     }

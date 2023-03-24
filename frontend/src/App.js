@@ -41,6 +41,7 @@ import MyTransactions from './components/user/MyTransactions';
 import UserTransactions from './components/user/client/UserTransactions';
 import Feed from './components/Feed';
 import PostRequest from './components/user/client/PostRequest';
+import ManageRequest from './components/user/client/ManageRequest'
 
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux'
@@ -125,8 +126,10 @@ function App() {
 
                   <Route path="/transactions" element={<MyTransactions />} exact />
                   <Route path="/user/transactions" element={<UserTransactions />} exact />
+                  <Route path="/feed/category/:categoryId" element={<Feed />} exact />
                   <Route path="/feed" element={<Feed />} exact />
                   <Route path="/post-request" element={<PostRequest />} exact />
+                  <Route path="/manage-requests" element={<ManageRequest />} exact />
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>

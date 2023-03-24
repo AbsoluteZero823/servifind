@@ -25,7 +25,7 @@ const InquiriesList = () => {
 
 
     // const { users } = useSelector(state => state.users)
-    const { loading, inquiries, error,  } = useSelector(state => state.inquiries);
+    const { loading, inquiries, error, } = useSelector(state => state.inquiries);
 
 
     // const [currentPage, setCurrentPage] = useState(1)
@@ -61,7 +61,7 @@ const InquiriesList = () => {
 
 
 
-    
+
     return (
         <Fragment>
 
@@ -69,11 +69,11 @@ const InquiriesList = () => {
             {loading ? <Loader /> : (
                 <Fragment>
                     <div className='containerz'>
-                        <MetaData title={'Buy Best Service Online'} />
+                        <MetaData title={'My Inquiries'} />
 
                         <h1 id="animals_heading">My Inquiries</h1>
                         <section id="services" className="containerz mt-5">
-                            <div className="row" style={{justifyContent: 'center'}}>
+                            <div className="row" style={{ justifyContent: 'center' }}>
                                 {inquiries && inquiries.map(inquiry => (
 
                                     <MyInquiries key={inquiry._id} inquiry={inquiry} />
@@ -81,7 +81,7 @@ const InquiriesList = () => {
                             </div>
                         </section>
                     </div>
-                    {/* <MetaData title={'Buy Best Animals Online'} />
+                    {/* 
                     <h1 id="animals_heading">Latest Animals</h1>
                     <section id="animals" className="container mt-5">
                         <div className="row">

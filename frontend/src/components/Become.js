@@ -27,6 +27,7 @@ const Become = () => {
   return (
     <Fragment>
       <section id='cm-intro'>
+        <MetaData title={'Become a Freelancer'} />
         <div className='intro'>
           <div className='welcome' style={{ padding: '0px 100px' }}>
 
@@ -131,7 +132,7 @@ const Become = () => {
 
       {/* {loading ? <Loader /> : (
         <Fragment>
-          <MetaData title={'Buy Best Animals Online'} />
+        
           <h1 id="animals_heading">Latest Animals</h1>
           <section id="animals" className="container mt-5">
             <div className="row">

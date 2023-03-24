@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 import $ from 'jquery';
 import moment from 'moment/moment'
 
+import { getServices } from '../actions/serviceActions';
+
 const Request = ({ request }) => {
 
 
@@ -22,27 +24,13 @@ const Request = ({ request }) => {
     // const { users } = useSelector(state => state.users)
     // const { loading, services, error, servicesCount, resPerPage, filteredServicesCount } = useSelector(state => state.services);
 
+    const { services } = useSelector(state => state.services);
     const { loading, error, transactions } = useSelector(state => state.transactions);
     const { loadings, detailserror, transaction } = useSelector(state => state.transactionDetails);
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
 
-    useEffect(() => {
 
-
-        // if (error) {
-        //     alert.error(error);
-        //     dispatch(clearErrors())
-        // }
-
-        // if (isDeleted) {
-        //     alert.success('Animal deleted successfully');
-        //     navigate('/animals');
-        //     dispatch({ type: DELETE_ANIMALS_RESET })
-        // }
-
-
-    }, [dispatch, alert])
 
     useEffect(() => {
         if (error) {
@@ -50,7 +38,7 @@ const Request = ({ request }) => {
             return alert.error(error)
         }
 
-
+        dispatch(getServices());
 
     }, [dispatch, alert, error]);
 
@@ -75,16 +63,31 @@ const Request = ({ request }) => {
 
     }
 
+    const SwalAlert = () => {
+        Swal.fire(
+            'This is your own request',
+            'You cant offer on your request',
+            'warning'
+        )
+    }
+
+
+    const MyServices = services.filter(function (service) {
+        return service.user._id === user._id;
+
+    });
+
     return (
 
         <Fragment>
 
-            <div className="card post" style={{ margin: 'auto', marginTop: "50px", flexDirection: 'column' }}>
+            <div className="card post" style={{ margin: 'auto', margin: "10px 0px", flexDirection: 'column' }}>
                 <div className="post-header">
                     <div className="post-author-info">
                         <img src={request.requested_by.avatar.url} />
                         <div>
                             <div>
+                                <div className="card__label-right" style={{ fontSize: '12px' }}>{request.category.name}</div>
                                 <span className="author-name">{request.requested_by.name}</span>
                                 <i className="verified-icon"></i>
                             </div>
@@ -106,16 +109,26 @@ const Request = ({ request }) => {
                 <div className='dividerLine'></div>
                 <div className="post-actions">
                     <div className="actions">
-                        <div className="action" data-toggle="modal" data-target="#MakeOfferModal">
-                            {/* <i className="like-icon"></i> */}
-                            <a href="#">
-                                <span>Make an Offer</span>
-                            </a>
+                        {request.requested_by._id === user._id && (
+                            <div className="action" onClick={() => SwalAlert()}>
+                                {/* <i className="like-icon"></i> */}
+                                <a href="#">
+                                    <span>Make an Offer</span>
+                                </a>
 
-                        </div>
+                            </div>
 
+                        )}
+                        {request.requested_by._id != user._id && (
+                            <div className="action" data-toggle="modal" data-target="#MakeOfferModal">
+                                {/* <i className="like-icon"></i> */}
+                                <a href="#">
+                                    <span>Make an Offer</span>
+                                </a>
 
+                            </div>
 
+                        )}
                     </div>
 
                 </div>
@@ -150,9 +163,14 @@ const Request = ({ request }) => {
                                     // onChange={(e) => setReason(e.target.value)}
                                     >
                                         <option value="">Select Service</option>
-                                        <option value="spam">service1</option>
+
+                                        {MyServices.map((service) => (
+                                            <option key={service._id} value={service._id}>{service.name}</option>
+                                            //   <li key={season.id}>{season}</li>
+                                        ))}
+                                        {/* <option value="spam">service1</option>
                                         <option value="harassment">service2</option>
-                                        <option value="inappropriate-content">service3</option>
+                                        <option value="inappropriate-content">service3</option> */}
                                     </select>
                                     <br />
                                     <label>Description: </label>

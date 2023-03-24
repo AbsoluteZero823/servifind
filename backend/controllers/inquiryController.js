@@ -38,7 +38,7 @@ exports.getInquiries = async (req, res, next) => {
         },
         {
             path: 'freelancer',
-            populate: {path: 'user_id'}
+            populate: { path: 'user_id' }
         }
     ]);
     res.status(200).json({
@@ -75,7 +75,7 @@ exports.getClientInquiries = async (req, res, next) => {
         },
         {
             path: 'freelancer',
-            populate: {path: 'user_id'}
+            populate: { path: 'user_id' }
         }
     ]);
     res.status(200).json({
@@ -95,12 +95,7 @@ exports.getSingleInquiry = async (req, res, next) => {
                 populate: { path: 'category' }
             }]);
 
-    // if(!injury_disease) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Injury_disease not found'
-    //     })
-    // }
+
     if (!inquiry) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }
@@ -126,12 +121,7 @@ exports.getSingleInquiry = async (req, res, next) => {
 
 exports.deleteInquiry = async (req, res, next) => {
     const inquiry = await Inquiry.findById(req.params.id);
-    // if(!injury_disease) {
-    //     return res.status(404).json({
-    //         success:false,
-    //         message: 'Injury_disease not found'
-    //     })
-    // }
+
     if (!inquiry) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }

@@ -86,12 +86,12 @@ const Register = () => {
     return (
         <Fragment>
 
-            <MetaData title={'Register User'} />
+            <MetaData title={'Sign Up'} />
 
             <div className="row wrapper">
                 <div className="col-10 col-lg-5">
                     <form className="shadow-lg" id="formz" onSubmit={submitHandler} encType='multipart/form-data'>
-                        <h1 className="mb-3">Register</h1>
+                        <h1 className="mb-3">Sign Up</h1>
 
                         <div className="form-group">
                             <label htmlFor="email_field">Name</label>

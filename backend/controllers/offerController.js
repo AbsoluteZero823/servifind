@@ -1,5 +1,5 @@
 const { reset } = require('nodemon');
-const Rating = require('../models/rating');
+const Offer = require('../models/offer');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
@@ -7,54 +7,30 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const { now } = require('mongoose');
 // const  Category  = require('../models/category');
 
-exports.newRating = async (req, res, next) => {
+exports.newOffer = async (req, res, next) => {
     console.log(req.body);
     // req.body.user = req.user.id;
-    const rating = await Rating.create(req.body);
+    const offer = await Offer.create(req.body);
 
     res.status(201).json({
         success: true,
-        rating
+        offer
     })
 }
 
-//all Ratings
-exports.getRatings = async (req, res, next) => {
+//all Offers
+exports.getOffers = async (req, res, next) => {
 
 
-    const ratings = await Rating.find().populate([{
-        path: 'inquiry_id',
-
-        populate: { path: 'customer' }
-    },
-    {
-        path: 'inquiry_id',
-        model: 'Inquiry',
-        populate: {
-            path: 'freelancer',
-            model: 'Freelancer',
-            populate: {
-                path: 'user_id',
-                model: 'user'
-            }
-        }
-    },
-    {
-        path: 'inquiry_id',
-        model: 'Inquiry',
-        populate: {
-            path: 'service_id'
-        }
-    }
-    ]);
+    const offers = await Offer.find().populate('offered_by');
     res.status(200).json({
         success: true,
-        ratings
+        offers
     })
 }
 
-exports.getSingleRating = async (req, res, next) => {
-    const rating = await Rating.findById(req.params.id)
+exports.getSingleOffer = async (req, res, next) => {
+    const offer = await Offer.findById(req.params.id)
         .populate([{
             path: 'inquiry_id',
 
@@ -74,17 +50,14 @@ exports.getSingleRating = async (req, res, next) => {
         }
         ]);
 
-    if (!rating) {
+
+    if (!offer) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }
     res.status(200).json({
         success: true,
-        rating
+        offer
     })
 }
-
-
-
-
 
 

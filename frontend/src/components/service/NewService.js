@@ -11,21 +11,7 @@ import { NEW_SERVICES_RESET } from '../../constants/serviceConstants'
 
 const NewService = () => {
     const [name, setName] = useState('')
-    // const [name, setName] = useState('')
-    // const [age, setAge] = useState('')
-    // const [gender, setGender] = useState('')
-    // const [breed, setBreed] = useState('')
-    // const [type, setType] = useState('')
 
-    // const [disease, setDisease] = useState({
-    //     name: '',
-
-    // })
-
-    // const { name } = disease;
-
-    // const [images, setImage] = useState('')
-    // const [imagePreview, setImagePreview] = useState('/images/default_avatar.jpg')
 
 
     const alert = useAlert();
@@ -59,48 +45,12 @@ const NewService = () => {
 
         const formData = new FormData();
         formData.set('name', name);
-        // formData.set('age', age);
-        // formData.set('gender', gender);
-        // formData.set('breed', breed);
-        // formData.set('type', type);
-        // formData.set('images', images);
+
 
         dispatch(newService(formData))
     }
 
-    // const onChange = e => {
 
-    //         const reader = new FileReader();
-
-    //         reader.onload = () => {
-    //             if (reader.readyState === 2) {
-    //                 setAvatarPreview(reader.result)
-    //                 setAvatar(reader.result)
-    //             }
-    //         }
-
-    //         reader.readAsDataURL(e.target.files[0])
-    // }
-
-
-    //    const onChange = e => {
-    //         if (e.target.name === 'images') {
-
-    //             const reader = new FileReader();
-
-    //             reader.onload = () => {
-    //                 if (reader.readyState === 2) {
-    //                     setImagePreview(reader.result)
-    //                     setImage(reader.result)
-    //                 }
-    //             }
-
-    //             reader.readAsDataURL(e.target.files[0])
-
-    //         } else {
-    //             setDisease({ ...disease, [e.target.name]: e.target.value })
-    //         }
-    //     }
 
     return (
         <Fragment>

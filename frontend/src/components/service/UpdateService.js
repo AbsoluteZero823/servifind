@@ -30,8 +30,7 @@ const UpdateService = () => {
             dispatch(getServiceDetails(id))
         } else {
             setName(service.name);
-            // console.log(service.name);
-            // setStatus(disease.status);
+
         }
 
         if (error) {
@@ -193,7 +192,7 @@ const UpdateService = () => {
 
                         <button type="submit" className="btn update-btn btn-block mt-4 mb-3" disabled={loading ? true : false} >Update</button>
                         {/* <button type="submit" className="btn update-btn btn-block mt-4 mb-3" >Update</button> */}
-                        <Link to="/diseases" className="btn update-btn btn-block mt-4 mb-3">
+                        <Link to="/services" className="btn update-btn btn-block mt-4 mb-3">
                             Cancel
                         </Link>
                     </form>

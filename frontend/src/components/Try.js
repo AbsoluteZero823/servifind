@@ -32,7 +32,7 @@ const Try = () => {
     let { keyword } = useParams();
 
     useEffect(() => {
-    
+
 
         // if (error) {
         //     alert.error(error);
@@ -74,11 +74,11 @@ const Try = () => {
             {loading ? <Loader /> : (
                 <Fragment>
                     <div className='containerz'>
-                        <MetaData title={'Buy Best Service Online'} />
+                        <MetaData title={'Services'} />
 
                         <h1 id="animals_heading">Services</h1>
                         <section id="services" className="containerz mt-5">
-                            <div className="row" style={{justifyContent: 'space-between'}}>
+                            <div className="row" style={{ justifyContent: 'space-between' }}>
                                 {services && services.map(service => (
 
                                     <Service key={service._id} service={service} />
@@ -86,7 +86,7 @@ const Try = () => {
                             </div>
                         </section>
                     </div>
-                    {/* <MetaData title={'Buy Best Animals Online'} />
+                    {/* 
                     <h1 id="animals_heading">Latest Animals</h1>
                     <section id="animals" className="container mt-5">
                         <div className="row">

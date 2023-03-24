@@ -2,7 +2,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import Pagination from 'react-js-pagination';
 import { Link, useParams } from "react-router-dom";
-// import MetaData from './layout/MetaData'
+import MetaData from '../../layout/MetaData';
 // import Animal from './animal/Animal'
 // import Loader from './layout/Loader'
 import Swal from 'sweetalert2';
@@ -33,22 +33,22 @@ const PostRequest = () => {
     const [description, setDescription] = useState('');
 
     useEffect(() => {
-      dispatch(getCategories())
-    
-      if (success) {
-        navigate('/manage-request');
-        // alert.success('Service created successfully');
-        Swal.fire(
-            'Request Successfully Created!',
-            '',
-            'success'
-        )
-        dispatch({ type: NEW_CATEGORY_RESET })
-    }
+        dispatch(getCategories())
 
-      }, [dispatch, alert, error, success, navigate])
+        if (success) {
+            navigate('/manage-requests');
+            // alert.success('Service created successfully');
+            Swal.fire(
+                'Request Successfully Created!',
+                '',
+                'success'
+            )
+            dispatch({ type: NEW_CATEGORY_RESET })
+        }
 
-      const submitHandler = (e) => {
+    }, [dispatch, alert, error, success, navigate])
+
+    const submitHandler = (e) => {
         e.preventDefault();
         const requestData = new FormData();
         requestData.set('category', category_id);
@@ -61,11 +61,11 @@ const PostRequest = () => {
         // dispatch(RateDone(transaction._id));
         dispatch(newRequest(requestData));
 
-      
 
 
-// TODO:
-//         KEN INAVIGATE MO DAPAT SA MANAGE REQUEST AFTER MAG SUCCESS TO
+
+        // TODO:
+        //         KEN INAVIGATE MO DAPAT SA MANAGE REQUEST AFTER MAG SUCCESS TO
 
 
 
@@ -75,48 +75,49 @@ const PostRequest = () => {
     }
     return (
         <Fragment>
+            <MetaData title={'Post Request'} />
             <div className='newstyle'>
                 <div className='mainsection'>
-                <div className='firstsection'>
-                    <h3 className=''>Post Request</h3>
-<img src='https://peopleintouch.com/wp-content/uploads/2019/11/illustratie-partner-compact.png' style={{height:'50%', width:'100%'}}></img>
-                </div>
-                {/* forms */}
-                <div className='secondsection'>
-                <div style={{ padding: '10px 10px' }}>
+                    <div className='firstsection'>
+                        <h3 className=''>Post Request</h3>
+                        <img src='https://peopleintouch.com/wp-content/uploads/2019/11/illustratie-partner-compact.png' style={{ height: '50%', width: '100%' }}></img>
+                    </div>
+                    {/* forms */}
+                    <div className='secondsection'>
+                        <div style={{ padding: '10px 10px' }}>
 
-                                    {/* populate the service of the logged in freelancer */}
-                                  
+                            {/* populate the service of the logged in freelancer */}
 
-                                    <form onSubmit={submitHandler}>
-                                    <br />
-                                    <label>What are you looking for? </label>
-                                    <textarea
-                                        name="description"
-                                        id="description" className="form-control mt-3"
-                                        style={{ minHeight: '200px' }}
-                                        placeholder='compose a detailed description of your request'
+
+                            <form onSubmit={submitHandler}>
+                                <br />
+                                <label>What are you looking for? </label>
+                                <textarea
+                                    name="description"
+                                    id="description" className="form-control mt-3"
+                                    style={{ minHeight: '200px' }}
+                                    placeholder='compose a detailed description of your request'
                                     value={description}
                                     onChange={(e) => setDescription(e.target.value)}
-                                    >
-                                    </textarea>
-<br/>
-                                    <label htmlFor="category">Category that best fit for your request</label>
-                      <select
-                                        name="reason"
-                                        id="reason"
-                                        className='form-control'
+                                >
+                                </textarea>
+                                <br />
+                                <label htmlFor="category">Category that best fit for your request</label>
+                                <select
+                                    name="reason"
+                                    id="reason"
+                                    className='form-control'
                                     value={category_id}
                                     onChange={(e) => setId(e.target.value)}
-                                    >
-                                  <option value="">Select Category</option>      
-                                  
+                                >
+                                    <option value="">Select Category</option>
 
-        {categories.map((category) => (
-            <option value={category._id}>{category.name}</option>
-        //   <li key={season.id}>{season}</li>
-        ))}
-                {/* categories.forEach(category => {
+
+                                    {categories.map((category) => (
+                                        <option value={category._id}>{category.name}</option>
+                                        //   <li key={season.id}>{season}</li>
+                                    ))}
+                                    {/* categories.forEach(category => {
                     
                                         <option value={category._id}>{category.name}</option>
                                       
@@ -124,15 +125,15 @@ const PostRequest = () => {
   
 }) */}
 
-</select>
-<div style={{ paddingTop: '50px', display: 'flex', justifyContent: 'flex-end' }}>
-                  <button className='nav-button' type="submit">Submit Request</button>
-                </div>
-</form>
-{/* <button>Submit</button> */}
+                                </select>
+                                <div style={{ paddingTop: '50px', display: 'flex', justifyContent: 'flex-end' }}>
+                                    <button className='nav-button' type="submit">Submit Request</button>
                                 </div>
+                            </form>
+                            {/* <button>Submit</button> */}
+                        </div>
+                    </div>
                 </div>
-</div>
             </div>
             {/* <section id='cm-intro'>
                 <div className='intro'>
