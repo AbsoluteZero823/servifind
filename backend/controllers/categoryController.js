@@ -20,14 +20,28 @@ exports.newCategory = async (req, res, next) => {
 
 //all Categories
 exports.getCategories = async (req, res, next) => {
-
-
-    const categories = await Category.find();
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: 'services',
+          localField: '_id',
+          foreignField: 'category',
+          as: 'services',
+        },
+      },
+      {
+        $addFields: {
+          serviceCount: { $size: '$services' },
+        },
+      },
+    ]);
     res.status(200).json({
-        success: true,
-        categories
-    })
-}
+      success: true,
+      categories,
+    });
+  };
+  
+  
 
 exports.getSingleCategory = async (req, res, next) => {
     const category = await Category.findById(req.params.id)

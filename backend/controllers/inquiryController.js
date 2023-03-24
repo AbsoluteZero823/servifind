@@ -8,23 +8,29 @@ const Category = require('../models/category');
 //create new service
 
 exports.newInquiry = async (req, res, next) => {
-    console.log(req.body);
-    // req.body.user = req.user.id;
-    const inquiry = await Inquiry.create(req.body);
+    // Check if an inquiry already exists for the user in the same service and freelancer
+    const existingInquiry = await Inquiry.findOne({
+        customer: req.user.id,
+        service_id: req.body.service_id,
+        freelancer: req.body.freelancer
+    });
+    if (existingInquiry) {
+        return next(new ErrorHandler('You have already created an inquiry for this service and freelancer', 400));
+    }
 
+    req.body.customer = req.user.id;
+    const inquiry = await Inquiry.create(req.body);
     res.status(201).json({
         success: true,
         inquiry
-    })
-}
+    });
+};
+
 
 //get all inquiries
 exports.getInquiries = async (req, res, next) => {
-
-
     const inquiries = await Inquiry.find().populate(['customer', {
         path: 'service_id',
-
         populate: { path: 'user' }
     }, {
             path: 'service_id',
@@ -43,36 +49,25 @@ exports.getInquiries = async (req, res, next) => {
 
 // get My inquiries
 exports.getMyInquiries = async (req, res, next) => {
-
-
     const user = await User.findById(req.user.id);
-
     const inquiries = await Inquiry.find({ customer: user._id }).populate(['customer', {
         path: 'service_id',
-
         populate: { path: 'user' }
     }, {
             path: 'service_id',
             populate: { path: 'category' }
         }]);
-
-
     res.status(200).json({
         success: true,
         inquiries
-
     })
 }
 
 //get Client inquiries
 exports.getClientInquiries = async (req, res, next) => {
-
-
     const user = await User.findById(req.user.id);
-
     const inquiries = await Inquiry.find().populate(['customer', {
         path: 'service_id',
-
         populate: { path: 'user' }
     }, {
             path: 'service_id',
@@ -83,8 +78,6 @@ exports.getClientInquiries = async (req, res, next) => {
             populate: {path: 'user_id'}
         }
     ]);
-
-
     res.status(200).json({
         success: true,
         inquiries
