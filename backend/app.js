@@ -22,6 +22,7 @@ const rating = require('./routes/rating');
 const report = require('./routes/report');
 const request = require('./routes/request');
 const category = require('./routes/category');
+const offer = require('./routes/offer');
 // const message = require('./routes/message');
 // app.use('/api/v1', products);
 // app.use('/api/v1', auth);
@@ -38,6 +39,7 @@ app.use('/api/v1', rating);
 app.use('/api/v1', report);
 app.use('/api/v1', request);
 app.use('/api/v1', category);
+app.use('/api/v1', offer);
 app.use(errorMiddleware);
 
 module.exports = app
