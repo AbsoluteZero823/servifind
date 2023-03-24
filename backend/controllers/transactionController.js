@@ -81,12 +81,7 @@ exports.getSingleTransaction = async (req, res, next) => {
         }
         ]);
 
-    // if(!injury_disease) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Injury_disease not found'
-    //     })
-    // }
+
     if (!transaction) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }

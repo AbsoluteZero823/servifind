@@ -103,23 +103,23 @@ const ManageRequest = () => {
 
                 offers: <Fragment>
                     <div className='offers'>
-                    <a href="#" class="notification">
-                    <span style={{color:'white'}}>Offers</span>
-                        <span class="badge">3</span>
-                        {/* <i className="fa fa-pencil-alt"></i> */}
-                    </a>
+                        <a href="#" className="notification">
+                            <span style={{ color: 'white' }}>Offers</span>
+                            <span className="badge">3</span>
+                            {/* <i className="fa fa-pencil-alt"></i> */}
+                        </a>
                     </div>
                 </Fragment>,
 
                 actions: <Fragment>
                     <div className='action'>
-                    <button className="btn btn-primary py-1 px-2">
-                        <i className="fa fa-pencil-alt"></i>
-                    </button>
-                    {/* <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteUserHandler(service._id)}> */}
-                    <button className="btn btn-danger py-1 px-2 ml-2">
-                        <i className="fa fa-trash"></i>
-                    </button>
+                        <button className="btn btn-primary py-1 px-2">
+                            <i className="fa fa-pencil-alt"></i>
+                        </button>
+                        {/* <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteUserHandler(service._id)}> */}
+                        <button className="btn btn-danger py-1 px-2 ml-2">
+                            <i className="fa fa-trash"></i>
+                        </button>
                     </div>
                 </Fragment>
 

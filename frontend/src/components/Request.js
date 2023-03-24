@@ -87,6 +87,7 @@ const Request = ({ request }) => {
                         <img src={request.requested_by.avatar.url} />
                         <div>
                             <div>
+                                <div className="card__label-right" style={{ fontSize: '12px' }}>{request.category.name}</div>
                                 <span className="author-name">{request.requested_by.name}</span>
                                 <i className="verified-icon"></i>
                             </div>
@@ -108,24 +109,24 @@ const Request = ({ request }) => {
                 <div className='dividerLine'></div>
                 <div className="post-actions">
                     <div className="actions">
-                    {request.requested_by._id=== user._id && (
-                        <div className="action" onClick={ ()=>SwalAlert()}>
-                            {/* <i className="like-icon"></i> */}
-                            <a href="#">
-                                <span>Make an Offer</span>
-                            </a>
+                        {request.requested_by._id === user._id && (
+                            <div className="action" onClick={() => SwalAlert()}>
+                                {/* <i className="like-icon"></i> */}
+                                <a href="#">
+                                    <span>Make an Offer</span>
+                                </a>
 
-                        </div>
+                            </div>
 
-                    )}
-                      {request.requested_by._id != user._id && (
-                      <div className="action" data-toggle="modal" data-target="#MakeOfferModal">
-                            {/* <i className="like-icon"></i> */}
-                            <a href="#">
-                                <span>Make an Offer</span>
-                            </a>
+                        )}
+                        {request.requested_by._id != user._id && (
+                            <div className="action" data-toggle="modal" data-target="#MakeOfferModal">
+                                {/* <i className="like-icon"></i> */}
+                                <a href="#">
+                                    <span>Make an Offer</span>
+                                </a>
 
-                        </div>
+                            </div>
 
                         )}
                     </div>
@@ -164,9 +165,9 @@ const Request = ({ request }) => {
                                         <option value="">Select Service</option>
 
                                         {MyServices.map((service) => (
-                                        <option key={service._id} value={service._id}>{service.name}</option>
-                                        //   <li key={season.id}>{season}</li>
-                                    ))}
+                                            <option key={service._id} value={service._id}>{service.name}</option>
+                                            //   <li key={season.id}>{season}</li>
+                                        ))}
                                         {/* <option value="spam">service1</option>
                                         <option value="harassment">service2</option>
                                         <option value="inappropriate-content">service3</option> */}

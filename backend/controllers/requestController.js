@@ -1,6 +1,6 @@
 const { reset } = require('nodemon');
 const Request = require('../models/request');
-// const User = require('../models/user');
+const Category = require('../models/category')
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
@@ -20,9 +20,12 @@ exports.newRequest = async (req, res, next) => {
 
 //all Requests
 exports.getRequests = async (req, res, next) => {
+    // const servicesCount = await Service.countDocuments();
+    const sort = { _id: -1 };
+    const apiFeatures = new APIFeatures(Request.find().sort(sort).populate(['requested_by', 'category']), req.query).filter();
 
-
-    const requests = await Request.find().populate('requested_by');
+    const requests = await apiFeatures.query;
+    // const requests = await Request.find().populate(['requested_by', 'category']);
     res.status(200).json({
         success: true,
         requests
@@ -50,12 +53,7 @@ exports.getSingleRequest = async (req, res, next) => {
         }
         ]);
 
-    // if(!injury_disease) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Injury_disease not found'
-    //     })
-    // }
+
     if (!request) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }

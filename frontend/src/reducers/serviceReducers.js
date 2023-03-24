@@ -34,35 +34,7 @@ import {
     CLEAR_ERRORS
 } from '../constants/serviceConstants'
 
-//   export const diseasesReducer = (state = { diseases:[] }, action) => {
-//     switch(action.type) {
-//          case ALL_SERVICES_REQUEST:
-//              return {
-//                 loading: true,
-//                 diseases:[]
-//             }
-//         case ALL_SERVICES_SUCCESS:
-//             return {
-//                 loading: false,
-//                 diseases: action.payload.diseases,
-//                 diseasesCount: action.payload.diseasesCount,
-//                 resPerPage: action.payload.resPerPage,
-//                 filteredDiseasesCount: action.payload.filteredDiseasesCount
-//             }
-//         case ALL_SERVICES_FAIL:
-//             return {
-//             loading:false,
-//             error: action.payload
-//             }
-//          case CLEAR_ERRORS:
-//             return {
-//             ...state,
-//             error: null
-//             }
-//          default:
-//             return state;
-//             }
-//   }
+
 export const servicesReducer = (state = { services: [] }, action) => {
     switch (action.type) {
 
@@ -143,7 +115,7 @@ export const newServiceReducer = (state = { service: {} }, action) => {
             return {
                 loading: false,
                 success: action.payload.success,
-                disease: action.payload.disease
+                services: action.payload.service
             }
 
         case NEW_SERVICES_FAIL:

@@ -58,12 +58,19 @@ export const newRequest = (requestData) => async (dispatch) => {
 
 
 
-export const getRequests = () => async (dispatch) => {
+export const getRequests = (categoryId) => async (dispatch) => {
     try {
 
         dispatch({ type: GET_REQUESTS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/requests`)
+        let link = `/api/v1/requests?`
+
+        if (categoryId) {
+            link = `/api/v1/requests?category=${categoryId}`
+
+            // const { data } = await axios.get(`/api/v1/requests`)
+        }
+        const { data } = await axios.get(link)
 
         dispatch({
             type: GET_REQUESTS_SUCCESS,

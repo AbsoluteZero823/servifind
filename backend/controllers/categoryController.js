@@ -31,14 +31,9 @@ exports.getCategories = async (req, res, next) => {
 
 exports.getSingleCategory = async (req, res, next) => {
     const category = await Category.findById(req.params.id)
-       ;
+        ;
 
-    // if(!injury_disease) {
-    //     return res.status(404).json({
-    //         success: false,
-    //         message: 'Injury_disease not found'
-    //     })
-    // }
+
     if (!category) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }

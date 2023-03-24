@@ -126,6 +126,7 @@ function App() {
 
                   <Route path="/transactions" element={<MyTransactions />} exact />
                   <Route path="/user/transactions" element={<UserTransactions />} exact />
+                  <Route path="/feed/category/:categoryId" element={<Feed />} exact />
                   <Route path="/feed" element={<Feed />} exact />
                   <Route path="/post-request" element={<PostRequest />} exact />
                   <Route path="/manage-requests" element={<ManageRequest />} exact />

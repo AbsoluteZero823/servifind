@@ -422,7 +422,7 @@ exports.activateUser = async (req, res, next) => {
         status: "activated"
     }
     if (!user) {
-        return next(new ErrorHandler('Injury disease not found', 404));
+        return next(new ErrorHandler('User not found', 404));
     }
     user = await User.findByIdAndUpdate(req.params.id, UserData, {
         new: true,
@@ -443,7 +443,7 @@ exports.deactivateUser = async (req, res, next) => {
 
 
     if (!user) {
-        return next(new ErrorHandler('Injury disease not found', 404));
+        return next(new ErrorHandler('User  not found', 404));
     }
     user = await User.findByIdAndUpdate(req.params.id, serData, {
         new: true,
