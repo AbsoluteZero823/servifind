@@ -9,6 +9,7 @@ import { getTransactionsReducer, newTransactionReducer, transactionDetailsReduce
 import { freelancerDetailsReducer } from './reducers/freelancerReducers';
 import { getRequestsReducer, newRequestReducer } from './reducers/requestReducers';
 import { getCategoriesReducer } from './reducers/categoryReducers';
+import { getOffersReducer, newOfferReducer, offerDetailsReducer, getRequestOffersReducer } from './reducers/offerReducers';
 // import { getTransactions } from '../../backend/controllers/transactionController';
 const reducer = combineReducers({
 
@@ -40,7 +41,9 @@ const reducer = combineReducers({
     requests: getRequestsReducer,
     addRequest: newRequestReducer,
 
-    categories: getCategoriesReducer
+    categories: getCategoriesReducer,
+    offers: getOffersReducer,
+    requestoffers: getRequestOffersReducer
 })
 let initialState = {
 }

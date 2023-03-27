@@ -791,13 +791,13 @@ const MyTransactions = () => {
                                             onChange={(e) => setReason(e.target.value)}
                                         >
                                             <option value="">Select Reason</option>
-                                            <option value="spam">Missed deadlines</option>
-                                            <option value="harassment">Poor work quality</option>
-                                            <option value="inappropriate-content">Plagiarism</option>
-                                            <option value="inappropriate-content">Unprofessional behavior</option>
-                                            <option value="inappropriate-content">Harassment</option>
-                                            <option value="inappropriate-content">Nudity or sexual content</option>
-                                            <option value="inappropriate-content">Terrorism or violence</option>
+                                            <option value="Missed deadlines">Missed deadlines</option>
+                                            <option value="Poor work quality">Poor work quality</option>
+                                            <option value="Plagiarism">Plagiarism</option>
+                                            <option value="Unprofessional behavior">Unprofessional behavior</option>
+                                            <option value="Harassment">Harassment</option>
+                                            <option value="Nudity or sexual content">Nudity or sexual content</option>
+                                            <option value="Terrorism or violence">Terrorism or violence</option>
 
 
                                         </select>

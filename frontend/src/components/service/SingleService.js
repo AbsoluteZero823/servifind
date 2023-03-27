@@ -18,8 +18,8 @@ const SingleService = () => {
     const [instruction, setInstruction] = useState('')
     const [service_id, setService_id] = useState('')
     const [customer, setCustomer] = useState('')
-    const [freelancer,setFreelancer] = useState('')
-    const [attachments,setAttachments] = useState('')
+    const [freelancer, setFreelancer] = useState('')
+    const [attachments, setAttachments] = useState('')
 
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -29,34 +29,34 @@ const SingleService = () => {
     const { service, loading } = useSelector(state => state.serviceDetails)
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
-    const { inquiry, error, success} = useSelector(state => state.inquiry)
+    const { inquiry, error, success } = useSelector(state => state.inquiry)
     // const { loading, error, services } = useSelector(state => state.services);
     const { id } = useParams();
 
     useEffect(() => {
         dispatch(getServiceDetails(id))
         // if (service && service._id !== id) {
-           
+
         // } 
         setInstruction(instruction);
         setService_id(id);
         setCustomer(user && user._id);
-        
-          
-        
-       
-setAttachments("trial");
 
-       
-      
-       
-   
-            
-       
-       
-        
-// console.log(service.user._id)
-      
+
+
+
+        setAttachments("trial");
+
+
+
+
+
+
+
+
+
+        // console.log(service.user._id)
+
         if (error) {
             alert.error(error);
             dispatch(clearErrors())
@@ -68,68 +68,103 @@ setAttachments("trial");
             dispatch({ type: NEW_INQUIRY_RESET })
         }
 
-  
 
-    }, [dispatch, alert, navigate,error,success])
 
-   
+    }, [dispatch, alert, navigate, error, success])
+
+
     const submitHandler = (e) => {
         e.preventDefault();
         setFreelancer(service.user && service.user._id)
-        console.log(service.user && service.user._id) 
+        console.log(service.user && service.user._id)
         const formData = new FormData();
         formData.set('instruction', instruction);
         formData.set('service_id', service_id);
         formData.set('customer', customer);
         formData.set('freelancer', service.freelancer_id);
-        formData.set('attachments',attachments);
+        formData.set('attachments', attachments);
 
         // console.log(service.user._id);
- 
-        dispatch(newInquiry( formData))
-        
-       $('.modal-backdrop').hide();
+
+        dispatch(newInquiry(formData))
+
+        $('.modal-backdrop').hide();
         $('body').removeClass('modal-open');
         // $('#exampleModalCenter').modal('hide');
         // $('#<%=hfImg.ClientID%>').val("");
     }
-  
-  
+
+
 
     return (
         <Fragment>
 
 
-        {loading ? <Loader /> : (
-        <Fragment>
-         <div className='row ey' style={{paddingLeft:'-10 !important'}}>
-<div className='1st' style={{backgroundColor:"#FFD4D4", width: "30%", paddingLeft:'-5px'}}>
-{/* <h3>fritgrogrotiko</h3> */}
-<center>
-<img
-            src={service.user && service.user.avatar.url}
-            alt={service.user && service.user.name}
-            key={service._id}
-            className="rounded-img-big"
-            
-            style={{marginTop: '30px'}}
-        />
+            {loading ? <Loader /> : (
+                <Fragment>
+                    {/* <div className='row ey' style={{ paddingLeft: '-10 !important' }}>
+                        <div className='1st' style={{ backgroundColor: "#FFD4D4", width: "30%", paddingLeft: '-5px' }}>
+                           
+                            <center>
+                                <img
+                                    src={service.user && service.user.avatar.url}
+                                    alt={service.user && service.user.name}
+                                    key={service._id}
+                                    className="rounded-img-big"
+
+                                    style={{ marginTop: '30px' }}
+                                />
+
+                                <div className="profile-info">
+                                    <h4>Profile Information:</h4>
+                                    <div className="name">Name: {service.user && service.user.name}</div>
+                                    <div className="age">Age: 24</div>
+                                    <div className="gender">Gender: Female</div>
+                                    <div className="address">Address: Mansanas St. Taguig City</div>
+                                    <div className="contact">09221213534</div>
+                                </div>
+                                <div className='row'>
+                                    <button className="custom-btn btn-5" style={{ margin: '20px' }} data-toggle="modal" data-target="#exampleModalCenter" ><span style={{ margin: '10px' }} >Inquire</span></button>
+                                    <button className="custom-btn btn-5" style={{ margin: '20px' }}><span>Read More</span></button>
+                                  
+                                </div>
+                            </center>
+
+                        </div>
+                        <div className='2nd' style={{ backgroundColor: "transparent", width: "70%" }}>
+                            <h1>Nail Treatments</h1>
+                            <div className="list-of-service__container">
+                                <div className="list-of-service">
+                                    <h2>List of Services</h2>
+                                    <ul>
+                                        <li>Manicure and Pedicure</li>
+                                        <li>Handspa and Footspa</li>
+                                        <li>Hand and Foot Paraffine</li>
+                                        <li>Waxing</li>
+                                        <li>Gel Polish</li>
+                                        <li>Nail Arts</li>
+                                    </ul>
+                                </div>
+                                <div className="customer-ratings">
+                                    <img src="chelson-tamares-vtQHwU4F13s-unsplash.jpg" alt="" />
+                                    <h2>Customer reviews</h2>
+                                    <div className='rating'>
+                                        <span className="fa fa-star checked"></span>
+                                        <span className="fa fa-star checked"></span>
+                                        <span className="fa fa-star checked"></span>
+                                        <span className="fa fa-star"></span>
+                                        <span className="fa fa-star"></span>
+                                    </div>
+                                    <span>6 customer ratings</span>
+                                </div>
+                            </div>
+                        </div>
 
 
-<div className='row'>
-<button className="custom-btn btn-5" style={{margin:'20px'}} data-toggle="modal" data-target="#exampleModalCenter" ><span style={{margin:'10px'}} >Inquire</span></button>
-<button className="custom-btn btn-5" style={{margin:'20px'}}><span>Read More</span></button>
-<label>{service.user && service.user.name}</label>
-</div>
-</center>
-
-</div>
-<div className='2nd' style={{backgroundColor:"red", width: "70%"}}></div>
-
-         </div>
+                    </div>
 
 
-         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
+                    <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true" >
                         <div className="modal-dialog modal-dialog-centered" role="document">
                             <div className="modal-content">
                                 <div className="modal-header">
@@ -144,21 +179,21 @@ setAttachments("trial");
                                         <div className="form-group">
                                             <label htmlFor="email_field">Instruction</label>
                                             <textarea
-                type="text"
-                placeholder="Instruction for the freelancer"
-                className="form-control"
-                value={instruction}
-                onChange={(e) => setInstruction(e.target.value)}
-            />
+                                                type="text"
+                                                placeholder="Instruction for the freelancer"
+                                                className="form-control"
+                                                value={instruction}
+                                                onChange={(e) => setInstruction(e.target.value)}
+                                            />
                                         </div>
 
                                         <label>Attachments</label><br></br>
                                         <input type="file" id="exampleInputFile" name="my_file"></input>
-                                      
 
-                                    
 
-                         
+
+
+
 
 
                                     </div>
@@ -172,14 +207,67 @@ setAttachments("trial");
                                 </form>
                             </div>
                         </div>
+                    </div> */}
+                    <div class="profile-container">
+                        <div class="profile-content">
+                            <img
+                                src={service.user && service.user.avatar.url}
+                                alt={service.user && service.user.name}
+                                key={service._id}
+                            // className="rounded-img-big"
+
+                            // style={{ marginTop: '30px' }}
+                            />
+
+                            <div class="profile-info">
+                                <h4>Profile Information:</h4>
+                                <div class="name">Name: {service.user && service.user.name}</div>
+                                <div class="age">Age: {service.user && service.user.age}</div>
+                                <div class="gender">Gender: {service.user && service.user.gender}</div>
+                                <div class="address">Address: Mansanas St. Taguig City</div>
+                                <div class="contact">09221213534</div>
+                            </div>
+                            <div class="button-profile">
+                                <button>Inquire</button>
+                                <button>Read More</button>
+                            </div>
+                        </div>
+                        <div class="service-details">
+                            <h1>Nail Treatments</h1>
+                            <div class="list-of-service__container">
+                                <div class="list-of-service">
+                                    <h2>List of Services</h2>
+                                    <ul>
+                                        <li>Manicure and Pedicure</li>
+                                        <li>Handspa and Footspa</li>
+                                        <li>Hand and Foot Paraffine</li>
+                                        <li>Waxing</li>
+                                        <li>Gel Polish</li>
+                                        <li>Nail Arts</li>
+                                    </ul>
+                                </div>
+                                <div className="customer-ratings">
+                                    <img src="chelson-tamares-vtQHwU4F13s-unsplash.jpg" alt="" />
+                                    <h2>Customer reviews</h2>
+                                    <div class='rating'>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star"></span>
+                                        <span class="fa fa-star"></span>
+                                    </div>
+                                    <span>6 customer ratings</span>
+                                </div>
+                            </div>
+
+                        </div>
                     </div>
 
+                </Fragment>
+            )
+            }
+        </Fragment >
 
-        </Fragment>
-         )
-        }
-    </Fragment >
-        
     )
 }
 
