@@ -3,17 +3,16 @@ const mongoose = require('mongoose');
 const freelancerSchema = new mongoose.Schema({
     approved_date: {
         type: Date,
-        required: true
     },
     isPremium: {
-        type: String,
+        type: Boolean,
         required: true,
-        default: 'false'
+        default: false
     },
     availability: {
-        type: String,
+        type: Boolean,
         required: true,
-        default: 'true'
+        default: true
     },
     gcash_name: {
        type: String,
@@ -23,6 +22,22 @@ const freelancerSchema = new mongoose.Schema({
     gcash_num: {
         type: String,
         required: false
+    },
+    schoolId: {
+        public_id: {
+            type: String,
+            required: true,
+        },
+        url: {
+            type: String,
+            required: true,
+        }
+    },
+    resume: {
+        path:{
+            type: String,
+            required: true
+        }
     },
     qrCode: {
         public_id: {
@@ -41,10 +56,6 @@ const freelancerSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-
-
- 
-
 })
 
 module.exports= mongoose.model('Freelancer', freelancerSchema);

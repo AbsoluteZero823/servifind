@@ -1,5 +1,8 @@
 const { reset } = require('nodemon');
 const Freelancer = require('../models/freelancer');
+const cloudinary = require('cloudinary')
+const fs = require('fs');
+const path = require('path');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
@@ -62,52 +65,68 @@ exports.getSingleFreelancer = async (req, res, next) => {
     })
 }
 
-// NOT USABLE AT THE MOMENT
 exports.makemeaFreelancer = async (req, res, next) => {
-    // Check if the school ID image and resume document were uploaded
-  if (!req.files || !req.files.schoolID || !req.files.resume) {
-    return res.status(400).json({
-      error: 'Please upload a school ID image and resume document'
+  try {
+    const existingFreelancer = await Freelancer.findOne({ user_id: req.user.id });
+    if (existingFreelancer) {
+      return next(new ErrorHandler('You already have a freelancer document registered, Wait for Administrator Verification', 400));
+    }
+    const qrResult = await cloudinary.v2.uploader.upload(req.body.qrCode, {
+      folder: 'servifind/freelancer/documents',
+      width: 300,
+      crop: "scale"
+    });
+    const schoolIdResult = await cloudinary.v2.uploader.upload(req.body.schoolID, {
+      folder: 'servifind/freelancer/documents',
+      width: 300,
+      crop: "scale"
+    });
+    const resumeFile = req.files.resume;
+    const resumePath = path.join(__dirname,'..','resumes', resumeFile.name);
+    // Write the file to disk
+    await fs.promises.writeFile(resumePath, resumeFile.data);
+    // Create a new freelancer document with the file URLs
+    const freelancer = new Freelancer({
+      user_id: req.user.id,
+      gcash_name: req.body.gcash_name,
+      gcash_number: req.body.gcash_number,
+      qrCode: {
+        public_id: qrResult.public_id,
+        url: qrResult.secure_url
+      },
+      schoolId: {
+        public_id: schoolIdResult.public_id,
+        url: schoolIdResult.secure_url
+      },
+      resume: {
+        path: resumePath
+      }
+    });
+    const result = await freelancer.save();
+    res.status(201).json({
+      message: 'Registered as a Freelancer, Wait for Confirmation',
+      freelancer: result,
+      success: true
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: error.message
     });
   }
+  };
 
-  // Upload the school ID image to Cloudinary
-  cloudinary.uploader.upload(req.files.schoolID.tempFilePath, {folder: '<YOUR_CLOUDINARY_FOLDER>'}, function(error, result) {
-    if (error) {
-      console.log(error);
-      return res.status(500).json({
-        error: error
-      });
-    }
-    const schoolIDUrl = result.secure_url;
-
-    // Upload the resume document to Cloudinary
-    cloudinary.uploader.upload(req.files.resume.tempFilePath, {folder: '<YOUR_CLOUDINARY_FOLDER>'}, function(error, result) {
-      if (error) {
-        console.log(error);
-        return res.status(500).json({
-          error: error
-        });
-      }
-      const resumeUrl = result.secure_url;
-
-      // Create a new student document with the file URLs
-      const student = new Student({
-        schoolID: schoolIDUrl,
-        resume: resumeUrl
-      });
-      student.save()
-        .then(result => {
-          res.status(201).json({
-            message: 'Student created successfully',
-            student: result
-          });
-        })
-        .catch(error => {
-          res.status(500).json({
-            error: error
-          });
-        });
+exports.getmyFreelancers = async (req, res, next) => {
+  try {
+    const freelancer = await Freelancer.find({ user_id: req.user.id });
+    res.status(200).json({
+      success: true,
+      freelancer
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      error: error.message
     });
-  });
+  }
 }
