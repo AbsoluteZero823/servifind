@@ -130,3 +130,21 @@ exports.getmyFreelancers = async (req, res, next) => {
     });
   }
 }
+
+exports.updatemyFreelancers = async (req, res, next) => {
+  try{
+    const freelancer = await Freelancer.findOneAndUpdate({ user_id: req.user.id }, req.body, { new: true });
+    console.log(freelancer);
+    res.status(200).json({
+      message: "Freelancer updated successfully",
+      freelancer: freelancer,
+      success: true
+    });
+  }catch(error){
+    console.log(error);
+    res.status(500).json({
+      error: error.message
+    });
+  }
+}
+

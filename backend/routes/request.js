@@ -4,6 +4,9 @@ const router = express.Router();
 const { getRequests,
     newRequest,
     getSingleRequest,
+
+    // New Additions
+    getAllexceptMyRequest,
     getMyRequests,
     getMyRequest,
     editMyRequest,
@@ -23,6 +26,9 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 router.route('/requests').get(getRequests);
 router.route('/request/new').post(isAuthenticatedUser, newRequest);
 router.route('/request/:id').get(getSingleRequest);
+
+// New Additions
+router.route('/requests/freelancer').post(isAuthenticatedUser, getAllexceptMyRequest);
 router.route('/myrequests').get(isAuthenticatedUser, getMyRequests);
 router.route('/myrequests/:id').get(isAuthenticatedUser, getMyRequest);
 router.route('/myrequest/edit/:id').put(isAuthenticatedUser, editMyRequest);

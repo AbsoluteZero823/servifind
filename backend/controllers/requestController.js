@@ -45,6 +45,17 @@ exports.getRequests = async (req, res, next) => {
     })
 }
 
+exports.getAllexceptMyRequest = async (req,res,next) => {
+    try {
+        const requests = await Request.find({
+          requested_by: { $ne: req.user.id }
+        }).populate('category').populate('requested_by');
+        res.status(200).json({requests: requests, success: true});
+      } catch (error) {
+        next(error);
+      }
+}
+
 exports.getMyRequest = async (req, res, next) => {
     try {
         const request = await Request.findById(req.params.id)
