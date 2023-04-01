@@ -61,3 +61,18 @@ exports.getSingleOffer = async (req, res, next) => {
 }
 
 
+exports.getRequestOffers = async (req, res, next) => {
+    const requestoffers = await Offer.find({ request_id: req.params.request_id })
+        .populate(['offered_by', 'request_id']);
+
+
+    if (!requestoffers) {
+        return next(new ErrorHandler('Inquiry not found', 404));
+    }
+    res.status(200).json({
+        success: true,
+        requestoffers
+    })
+}
+
+

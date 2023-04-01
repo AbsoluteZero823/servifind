@@ -4,20 +4,15 @@ const router = express.Router();
 const { getOffers,
     newOffer,
     getSingleOffer,
-    PaymentReceived,
-    PaymentSent,
-    offerDone,
-    createOfferReview,
-    getOfferReviews,
-    deleteReview,
-    getMyFOffers,
-    getMyCOffers
+    getRequestOffers
 } = require('../controllers/offerController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/offers').get(getOffers);
 router.route('/offer/new').post(newOffer);
 router.route('/offer/:id').get(getSingleOffer);
+router.route('/offers-request/:request_id').get(getRequestOffers);
+
 // router.route('/offer/:id').put(PaymentSent);
 // router.route('/offer/received/:id').put(PaymentReceived);
 // router.route('/offer/done/:id').put(offerDone);

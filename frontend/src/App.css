@@ -1837,3 +1837,104 @@ a:hover {
   width: 19%;
   padding: 12px;
 }
+
+.offers {
+  justify-content: center;
+  display: flex;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  width: 70%;
+  margin: 100px auto;
+  height: 550px;
+
+}
+
+.profile-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-info {
+  margin-top: 20px;
+}
+
+.profile-info>* {
+  padding: 2px 0;
+}
+
+.button-profile {
+  margin-top: auto;
+}
+
+.button-profile button {
+  border-radius: 22px;
+  padding: 10px;
+  background: none;
+  outline: none;
+  border: 1px solid #000;
+  color: black;
+}
+
+.service-details {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto 1fr;
+  padding: 20px;
+}
+
+.service-details h1 {
+  text-transform: uppercase;
+  text-align: center;
+  grid-column: 1/-1;
+  grid-row: 1/2;
+  margin-bottom: 60px;
+}
+
+.list-of-service h2 {
+  margin-bottom: 20px;
+}
+
+.profile-content img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+}
+
+.list-of-service {
+  margin-right: 100px;
+}
+
+.list-of-service ul {
+  list-style-type: none;
+}
+
+.list-of-service ul li {
+  padding: 10px 0;
+}
+
+.customer-ratings img {
+  width: 300px;
+  height: 300px;
+}
+
+.list-of-service__container {
+  grid-column: 1/-1;
+  grid-row: 2/3;
+  display: flex;
+  padding: 0 30px;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checked {
+  color: orange;
+}

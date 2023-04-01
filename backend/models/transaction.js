@@ -39,6 +39,12 @@ const transactionSchema = new mongoose.Schema({
         ref: 'Inquiry',
         required: true
     },
+    offer_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Inquiry',
+        required: true
+    },
+
     status: {
         type: String,
         required: true,

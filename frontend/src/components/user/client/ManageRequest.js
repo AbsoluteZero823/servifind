@@ -14,7 +14,7 @@ import { getCategories, clearErrors, newCategory } from '../../../actions/catego
 import { newRequest } from '../../../actions/requestActions';
 import { useNavigate } from 'react-router-dom';
 import { getRequests, clear } from '../../../actions/requestActions';
-
+import { getOffers } from '../../../actions/offerActions';
 
 import moment from 'moment/moment'
 
@@ -32,14 +32,15 @@ const ManageRequest = () => {
     // const { loading, error, categories } = useSelector(state => state.categories);
     const { user, isAuthenticated } = useSelector(state => state.auth)
     const { loading, error, requests } = useSelector(state => state.requests);
-
+    const { offers } = useSelector(state => state.offers);
     // const { success } = useSelector(state => state.addRequest);
 
 
 
     useEffect(() => {
-        // dispatch(getCategories())
+
         dispatch(getRequests())
+        dispatch(getOffers())
         // if (success) {
         //     navigate('/manage-request');
         //     // alert.success('Service created successfully');
@@ -53,10 +54,26 @@ const ManageRequest = () => {
 
     }, [dispatch, alert, error, navigate])
 
+    const getOffersHandler = (id) => {
 
+
+        navigate(`/offers-request/${id}`);
+        // const requestOffers = offers.filter(function (o) {
+        //     return o.request_id === id;
+
+        // });
+
+        // if (requestOffers.length === 0) {
+        //     console.log('no offers yet');
+        // }
+        // else {
+        //     console.log(requestOffers);
+        // }
+        // return requestOffers;
+    }
 
     // SET CLIENT TRANSACTION
-    const setClientTransactions = () => {
+    const setOffers = () => {
 
         const data = {
             columns: [
@@ -95,6 +112,18 @@ const ManageRequest = () => {
         });
 
         MyRequests.forEach(request => {
+            const requestOffers = offers.filter(function (o) {
+                return o.request_id === request._id;
+
+            });
+
+            const offersCount = requestOffers.length;
+            // if (requestOffers.length === 0) {
+            //     console.log('no offers yet');
+            // }
+            // else {
+            //     console.log(requestOffers);
+            // }
             data.rows.push({
 
                 created_At: moment(request.created_At).format('MMM/DD/yy'),
@@ -102,13 +131,30 @@ const ManageRequest = () => {
                 request_status: request.request_status,
 
                 offers: <Fragment>
-                    <div className='offers'>
-                        <a href="#" className="notification">
-                            <span style={{ color: 'white' }}>Offers</span>
-                            <span className="badge">3</span>
-                            {/* <i className="fa fa-pencil-alt"></i> */}
-                        </a>
-                    </div>
+                    {offersCount === 0 && (
+                        <div className='offers' onClick={() => Swal.fire('No offers yet',
+                            'This request has empty offers',
+                            'info'
+                        )}>
+
+                            <a href="#" className="notification">
+                                <span style={{ color: 'white' }}>Offers</span>
+                                {/* <span className="badge">{offersCount}</span> */}
+
+                            </a>
+
+
+                        </div>
+                    )}
+                    {offersCount > 0 && (
+                        <div className='offers' onClick={() => getOffersHandler(request._id)}>
+                            <a href="#" className="notification">
+                                <span style={{ color: 'white' }}>Offers</span>
+                                <span className="badge">{offersCount}</span>
+                                {/* <i className="fa fa-pencil-alt"></i> */}
+                            </a>
+                        </div>
+                    )}
                 </Fragment>,
 
                 actions: <Fragment>
@@ -146,7 +192,7 @@ const ManageRequest = () => {
             <Fragment>
                 {loading ? <Loader /> : (
                     <MDBDataTable
-                        data={setClientTransactions()}
+                        data={setOffers()}
                         className="px-3"
                         bordered
                         striped

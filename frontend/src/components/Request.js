@@ -11,6 +11,7 @@ import $ from 'jquery';
 import moment from 'moment/moment'
 
 import { getServices } from '../actions/serviceActions';
+import { newOffer } from '../actions/offerActions'
 
 const Request = ({ request }) => {
 
@@ -29,8 +30,9 @@ const Request = ({ request }) => {
     const { loadings, detailserror, transaction } = useSelector(state => state.transactionDetails);
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
-
-
+    const [service_id, setServiceId] = useState('');
+    const [description, setDescription] = useState('');
+    const [request_id, setRequestId] = useState('');
 
     useEffect(() => {
         if (error) {
@@ -47,7 +49,14 @@ const Request = ({ request }) => {
     const submitOfferHandler = (e) => {
         e.preventDefault();
 
+        const offerData = new FormData();
 
+        offerData.set('service_id', service_id);
+        offerData.set('description', description);
+        offerData.set('offered_by', user._id);
+        offerData.set('request_id', request_id);
+
+        dispatch(newOffer(offerData));
         Swal.fire(
             'Offer sent Successfully!',
             '',
@@ -120,7 +129,7 @@ const Request = ({ request }) => {
 
                         )}
                         {request.requested_by._id != user._id && (
-                            <div className="action" data-toggle="modal" data-target="#MakeOfferModal">
+                            <div className="action" data-toggle="modal" data-target="#MakeOfferModal" onClick={() => setRequestId(request._id)}>
                                 {/* <i className="like-icon"></i> */}
                                 <a href="#">
                                     <span>Make an Offer</span>
@@ -153,14 +162,14 @@ const Request = ({ request }) => {
 
                                 <div style={{ padding: '10px 10px' }}>
                                     {/* populate the service of the logged in freelancer */}
-                                    <label htmlFor="reason">Service:</label>
+                                    <label htmlFor="service_id">Service:</label>
 
                                     <select
-                                        name="reason"
-                                        id="reason"
+                                        name="service_id"
+                                        id="service_id"
                                         className='form-control'
-                                    // value={reason}
-                                    // onChange={(e) => setReason(e.target.value)}
+                                        value={service_id}
+                                        onChange={(e) => setServiceId(e.target.value)}
                                     >
                                         <option value="">Select Service</option>
 
@@ -178,8 +187,8 @@ const Request = ({ request }) => {
                                         name="description"
                                         id="description" className="form-control mt-3"
                                         style={{ minHeight: '200px' }}
-                                    // value={description}
-                                    // onChange={(e) => setDescription(e.target.value)}
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
                                     >
                                     </textarea>
                                 </div>

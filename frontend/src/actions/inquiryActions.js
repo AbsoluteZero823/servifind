@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import {
-   
+
     NEW_INQUIRY_REQUEST,
     NEW_INQUIRY_SUCCESS,
     NEW_INQUIRY_FAIL,
@@ -74,7 +74,7 @@ export const getInquiries = () => async (dispatch) => {
 
         dispatch({ type: ALL_INQUIRY_REQUEST })
 
-        const { data } = await axios.get(`\ries`)
+        const { data } = await axios.get(`/api/v1/inquiries`)
 
         dispatch({
             type: ALL_INQUIRY_SUCCESS,
@@ -118,7 +118,7 @@ export const getClientInquiries = () => async (dispatch) => {
 
         dispatch({
             type: CLIENT_INQUIRY_SUCCESS,
-            
+
             payload: data
         })
 
