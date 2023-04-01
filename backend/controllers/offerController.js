@@ -8,10 +8,8 @@ const { now } = require('mongoose');
 // const  Category  = require('../models/category');
 
 exports.newOffer = async (req, res, next) => {
-    console.log(req.body);
-    // req.body.user = req.user.id;
+    req.body.offered_by = req.user._id;
     const offer = await Offer.create(req.body);
-
     res.status(201).json({
         success: true,
         offer
@@ -63,11 +61,11 @@ exports.getSingleOffer = async (req, res, next) => {
 
 exports.getRequestOffers = async (req, res, next) => {
     const requestoffers = await Offer.find({ request_id: req.params.request_id })
-        .populate(['offered_by', 'request_id']);
+        .populate(['offered_by', 'request_id','service_id'])
 
 
     if (!requestoffers) {
-        return next(new ErrorHandler('Inquiry not found', 404));
+        return next(new ErrorHandler('Request not found', 404));
     }
     res.status(200).json({
         success: true,

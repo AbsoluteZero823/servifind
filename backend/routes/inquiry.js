@@ -16,7 +16,7 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/inquiries').get(isAuthenticatedUser,getInquiries);
 router.route('/my-inquiries').get(isAuthenticatedUser,getMyInquiries);
-router.route('/client-inquiries').get(isAuthenticatedUser,getClientInquiries);
+router.route('/client-inquiries').post(getClientInquiries);
 router.route('/inquiry/new').post(isAuthenticatedUser, newInquiry);
 router.route('/inquiry/:id').get(getSingleInquiry);
 // router.route('/service/:id').put(updateService).delete(deleteService);

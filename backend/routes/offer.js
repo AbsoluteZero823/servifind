@@ -9,7 +9,7 @@ const { getOffers,
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/offers').get(getOffers);
-router.route('/offer/new').post(newOffer);
+router.route('/offer/new').post(isAuthenticatedUser, newOffer);
 router.route('/offer/:id').get(getSingleOffer);
 router.route('/offers-request/:request_id').get(getRequestOffers);
 

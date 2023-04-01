@@ -2,11 +2,18 @@ const { reset } = require('nodemon');
 const Service = require('../models/service');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
+const cloudinary = require('cloudinary')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Category = require('../models/category');
 //create new service
 exports.newService = async (req, res, next) => {
-    console.log(req.body);
+    const result = await cloudinary.v2.uploader.upload(req.body.image, {
+        folder: 'servifind/avatar',
+        width: 150,
+        crop: "scale"
+    })
+
+    req.body.images = {public_id: result.public_id, url: result.secure_url};
     // req.body.user = req.user.id;
     const service = await Service.create(req.body);
 
@@ -81,7 +88,7 @@ exports.deleteService = async (req, res, next) => {
 }
 
 exports.getmyServices=async(req,res,next)=>{
-    const services=await Service.find({user:req.user.id});
+    const services=await Service.find({user:req.user.id}).populate(['category', 'user']);
     res.status(200).json({
         success:true,
         services

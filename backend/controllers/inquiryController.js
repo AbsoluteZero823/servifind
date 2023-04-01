@@ -47,7 +47,7 @@ exports.getInquiries = async (req, res, next) => {
     })
 }
 
-// get My inquiries
+// get My (AS A CLIENT) inquiries
 exports.getMyInquiries = async (req, res, next) => {
     const user = await User.findById(req.user.id);
     const inquiries = await Inquiry.find({ customer: user._id }).populate(['customer', {
@@ -63,27 +63,26 @@ exports.getMyInquiries = async (req, res, next) => {
     })
 }
 
-//get Client inquiries
+//get MY (AS A FREELANCER) inquiries auto filtered to fetch pending inquiries
 exports.getClientInquiries = async (req, res, next) => {
-    const user = await User.findById(req.user.id);
-    const inquiries = await Inquiry.find().populate(['customer', {
-        path: 'service_id',
-        populate: { path: 'user' }
-    }, {
+    try {
+      const inquiries = await Inquiry.find({ freelancer: req.body.freelancer })
+        .where('status').equals('pending')
+        .populate('customer')
+        .populate({
             path: 'service_id',
             populate: { path: 'category' }
-        },
-        {
-            path: 'freelancer',
-            populate: { path: 'user_id' }
-        }
-    ]);
-    res.status(200).json({
+        });
+      res.status(200).json({
         success: true,
         inquiries
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  
 
-    })
-}
 
 exports.getSingleInquiry = async (req, res, next) => {
     const inquiry = await Inquiry.findById(req.params.id)
