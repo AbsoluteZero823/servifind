@@ -80,4 +80,11 @@ exports.deleteService = async (req, res, next) => {
     })
 }
 
+exports.getmyServices=async(req,res,next)=>{
+    const services=await Service.find({user:req.user.id});
+    res.status(200).json({
+        success:true,
+        services
+    })
+}
 
