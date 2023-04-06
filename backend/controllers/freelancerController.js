@@ -1,5 +1,6 @@
 const { reset } = require('nodemon');
 const Freelancer = require('../models/freelancer');
+const Service = require('../models/service');
 const cloudinary = require('cloudinary')
 const fs = require('fs');
 const path = require('path');
@@ -52,18 +53,25 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 
 
 exports.getSingleFreelancer = async (req, res, next) => {
-    const freelancer = await Freelancer.findById(req.params.id)
-        .populate('user_id');
-
+  try {
+    const freelancer = await Freelancer.findById(req.params.id).populate('user_id');
 
     if (!freelancer) {
-        return next(new ErrorHandler('Freelancer not found', 404));
+      return next(new ErrorHandler('Freelancer not found', 404));
     }
+
+    // Fetch all services related to the freelancer using the freelancer's _id
+    const services = await Service.find({ freelancer_id: freelancer._id }).populate('category');
+
     res.status(200).json({
-        success: true,
-        freelancer
-    })
-}
+      success: true,
+      freelancer,
+      services
+    });
+  } catch (err) {
+    return next(new ErrorHandler(err.message, 500));
+  }
+};
 
 exports.makemeaFreelancer = async (req, res, next) => {
   try {

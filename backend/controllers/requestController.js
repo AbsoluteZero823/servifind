@@ -1,4 +1,5 @@
 const { reset } = require('nodemon');
+const Offer = require('../models/offer');
 const Request = require('../models/request');
 const Category = require('../models/category')
 const ErrorHandler = require('../utils/errorHandler');
@@ -101,16 +102,79 @@ exports.editMyRequest = async (req, res, next) => {
 }
 
 exports.deleteMyRequest = async (req, res, next) => {
-    const deleterequests = await Request.findByIdAndUpdate(req.params.id, {request_status: 'cancelled'});
-    if(deleterequests){
-        res.status(200).json({
-            success: true,
-            deleterequests
-        })
-    }else{
-        return next(new ErrorHandler('Server Error',400));
+    try {
+      // Update the request status to cancelled
+      const deletedRequest = await Request.findByIdAndUpdate(req.params.id, {
+        request_status: 'cancelled'
+      });
+  
+      if (!deletedRequest) {
+        return next(new ErrorHandler('Request not found', 404));
+      }
+  
+      // Update all offers associated with the request to cancelled
+      const deletedOffers = await Offer.updateMany(
+        { request_id: req.params.id },
+        { offer_status: 'cancelled' }
+      );
+  
+      res.status(200).json({
+        success: true,
+        message: 'Request and all offers associated with it have been cancelled'
+      });
+    } catch (error) {
+      return next(new ErrorHandler('Server Error', 500));
     }
-}
+  };
+
+exports.refuseanOffer = async (req, res, next) => {
+    try {
+        const offer = await Offer.findById(req.body._id);
+        if (!offer) {
+        return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        offer.offer_status = 'cancelled';
+        await offer.save();
+        res.status(200).json({ success: true, message: 'Offer refused successfully' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+exports.acceptanOffer = async (req, res, next) => {
+  const offerId = req.body.id;
+  try {
+    // Accept the selected offer
+    const acceptedOffer = await Offer.findOneAndUpdate(
+      { _id: offerId },
+      { offer_status: 'granted' },
+      { new: true }
+    );
+
+    // Cancel other offers associated with the same request, if a request_id is provided
+    if (req.body.request_id) {
+      await Offer.updateMany(
+        { request_id: req.body.request_id, _id: { $ne: offerId } },
+        { offer_status: 'cancelled' }
+      );
+    }
+
+    await Request.findOneAndUpdate(
+        { _id: acceptedOffer.request_id },
+        { request_status: 'granted' },
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Offer accepted successfully.',
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+
+
 
 exports.getSingleRequest = async (req, res, next) => {
     const request = await Request.findById(req.params.id)

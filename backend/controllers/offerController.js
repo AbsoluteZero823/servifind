@@ -74,3 +74,19 @@ exports.getRequestOffers = async (req, res, next) => {
 }
 
 
+exports.getmyOffers = async (req, res, next) => {
+    const myoffers = await Offer.find({ offered_by: req.user._id }).populate(['offered_by', { path: 'request_id', populate: 'requested_by' },{ path: 'service_id', populate: 'category' }]);
+
+    if (!myoffers) {
+        return next(new ErrorHandler('Offers not found', 404));
+    }
+
+    console.log(myoffers[0])
+
+    res.status(200).json({
+        success: true,
+        myoffers
+    })
+
+}
+
