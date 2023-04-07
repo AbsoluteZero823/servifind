@@ -41,7 +41,8 @@ const MyTransactions = () => {
 
 
     const [transactionID, setTransactionID] = useState('')
-
+    const [clientName, setClientName] = useState('')
+    const [freelancerName, setFreelancerName] = useState('')
     // const { isUpdated } = useSelector(state => state.user);
     // const { isDeleted } = useSelector(state => state.updelUser);
     // const { user } = useSelector(state => state.auth)
@@ -344,7 +345,7 @@ const MyTransactions = () => {
 
     const setTransactions = () => {
 
-        console.log(transactions)
+        // console.log(transactions)
 
         const data = {
             columns: [
@@ -383,13 +384,32 @@ const MyTransactions = () => {
             rows: []
         }
         const FreelancerTransactions = transactions.filter(function (ftransaction) {
-            return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
+            // return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
+
+            if(ftransaction.inquiry_id){
+                return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
+            }
+            else if(ftransaction.offer_id){
+                return ftransaction.offer_id.offered_by === user._id;
+            }
 
         });
 
         FreelancerTransactions.forEach(transaction => {
+            
+            // if( transaction.inquiry_id){
+            //     setClientName(transaction.inquiry_id.customer.name)
+            //     // return clientName;
+            //   }else if(transaction.offer_id){
+            //     setClientName(transaction.offer_id.request_id.requested_by.name)
+            //     //    return clientName;
+            //   }
+             
+              
             data.rows.push({
-                Client: transaction.inquiry_id.customer.name,
+
+                
+                // Client: clientName,
                 status: transaction.status,
                 created_At: moment(transaction.created_At).format('MMM/DD/yy'),
                 paymentSent: transaction.paymentSent,
@@ -485,14 +505,29 @@ const MyTransactions = () => {
             rows: []
         }
         const ClientTransactions = transactions.filter(function (ctransaction) {
-            return ctransaction.inquiry_id.customer._id === user._id;
+            if(ctransaction.inquiry_id){
+                return ctransaction.inquiry_id.customer._id === user._id;
+            }
+            else if(ctransaction.offer_id){
+                return ctransaction.offer_id.request_id.requested_by === user._id;
+            }
+            
 
         });
 
         ClientTransactions.forEach(ctransaction => {
+            // if( ctransaction.inquiry_id){
+            //     // {csetCount(count + 1)}
+            //    setFreelancerName(ctransaction.inquiry_id.freelancer.user_id.name)
+            //     // return clientName;
+            //   }else if(ctransaction.offer_id){
+            //    setFreelancerName(ctransaction.offer_id.offered_by.name)
+            //     //    return clientName;
+            //   }
             data.rows.push({
 
-                Freelancer: ctransaction.inquiry_id.freelancer.user_id.name,
+              
+                // Freelancer: freelancerName,
                 status: ctransaction.status,
                 created_At: moment(ctransaction.created_At).format('MMM/DD/yy'),
                 paymentSent: ctransaction.paymentSent,

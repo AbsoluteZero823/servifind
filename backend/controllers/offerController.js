@@ -75,4 +75,44 @@ exports.getRequestOffers = async (req, res, next) => {
     })
 }
 
+exports.cancelOtherOffer = async (req, res, next) => {
+    // console.log(req.params);
+    // if(request._id ===){
 
+    // }
+    // const offerData = {
+    //     offer_status: 'accepted',
+
+    // }
+    const requestId = req.params.id;
+
+    const offer = await Offer.updateMany({ $and:[ {"request_id": requestId}, {"_id": { $ne: req.params.offer_id  }}]},{$set: {offer_status:'cancelled'}})
+
+    // const offer = await Offer.findByIdAndUpdate(req.params.id, offerData, {
+    //     new: true,
+    //     runValidators: true,
+    //     // useFindandModify:false
+    // })
+    res.status(200).json({
+        success: true,
+
+    })
+
+
+}
+
+
+exports.acceptOffer = async (req, res, next) => {
+    console.log(req.params);
+ 
+
+    const offer = await Offer.findByIdAndUpdate(req.params.id, { offer_status: 'granted' }, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        success: true,
+
+    })
+}

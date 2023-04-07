@@ -44,6 +44,8 @@ import PostRequest from './components/user/client/PostRequest';
 import ManageRequest from './components/user/client/ManageRequest';
 import FreelancerOffers from './components/user/client/FreelancerOffers';
 
+import Message from './components/user/Message';
+
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux'
 import store from './store'
@@ -126,13 +128,13 @@ function App() {
                   <Route path="/client-inquiries" element={<InquiriesListC />} exact />
 
                   <Route path="/transactions" element={<MyTransactions />} exact />
-                  <Route path="/user/transactions" element={<UserTransactions />} exact />
+                  <Route path="/my/transactions" element={<UserTransactions />} exact />
                   <Route path="/feed/category/:categoryId" element={<Feed />} exact />
                   <Route path="/feed" element={<Feed />} exact />
                   <Route path="/post-request" element={<PostRequest />} exact />
                   <Route path="/manage-requests" element={<ManageRequest />} exact />
                   <Route path="/offers-request/:request_id" element={<FreelancerOffers />} exact />
-
+                  <Route path="/message" element={<Message />} exact />
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>

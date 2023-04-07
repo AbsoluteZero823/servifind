@@ -33,33 +33,33 @@ exports.getRequests = async (req, res, next) => {
 }
 
 exports.getSingleRequest = async (req, res, next) => {
-    const request = await Request.findById(req.params.id)
-        .populate([{
-            path: 'inquiry_id',
+    const singlerequest = await Request.findById(req.params.id);
+        // .populate([{
+        //     path: 'inquiry_id',
 
-            populate: { path: 'customer' }
-        },
-        {
-            path: 'inquiry_id',
-            model: 'Inquiry',
-            populate: {
-                path: 'freelancer',
-                model: 'Freelancer',
-                populate: {
-                    path: 'user_id',
-                    model: 'user'
-                }
-            }
-        }
-        ]);
+        //     populate: { path: 'customer' }
+        // },
+        // {
+        //     path: 'inquiry_id',
+        //     model: 'Inquiry',
+        //     populate: {
+        //         path: 'freelancer',
+        //         model: 'Freelancer',
+        //         populate: {
+        //             path: 'user_id',
+        //             model: 'user'
+        //         }
+        //     }
+        // }
+        // ]);
 
 
-    if (!request) {
+    if (!singlerequest) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }
     res.status(200).json({
         success: true,
-        request
+        singlerequest
     })
 }
 
