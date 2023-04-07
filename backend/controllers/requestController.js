@@ -151,14 +151,6 @@ exports.acceptanOffer = async (req, res, next) => {
       { new: true }
     );
 
-    // Cancel other offers associated with the same request, if a request_id is provided
-    if (req.body.request_id) {
-      await Offer.updateMany(
-        { request_id: req.body.request_id, _id: { $ne: offerId } },
-        { offer_status: 'cancelled' }
-      );
-    }
-
     await Request.findOneAndUpdate(
         { _id: acceptedOffer.request_id },
         { request_status: 'granted' },

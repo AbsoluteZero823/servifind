@@ -36,13 +36,11 @@ const transactionSchema = new mongoose.Schema({
     },
     inquiry_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Inquiry',
-        required: true
+        ref: 'Inquiry'
     },
     offer_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Inquiry',
-        required: true
+        ref: 'Inquiry'
     },
 
     status: {

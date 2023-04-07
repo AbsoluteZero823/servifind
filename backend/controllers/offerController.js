@@ -81,8 +81,6 @@ exports.getmyOffers = async (req, res, next) => {
         return next(new ErrorHandler('Offers not found', 404));
     }
 
-    console.log(myoffers[0])
-
     res.status(200).json({
         success: true,
         myoffers
