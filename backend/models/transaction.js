@@ -40,9 +40,12 @@ const transactionSchema = new mongoose.Schema({
     },
     offer_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Inquiry'
+        ref: 'Offer'
     },
-
+    gcashreceipt: {
+        type: String,
+        required: false
+    },
     status: {
         type: String,
         required: true,

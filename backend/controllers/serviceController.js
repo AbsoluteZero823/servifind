@@ -1,4 +1,5 @@
 const { reset } = require('nodemon');
+const Rating = require('../models/rating');
 const Service = require('../models/service');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
@@ -26,21 +27,32 @@ exports.newService = async (req, res, next) => {
 
 exports.getServices = async (req, res, next) => {
     const servicesCount = await Service.countDocuments();
-    const apiFeatures = new APIFeatures(Service.find().populate(['category', 'user']), req.query).search().filter();
+    const apiFeatures = new APIFeatures(Service.find().populate(['category', 'user', 'freelancer_id']), req.query).search().filter();
 
 
     const services = await apiFeatures.query;
     let filteredServicesCount = services.length;
-    // const services = await Service.find().populate(['category', 'user']);
+    // Fetch ratings for each service
+    const serviceIds = services.map(service => service._id);
+    const ratings = await Rating.find({ service_id: { $in: serviceIds } }).populate('user');
+
+    // Merge ratings with services
+    const servicesWithRatings = services.map(service => {
+        const serviceRatings = ratings.filter(rating => rating.service_id.toString() === service._id.toString());
+        const avgRating = serviceRatings.reduce((acc, rating) => acc + rating.rating, 0) / serviceRatings.length;
+        return {
+            ...service.toJSON(),
+            ratings: serviceRatings,
+            avgRating
+        };
+    });
+
     res.status(200).json({
         success: true,
-        // count: services.length,
         servicesCount,
-
-        // resPerPage,
         filteredServicesCount,
-        services
-    })
+        services: servicesWithRatings
+    });
 
 }
 
@@ -88,7 +100,7 @@ exports.deleteService = async (req, res, next) => {
 }
 
 exports.getmyServices=async(req,res,next)=>{
-    const services=await Service.find({user:req.user.id}).populate(['category', 'user']);
+    const services=await Service.find({user:req.user.id}).populate(['category', 'user', 'freelancer_id']);
     res.status(200).json({
         success:true,
         services

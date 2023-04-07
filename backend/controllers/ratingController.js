@@ -86,5 +86,21 @@ exports.getSingleRating = async (req, res, next) => {
 
 
 
+exports.getMyServiceRatings = async (req, res, next) => {
+    console.log(req.body.service_id);
+  
+    try {
+        const ratings = await Rating.find({service_id: req.body.service_id}).populate('user');
+        res.status(200).json({
+            success: true,
+            ratings
+        });
+    } catch (error) {
+        return next(new ErrorHandler('Service not found', 404));
+    }
+  };
+
+
+
 
 

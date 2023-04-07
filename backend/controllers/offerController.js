@@ -1,4 +1,5 @@
 const { reset } = require('nodemon');
+const Transaction = require('../models/transaction');
 const Offer = require('../models/offer');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
@@ -61,16 +62,25 @@ exports.getSingleOffer = async (req, res, next) => {
 
 exports.getRequestOffers = async (req, res, next) => {
     const requestoffers = await Offer.find({ request_id: req.params.request_id })
-        .populate(['offered_by', 'request_id','service_id'])
-
+        .populate(['offered_by', 'request_id', { path: 'service_id', populate: ['freelancer_id'] }]);
 
     if (!requestoffers) {
         return next(new ErrorHandler('Request not found', 404));
     }
+
+    const offerIds = requestoffers.map(offer => offer._id); // Extract offer IDs
+
+    const transactions = await Transaction.find({ offer_id: { $in: offerIds } });
+
+    const offersWithTransactions = requestoffers.map(offer => {
+        const offerTransactions = transactions.filter(transaction => transaction.offer_id.toString() === offer._id.toString());
+        return { ...offer.toObject(), transactions: offerTransactions };
+    });
+
     res.status(200).json({
         success: true,
-        requestoffers
-    })
+        requestoffers: offersWithTransactions
+    });
 }
 
 

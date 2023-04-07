@@ -1,4 +1,9 @@
 const { reset } = require('nodemon');
+const cloudinary = require('cloudinary');
+const Request = require('../models/request');
+const Offer = require('../models/offer');
+const Rating = require('../models/rating');
+const Report = require('../models/report');
 const Transaction = require('../models/transaction');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
@@ -17,6 +22,105 @@ exports.newTransaction = async (req, res, next) => {
         transaction
     })
 }
+
+exports.ClientFetchTransaction = async (req, res, next) => {
+    try {
+        // Get all the user's requests
+        const requests = await Request.find({ requested_by: req.user._id })
+        const requestIds = requests.map((request) => request._id)
+
+        // Get all the offers associated with those requests
+        const offers = await Offer.find({ request_id: { $in: requestIds } }).populate('service_id')
+
+        // Get all the transactions associated with those offers
+        const transactions = await Transaction.find({ offer_id: { $in: offers.map((offer) => offer._id) } }).populate({
+            path: "offer_id",
+            populate: {
+              path: "offered_by service_id", 
+            },
+          })
+        // Return the transactions
+        res.status(200).json({
+            success: true,
+            transactions,
+        })
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+  
+
+exports.ClientCompleteTransaction = async (req, res, next) => {
+    if (req.body.gcashreceipt) {
+    const result = await cloudinary.v2.uploader.upload(req.body.gcashreceipt, {
+        folder: 'servifind/gcashreceipts',
+        width: 150,
+        crop: "scale"
+    })
+    req.body.gcashreceipt = result.secure_url;
+    }
+    req.body.isPaid = true;
+    req.body.paymentSent = true;
+    req.body.created_at = new Date();
+    req.body.transaction_done = {client: true};
+    const transaction = await Transaction.create(req.body);
+
+    res.status(201).json({
+        success: true,
+        transaction
+    })
+}
+
+exports.ClientRateTransaction = async (req, res, next) => {
+    const { rating, comment, service_id, transaction_id } = req.body;
+    try {
+        // Update the Transaction with the given transaction_id to set isRated to true
+        const updatedTransaction = await Transaction.findByIdAndUpdate(
+        transaction_id,
+        { isRated: 'true' },
+        { new: true }
+        );
+        // Create a new Rating data with the given rating, comment, service_id, and transaction_id
+        const newRating = new Rating({
+        rating,
+        comment,
+        user: req.user._id, // assuming you have a logged-in user
+        service_id,
+        transaction_id,
+        });
+        const savedRating = await newRating.save();
+        return res.status(200).json({ success: true, message: 'Freelancer Rating added successfully!' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+exports.ClientReportTransaction = async (req, res, next) => {
+    const { reason, description, user_reported, _id } = req.body;
+    try {
+        // Update the Transaction with the given transaction_id to set reportedBy.client to true
+        const updatedTransaction = await Transaction.findByIdAndUpdate(
+        _id,
+        { 'reportedBy.client': 'true' },
+        { new: true }
+        );
+        // Create a new Report data with the given reason, description, user_reported, and transaction_id
+        const newReport = new Report({
+        reason,
+        description,
+        reported_by: req.user._id, // assuming you have a logged-in user
+        user_reported,
+        transaction_id: _id,
+        });
+        const savedReport = await newReport.save();
+        return res.status(200).json({ success: true, message: 'Freelancer Report added successfully!' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+
+
 
 //all Transactions
 exports.getTransactions = async (req, res, next) => {

@@ -85,3 +85,18 @@ exports.getSingleReport = async (req, res, next) => {
 }
 
 
+exports.getmyReports = async (req, res, next) => {
+    try {
+        const reports = await Report.find({
+            $or: [{ reported_by: req.user._id }, { user_reported: req.user._id }]
+        }).populate(['user_reported transaction_id reported_by']);
+        res.status(200).json({
+            success: true,
+            reports
+        });
+    } catch (err) {
+        return next(new ErrorHandler(err.message, 500))
+    }
+}
+
+

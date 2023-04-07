@@ -52,7 +52,7 @@ exports.getMyInquiries = async (req, res, next) => {
     const user = await User.findById(req.user.id);
     const inquiries = await Inquiry.find({ customer: user._id }).populate(['customer', {
         path: 'service_id',
-        populate: { path: 'user' }
+        populate: { path: 'user freelancer_id' }
     }, {
             path: 'service_id',
             populate: { path: 'category' }
@@ -71,7 +71,7 @@ exports.getClientInquiries = async (req, res, next) => {
         .populate('customer')
         .populate({
             path: 'service_id',
-            populate: { path: 'category' }
+            populate: {path: 'category freelancer_id'}
         });
       res.status(200).json({
         success: true,
