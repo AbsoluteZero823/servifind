@@ -13,14 +13,17 @@ const { getTransactions,
     ClientCompleteTransaction,
     ClientRateTransaction,
     ClientReportTransaction,
+    ClientFetchTransaction,
 
+    FreelancerGenerateTransaction,
+    FreelancerCompleteTransaction,
+    FreelancerReportTransaction,
 
     createTransactionReview,
     getTransactionReviews,
     deleteReview,
     getMyFTransactions,
     getMyCTransactions,
-    ClientFetchTransaction
 } = require('../controllers/transactionController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
@@ -37,6 +40,11 @@ router.route('/mytransactions').post(isAuthenticatedUser, ClientFetchTransaction
 router.route('/transactions/complete').post(isAuthenticatedUser, ClientCompleteTransaction);
 router.route('/transactions/client/rate').post(isAuthenticatedUser, ClientRateTransaction);
 router.route('/transactions/client/report').post(isAuthenticatedUser, ClientReportTransaction);
+
+router.route('/myfreelancertransactions/generatetransaction').post(isAuthenticatedUser, FreelancerGenerateTransaction);
+router.route('/myfreelancertransactions/completetransaction').post(isAuthenticatedUser, FreelancerCompleteTransaction);
+router.route('/myfreelancertransactions/reporttransaction').post(isAuthenticatedUser, FreelancerReportTransaction);
+
 // router.route('/transaction/client/done/:id').put(transactionDoneC);
 // router.route('/transaction/:id').put(updateTransaction).delete(deleteTransaction);
 // router.route('/my/transactionsf').get(getMyFTransactions);

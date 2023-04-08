@@ -41,7 +41,8 @@ const transactionSchema = new mongoose.Schema({
     },
     offer_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Offer'
+        ref: 'Offer',
+        required: false
     },
     gcashreceipt: {
         type: String,

@@ -119,6 +119,62 @@ exports.ClientReportTransaction = async (req, res, next) => {
     }
 };
 
+exports.FreelancerGenerateTransaction = async (req, res, next) => {
+    req.body.created_at = new Date();
+    const transaction = await Transaction.create(req.body);
+
+    res.status(201).json({
+        success: true,
+        transaction
+    })
+}
+
+exports.FreelancerCompleteTransaction = async (req, res, next) => {
+    const params = {};
+    params.isPaid = 'true';
+    params.isPaid = 'true';
+    params.paymentSent = 'true';
+    params.paymentReceived = 'true';
+    params.transaction_done = {client: 'true', freelancer: 'true', workCompleted: new Date(), transactionCompleted: new Date()};
+    params.finished_At = new Date();
+    params.status = 'completed';
+    console.log(params)
+    try {
+        const updatedTransaction = await Transaction.findByIdAndUpdate(
+            req.body._id,
+            params,
+            {new: true}
+        );
+        return res.status(200).json({ success: true, message: 'Transaction Completed!' });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+exports.FreelancerReportTransaction = async (req, res, next) => {
+    const { reason, description, user_reported, _id } = req.body;
+    try {
+        // Update the Transaction with the given transaction_id to set reportedBy.client to true
+        const updatedTransaction = await Transaction.findByIdAndUpdate(
+        _id,
+        { 'reportedBy.freelancer': 'true' },
+        { new: true }
+        );
+        // Create a new Report data with the given reason, description, user_reported, and transaction_id
+        const newReport = new Report({
+        reason,
+        description,
+        reported_by: req.user._id, // assuming you have a logged-in user
+        user_reported,
+        transaction_id: _id,
+        });
+        const savedReport = await newReport.save();
+        return res.status(200).json({ success: true, message: 'Report Sent!' });
+    } catch (error) {
+        return next(error);
+    }
+}
+
 
 
 
