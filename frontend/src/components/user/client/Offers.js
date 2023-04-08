@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom'
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 
+import Swal from 'sweetalert2'
 
+import { CancelOtherOffer, AcceptOffer } from '../../../actions/offerActions'
+import { newTransaction, clearErrors } from '../../../actions/transactionActions';
 
 const Offers = ({ offer }) => {
     // console.log(users)
@@ -42,7 +45,43 @@ const Offers = ({ offer }) => {
 
     }, [dispatch, alert])
 
+    const acceptOfferHandler = (id) => {
+        const offerData = new FormData();
+        offerData.set('request_id', offer.request_id._id);
+        // formData.set('client', 'false');
 
+        
+        const formData = new FormData();
+        formData.set('offer_id', id);
+
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Accepting this offer will decline all other offers?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+
+                dispatch(CancelOtherOffer(offer.request_id._id))
+                dispatch(AcceptOffer(id))
+                dispatch(newTransaction(formData));
+                Swal.fire(
+                    'Offer Accepted!',
+                    'Thank you',
+                    'success'
+                )
+                //closes the modal
+                // $('.close').click();
+
+            }
+        })
+
+
+    }
 
     return (
 
@@ -192,7 +231,7 @@ const Offers = ({ offer }) => {
                     <div className='bottomInfo'></div>
                     <div style={{ display: 'flex', overflow: 'hidden' }}>
                         <div className='inTransDiv'>
-                            <button className='buttonInTrans' style={{ border: '1px solid transparent', backgroundColor: '#ee4d2d', color: '#fff' }}>Accept for ₱30</button>
+                            <button className='buttonInTrans' style={{ border: '1px solid transparent', backgroundColor: '#ee4d2d', color: '#fff' }} onClick={() => acceptOfferHandler(offer._id)} >Accept for ₱30</button>
                         </div>
                         <div className='inTransDiv'>
                             <button className='buttonInTrans' style={{ border: '1px solid rgba(0,0,0,.09)', color: '#555' }}>Contact Seller</button>

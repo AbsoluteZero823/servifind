@@ -102,8 +102,8 @@ const SingleService = () => {
 
             {loading ? <Loader /> : (
                 <Fragment>
-                    {/* <div className='row ey' style={{ paddingLeft: '-10 !important' }}>
-                        <div className='1st' style={{ backgroundColor: "#FFD4D4", width: "30%", paddingLeft: '-5px' }}>
+                    <div className='row ey' style={{ paddingLeft: '-10 !important' }}>
+                        <div className='1st' style={{ backgroundColor: "#FFD4D4", width: "30%", paddingLeft: '-5px', height:'86vh' }}>
                            
                             <center>
                                 <img
@@ -115,15 +115,15 @@ const SingleService = () => {
                                     style={{ marginTop: '30px' }}
                                 />
 
-                                <div className="profile-info">
+                                <div className="profile-info" style={{fontSize:'20px'}}>
                                     <h4>Profile Information:</h4>
-                                    <div className="name">Name: {service.user && service.user.name}</div>
-                                    <div className="age">Age: 24</div>
-                                    <div className="gender">Gender: Female</div>
-                                    <div className="address">Address: Mansanas St. Taguig City</div>
-                                    <div className="contact">09221213534</div>
+                                    <div className="name" >Name: {service.user && service.user.name}</div>
+                                    <div className="age">Age: {service.user && service.user.age}</div>
+                                    <div className="gender">Gender: {service.user && service.user.gender}</div>
+                                    <div className="address">Email: {service.user && service.user.email}</div>
+                                    <div className="contact">Contact Number: {service.user && service.user.contact}</div>
                                 </div>
-                                <div className='row'>
+                                <div className='row' style={{justifyContent:'space-around', paddingTop:'10px'}}>
                                     <button className="custom-btn btn-5" style={{ margin: '20px' }} data-toggle="modal" data-target="#exampleModalCenter" ><span style={{ margin: '10px' }} >Inquire</span></button>
                                     <button className="custom-btn btn-5" style={{ margin: '20px' }}><span>Read More</span></button>
                                   
@@ -131,8 +131,8 @@ const SingleService = () => {
                             </center>
 
                         </div>
-                        <div className='2nd' style={{ backgroundColor: "transparent", width: "70%" }}>
-                            <h1>Nail Treatments</h1>
+                        <div className='2nd' style={{ backgroundColor: "transparent", width: "70%", height:'86vh' , padding:'30px'}}>
+                            <h1 style={{ textAlign:'center'}}>Nail Treatments</h1>
                             <div className="list-of-service__container">
                                 <div className="list-of-service">
                                     <h2>List of Services</h2>
@@ -144,10 +144,21 @@ const SingleService = () => {
                                         <li>Gel Polish</li>
                                         <li>Nail Arts</li>
                                     </ul>
+
+                                    
                                 </div>
                                 <div className="customer-ratings">
-                                    <img src="chelson-tamares-vtQHwU4F13s-unsplash.jpg" alt="" />
-                                    <h2>Customer reviews</h2>
+                                    <img  src={service && service.image}
+                                    
+                                    key={service._id}
+                                    // className="rounded-img-big"
+
+                                    style={{ marginTop: '30px' }} />
+                                    
+                                </div>
+                            </div>
+<div style={{padding:'0px 30px'}}>
+                            <h2>Customer reviews</h2>
                                     <div className='rating'>
                                         <span className="fa fa-star checked"></span>
                                         <span className="fa fa-star checked"></span>
@@ -156,8 +167,7 @@ const SingleService = () => {
                                         <span className="fa fa-star"></span>
                                     </div>
                                     <span>6 customer ratings</span>
-                                </div>
-                            </div>
+                                    </div>
                         </div>
 
 
@@ -207,16 +217,16 @@ const SingleService = () => {
                                 </form>
                             </div>
                         </div>
-                    </div> */}
-                    <div class="profile-container">
+                    </div>
+                    {/* <div class="profile-container">
                         <div class="profile-content">
                             <img
                                 src={service.user && service.user.avatar.url}
                                 alt={service.user && service.user.name}
                                 key={service._id}
-                            // className="rounded-img-big"
+                            className="rounded-img-big"
 
-                            // style={{ marginTop: '30px' }}
+                            style={{ marginTop: '30px' }}
                             />
 
                             <div class="profile-info">
@@ -261,7 +271,7 @@ const SingleService = () => {
                             </div>
 
                         </div>
-                    </div>
+                    </div> */}
 
                 </Fragment>
             )

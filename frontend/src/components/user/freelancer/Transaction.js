@@ -9,18 +9,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import Swal from 'sweetalert2';
 import $ from 'jquery';
 
-
 import { getTransactions, clearErrors, SingleTransaction, PaymentReceived, PaymentSent, TransactionDone, RateDone, ReportDone } from '../../../actions/transactionActions'
 
 const Transaction = ({ transaction }) => {
 // console.log(users)
 
     const { user, isAuthenticated } = useSelector(state => state.auth)
-    // const { loadings, detailserror, transaction } = useSelector(state => state.transactionDetails);
+
     const dispatch = useDispatch();
   
     const alert = useAlert();
-    const [rating, setRating] = useState(0);
+
 
     useEffect(() => {
         // dispatch(allUsers())
@@ -47,52 +46,16 @@ const Transaction = ({ transaction }) => {
 
     }, [dispatch, alert])
 
-    const transactionDetailsHandler = (id) => {
-        dispatch(SingleTransaction(id))
 
 
-
-    }
-    const submitHandler = (e) => {
-        e.preventDefault();
-        const statusData = new FormData();
-        statusData.set('paymentSent', 'true');
-        Swal.fire({
-            title: 'is Payment Done?',
-            text: "If you pay thru Gcash, make sure to send the screenshot of the receipt to the freelancer.",
-            icon: 'info',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, payment is done'
-        }).then((result) => {
-            if (result.isConfirmed) {
-
-                dispatch(PaymentSent(transaction._id, statusData));
-
-                Swal.fire(
-                    'Payment Sent!',
-                    'Wait for the freelancer to check your payment',
-                    'success'
-                )
-                //closes the modal
-                $('.close').click();
-
-            }
-        })
-
-
-    }
-
-    const confirmTransactionHandler = (id, workCompleted) => {
+    const workDoneHandler = (id) => {
         const formData = new FormData();
         formData.set('freelancer', 'true');
-        formData.set('client', 'true');
-        formData.set('workCompleted', workCompleted);
+        formData.set('client', 'false');
 
         Swal.fire({
-            title: 'Transaction is Done?',
-            text: "Once you click done, you can't report this user anymore",
+            title: 'Are you sure?',
+            text: "Did you already finish the work?",
             icon: 'info',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -105,7 +68,7 @@ const Transaction = ({ transaction }) => {
 
 
                 Swal.fire(
-                    'Transaction Done!',
+                    'Work Done!',
                     'Thank you',
                     'success'
                 )
@@ -117,49 +80,41 @@ const Transaction = ({ transaction }) => {
 
 
     }
-    function setUserRatings(id) {
-        dispatch(SingleTransaction(id))
-        const stars = document.querySelectorAll('.star');
+    const paymentReceivedHandler = (id) => {
+        const statusData = new FormData();
+        statusData.set('paymentReceived', 'true');
 
-        stars.forEach((star, index) => {
-            star.starValue = index + 1;
 
-            ['click', 'mouseover', 'mouseout'].forEach(function (e) {
-                star.addEventListener(e, showRatings);
-            })
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "Are you sure this client is paid?",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, payment Received'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                dispatch(PaymentReceived(id, statusData))
+
+
+                Swal.fire(
+                    'Payment Received!',
+                    'Thank you',
+                    'success'
+                )
+                //closes the modal
+                $('.close').click();
+
+            }
         })
 
-        function showRatings(e) {
-
-            stars.forEach((star, index) => {
-                if (e.type === 'click') {
-                    if (index < this.starValue) {
-                        star.classList.add('orange');
-                        // console.log(this.starValue);
-                        setRating(this.starValue)
-                    } else {
-                        star.classList.remove('orange')
-                    }
-                }
-
-                if (e.type === 'mouseover') {
-                    if (index < this.starValue) {
-                        star.classList.add('yellow');
-                    } else {
-                        star.classList.remove('yellow')
-                    }
-                }
-
-                if (e.type === 'mouseout') {
-                    star.classList.remove('yellow')
-                }
-            })
-        }
 
     }
 
     return (
-<Fragment>
+
 
         <div className='servicecontainer'>
         {/* 1st div */}
@@ -169,38 +124,29 @@ const Transaction = ({ transaction }) => {
                     <div className='firstColumn'>
                     {transaction.inquiry_id && (
                        
-                        <img className='small-circle' src={transaction.inquiry_id.freelancer.user_id.avatar.url} />
+                        <img className='small-circle' src={transaction.inquiry_id.customer.avatar.url} />
                         
                     )}
                     {transaction.offer_id && (
                         // <div className='pictureDapat'>
-                        <img className='small-circle' src={transaction.offer_id.offered_by.avatar.url} />
+                        <img className='small-circle' src={transaction.offer_id.request_id.requested_by.avatar.url} />
                         // </div>
                     )}
                         {transaction.inquiry_id && (
                         <div className='freelancer'>           
-                            {transaction.inquiry_id.freelancer.gcash_name}
+                            {transaction.inquiry_id.customer.name}
                         </div>
                          )}
                           {transaction.offer_id && (
                         <div className='freelancer'>           
-                            {transaction.offer_id.offered_by.name}
+                            {transaction.offer_id.request_id.requested_by.name}
                         </div>
                          )}
-                          {transaction.inquiry_id && (
                         <div style={{margin:'0 0 0 8px'}}>
-                            
-                            <Link to={`/service/details/${transaction.inquiry_id.service_id._id}`}>
-                            <button className='viewShop'>view Service</button></Link>
+                            {/* <Link to={`/service/details/${transaction.inquiry_id.service_id._id}`}>
+                            <button className='viewShop'>view Service</button>
+                            </Link> */}
                         </div>
-                          )}
-                             {transaction.offer_id && (
-                        <div style={{margin:'0 0 0 8px'}}>
-                            
-                            <Link to={`/service/details/${transaction.offer_id.service_id}`}>
-                            <button className='viewShop'>view Service</button></Link>
-                        </div>
-                          )}
                        
                     </div>
                     <div>
@@ -256,24 +202,28 @@ const Transaction = ({ transaction }) => {
         <div className='buttoncontainer'>
             <div className='bottomInfo'>Date Created: {moment(transaction.created_At).format('MMM/DD/yy')}</div>
             <div style={{display:'flex', overflow:'hidden'}}>
-            {transaction && transaction.transaction_done.client === 'true' && transaction.isRated === 'false' && (
+            {/* {transaction && transaction.transaction_done.client === 'true' && transaction.isRated === 'false' && (
                 <div className='inTransDiv'>
-                    <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#ee4d2d', color:'#fff'}} data-toggle="modal" data-target="#RateServiceModal" onClick={() => { setUserRatings(transaction._id); }}>Rate</button>
+                    <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#ee4d2d', color:'#fff'}}>Rate</button>
                 </div>
-            )}
-               {transaction.paymentSent === 'false' && (
+            )} */}
+               {/* {transaction.paymentSent === 'false' && (
                     <div className='inTransDiv'>
-                    <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#0fa0dc', color:'#fff'}} data-toggle="modal" data-target="#PaymentDetailsModal" onClick={() => transactionDetailsHandler(transaction._id)}>Make Payment</button>
+                    <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#0fa0dc', color:'#fff'}}>Make Payment</button>
+                </div>
+                )} */}
+                {transaction.transaction_done && transaction.transaction_done.freelancer === 'false' && (
+                    <div className='inTransDiv'>
+                    <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#0fa0dc', color:'#fff'}} onClick={() => workDoneHandler(transaction._id)} data-toggle="tooltip" data-placement="bottom" title="is Work done?">Work Done</button>
                 </div>
                 )}
-{transaction && transaction.paymentSent === 'true' && transaction.transaction_done.freelancer === 'true' && transaction.status === 'processing' && (
-   <div className='inTransDiv'>
-   <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#0fa0dc', color:'#fff'}} data-toggle="tooltip" data-placement="bottom" title="Confirm if the transaction is done" onClick={() => confirmTransactionHandler(transaction._id, transaction.transaction_done.workCompleted)}>Transction Done</button>
+                {transaction && transaction.paymentReceived === 'false' && transaction.paymentSent === 'true' && (
+  <div className='inTransDiv'>
+  <button className='buttonInTrans' style={{border:'1px solid transparent', backgroundColor:'#0fa0dc', color:'#fff'}} data-toggle="tooltip" data-placement="bottom" title="Confirm if client is Paid" onClick={() => (paymentReceivedHandler(transaction._id))}>Payment Received</button>
 </div>
-)}
-
+                )}
                 <div className='inTransDiv'>
-                    <button className='buttonInTrans' style={{border:'1px solid rgba(0,0,0,.09)',  color:'#555'}}>Contact Freelancer</button>
+                    <button className='buttonInTrans' style={{border:'1px solid rgba(0,0,0,.09)',  color:'#555'}}>Contact Client</button>
                 </div>
                 {transaction && transaction.transaction_done.client === 'false' && (
                 <div className='inTransDiv'>
@@ -282,13 +232,7 @@ const Transaction = ({ transaction }) => {
                 )}
             </div>
         </div>
-        
     </div>
-
-    
-
-           
-            </Fragment>
     )
 }
 export default Transaction

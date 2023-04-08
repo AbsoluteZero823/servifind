@@ -94,7 +94,7 @@ export const getRequestsReducer = (state = { requests: [] }, action) => {
     }
 }
 
-export const requestDetailsReducer = (state = { request: {} }, action) => {
+export const requestDetailsReducer = (state = { singlerequest: {} }, action) => {
     switch (action.type) {
 
         case SINGLE_REQUEST_REQUEST:
@@ -107,7 +107,7 @@ export const requestDetailsReducer = (state = { request: {} }, action) => {
             return {
                 ...state,
                 loadings: false,
-                request: action.payload.request,
+                singlerequest: action.payload.singlerequest,
             }
 
         case SINGLE_REQUEST_FAIL:

@@ -19,6 +19,14 @@ import {
     REQUEST_OFFERS_SUCCESS,
     REQUEST_OFFERS_FAIL,
 
+    UPDATE_STATUS_REQUEST,
+    UPDATE_STATUS_SUCCESS,
+    UPDATE_STATUS_FAIL,
+
+    ACCEPT_OFFER_REQUEST,
+    ACCEPT_OFFER_SUCCESS,
+    ACCEPT_OFFER_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/offerConstants';
 
@@ -122,4 +130,57 @@ export const RequestOffer = (request_id) => async (dispatch) => {
     }
 }
 
+
+export const CancelOtherOffer = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_STATUS_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/cancel-offer/${id}`, config)
+
+        dispatch({
+            type: UPDATE_STATUS_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_STATUS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const AcceptOffer = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: ACCEPT_OFFER_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/accept-offer/${id}`, config)
+
+        dispatch({
+            type: ACCEPT_OFFER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: ACCEPT_OFFER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 

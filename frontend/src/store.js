@@ -7,9 +7,9 @@ import { servicesReducer, serviceDetailsReducer, newServiceReducer, UpDelService
 import { newInquiryReducer, inquiriesReducer, inquiryDetailsReducer, statusReducer } from './reducers/inquiryReducers';
 import { getTransactionsReducer, newTransactionReducer, transactionDetailsReducer, paymentReducer } from './reducers/transactionReducers';
 import { freelancerDetailsReducer } from './reducers/freelancerReducers';
-import { getRequestsReducer, newRequestReducer } from './reducers/requestReducers';
+import { getRequestsReducer, newRequestReducer, requestDetailsReducer } from './reducers/requestReducers';
 import { getCategoriesReducer } from './reducers/categoryReducers';
-import { getOffersReducer, newOfferReducer, offerDetailsReducer, getRequestOffersReducer } from './reducers/offerReducers';
+import { getOffersReducer, newOfferReducer, offerDetailsReducer, getRequestOffersReducer, updateReducer } from './reducers/offerReducers';
 // import { getTransactions } from '../../backend/controllers/transactionController';
 const reducer = combineReducers({
 
@@ -42,8 +42,14 @@ const reducer = combineReducers({
     addRequest: newRequestReducer,
 
     categories: getCategoriesReducer,
+
     offers: getOffersReducer,
-    requestoffers: getRequestOffersReducer
+    updateoffer: updateReducer,
+    
+
+    requestoffers: getRequestOffersReducer,
+    requestDetails: requestDetailsReducer,
+
 })
 let initialState = {
 }

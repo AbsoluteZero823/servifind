@@ -11,6 +11,8 @@ import $ from 'jquery';
 import moment from 'moment/moment'
 
 import { getServices } from '../actions/serviceActions';
+import { SingleRequest } from '../actions/requestActions';
+
 import { newOffer } from '../actions/offerActions'
 
 const Request = ({ request }) => {
@@ -26,13 +28,15 @@ const Request = ({ request }) => {
     // const { loading, services, error, servicesCount, resPerPage, filteredServicesCount } = useSelector(state => state.services);
 
     const { services } = useSelector(state => state.services);
-    const { loading, error, transactions } = useSelector(state => state.transactions);
+    // const { loading, error, transactions } = useSelector(state => state.transactions);
     const { loadings, detailserror, transaction } = useSelector(state => state.transactionDetails);
+    const { error, singlerequest } = useSelector(state => state.requestDetails);
+
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
     const [service_id, setServiceId] = useState('');
     const [description, setDescription] = useState('');
-    const [request_id, setRequestId] = useState('');
+    // const [request_id, setRequestId] = useState('');
 
     useEffect(() => {
         if (error) {
@@ -40,21 +44,33 @@ const Request = ({ request }) => {
             return alert.error(error)
         }
 
+        // if(request_id){
+        //     setRequestId(request_id);
+        // }
+    
         dispatch(getServices());
 
     }, [dispatch, alert, error]);
 
 
+    const requestDetailsHandler = (id) => {
+        dispatch(SingleRequest(id))
 
+
+
+    }
     const submitOfferHandler = (e) => {
         e.preventDefault();
-
+        // console.log(e)
+        // const { requestId } = e.target;
         const offerData = new FormData();
 
+     
         offerData.set('service_id', service_id);
         offerData.set('description', description);
         offerData.set('offered_by', user._id);
-        offerData.set('request_id', request_id);
+        offerData.set('request_id', singlerequest && singlerequest._id);
+  
 
         dispatch(newOffer(offerData));
         Swal.fire(
@@ -129,7 +145,7 @@ const Request = ({ request }) => {
 
                         )}
                         {request.requested_by._id != user._id && (
-                            <div className="action" data-toggle="modal" data-target="#MakeOfferModal" onClick={() => setRequestId(request._id)}>
+                            <div name={request._id} className="action" data-toggle="modal" data-target="#MakeOfferModal" onClick={() => requestDetailsHandler(request._id)}>
                                 {/* <i className="like-icon"></i> */}
                                 <a href="#">
                                     <span>Make an Offer</span>
@@ -162,7 +178,7 @@ const Request = ({ request }) => {
 
                                 <div style={{ padding: '10px 10px' }}>
                                     {/* populate the service of the logged in freelancer */}
-                                    <label htmlFor="service_id">Service:</label>
+                                    <label htmlFor="service_id">Service to offer:</label>
 
                                     <select
                                         name="service_id"

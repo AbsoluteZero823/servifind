@@ -125,8 +125,8 @@ exports.ClientReportTransaction = async (req, res, next) => {
 //all Transactions
 exports.getTransactions = async (req, res, next) => {
 
-
-    const transactions = await Transaction.find().populate([{
+    const sort = { _id: -1 };
+    const transactions = await Transaction.find().sort(sort).populate([{
         path: 'inquiry_id',
 
         populate: { path: 'customer' }
@@ -148,6 +148,26 @@ exports.getTransactions = async (req, res, next) => {
         model: 'Inquiry',
         populate: {
             path: 'service_id'
+        }
+    },
+    {
+        path: 'offer_id',
+        model: 'offer',
+        populate: {
+            path: 'request_id',
+            model: 'Request',
+            populate: {
+                path: 'requested_by',
+                model: 'user'
+            }
+        }
+    },
+    {
+        path: 'offer_id',
+        model: 'offer',
+        populate: {
+            path: 'offered_by',
+          
         }
     }
     ]);

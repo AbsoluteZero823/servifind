@@ -63,13 +63,13 @@ const Sidebar = () => {
 
 
                     <li>
-                        <Link to="/maintenance"><i className="fa fa-envelope"></i>Messages</Link>
+                        <Link to="/message"><i className="fa fa-envelope"></i>Messages</Link>
                     </li>
                     <li>
                         <Link to="/all"><i className="fa fa-cogs"></i>Available Services</Link>
                     </li>
                     <li>
-                        <Link to="/transactions"><i className="fa fa-history"></i>Transactions</Link>
+                        <Link to="/my/transactions"><i className="fa fa-history"></i>Transactions</Link>
                     </li>
                     {/* <li>
                         <Link to="/admin/reviews"><i className="fa fa-star"></i> Reviews</Link>
