@@ -91,10 +91,19 @@ exports.getmyOffers = async (req, res, next) => {
         return next(new ErrorHandler('Offers not found', 404));
     }
 
+    const offerIds = myoffers.map(offer => offer._id); // Extract offer IDs
+
+    const transactions = await Transaction.find({ offer_id: { $in: offerIds } });
+
+    const offersWithTransactions = myoffers.map(offer => {
+        const offerTransactions = transactions.filter(transaction => transaction.offer_id.toString() === offer._id.toString());
+        return { ...offer.toObject(), transactions: offerTransactions };
+    });
+
     res.status(200).json({
         success: true,
-        myoffers
+        myoffers: offersWithTransactions
     })
-
 }
+
 

@@ -9,5 +9,6 @@
         "**/frontend": true,
         "frontend": true
     },
-    "explorerExclude.backup": {}
+    "explorerExclude.backup": {},
+    "docwriter.style": "JSDoc"
 }
