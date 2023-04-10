@@ -119,6 +119,31 @@ exports.ClientReportTransaction = async (req, res, next) => {
     }
 };
 
+exports.FreelancerFetchTransaction = async (req, res, next) => {
+    try {
+        // Get all the offers associated with the user
+        const offers = await Offer.find({ offered_by: req.user._id });
+        // Get all the transactions associated with those offers
+        const transactions = await Transaction.find({ offer_id: { $in: offers.map((offer) => offer._id) } }).populate({
+            path: "offer_id",
+            populate: {
+              path: "service_id", 
+              path: "request_id",
+              populate: {
+                path: "requested_by", 
+              },
+            },
+          })
+        // Return the transactions
+        res.status(200).json({
+            success: true,
+            transactions,
+        })
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 500))
+    }
+}
+
 exports.FreelancerGenerateTransaction = async (req, res, next) => {
     req.body.created_at = new Date();
     const transaction = await Transaction.create(req.body);

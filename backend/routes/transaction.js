@@ -18,6 +18,7 @@ const { getTransactions,
     FreelancerGenerateTransaction,
     FreelancerCompleteTransaction,
     FreelancerReportTransaction,
+    FreelancerFetchTransaction,
 
     createTransactionReview,
     getTransactionReviews,
@@ -41,6 +42,7 @@ router.route('/transactions/complete').post(isAuthenticatedUser, ClientCompleteT
 router.route('/transactions/client/rate').post(isAuthenticatedUser, ClientRateTransaction);
 router.route('/transactions/client/report').post(isAuthenticatedUser, ClientReportTransaction);
 
+router.route('/myfreelancertransactions').post(isAuthenticatedUser, FreelancerFetchTransaction);
 router.route('/myfreelancertransactions/generatetransaction').post(isAuthenticatedUser, FreelancerGenerateTransaction);
 router.route('/myfreelancertransactions/completetransaction').post(isAuthenticatedUser, FreelancerCompleteTransaction);
 router.route('/myfreelancertransactions/reporttransaction').post(isAuthenticatedUser, FreelancerReportTransaction);
