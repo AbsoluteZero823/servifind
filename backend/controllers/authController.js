@@ -2,44 +2,123 @@ const User = require('../models/user');
 // const Animal = require('../models/animal');
 const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwtToken');
-// const sendEmail = require('../utils/sendEmail');
+const sendEmail = require('../utils/sendEmail');
 const crypto = require('crypto');
+const Token = require("../models/token");
 const cloudinary = require('cloudinary')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 
+// const createToken = (_id) => {
+//     const jwtSecretKey = process.env.JWT_SECRET_KEY;
+
+//     return jwt.sign
+// }
+
 exports.registerUser = async (req, res, next) => {
-
-    const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-        folder: 'servifind/avatar',
-        width: 150,
-        crop: "scale"
-    })
-
+    // const { name, age, gender, contact, email, password, role } = req.body;
+    // try {
+    //     let useremail = await User.findOne({ email });
+    //     if (useremail) res.status(400).json("User already exists...");
     const { name, age, gender, contact, email, password, role } = req.body;
-    const user = await User.create({
-        name,
-        age,
-        gender,
-        contact,
-        email,
-        password,
-        status: 'deactivated',
-        // role,
-        avatar: {
-            public_id: result.public_id,
-            url: result.secure_url
-        }
-    })
+    try {
 
-    // const token = user.getJwtToken();
 
-    res.status(201).json({
-        success: true,
-        user
-    })
+        // const { error } = validate(req.body);
+        // if (error)
+        //     return res.status(400).send({ message: error.details[0].message });
+
+        let user = await User.findOne({ email: req.body.email });
+        if (user)
+            return res.status(409).send({ message: "User with given email already exist!" });
+
+        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+            folder: 'servifind/avatar',
+            width: 150,
+            crop: "scale"
+        })
+
+
+        user = await User.create({
+            name,
+            age,
+            gender,
+            contact,
+            email,
+            password,
+            status: 'activated',
+            // role,
+            avatar: {
+                public_id: result.public_id,
+                url: result.secure_url
+            },
+            // emailToken: crypto.randomBytes(64).toString("hex")
+        })
+        // res.status(201).json({
+        //     success: true,
+        //     userCreated
+        // })
+
+        const token = await new Token({
+            userId: user._id,
+            token: crypto.randomBytes(32).toString("hex")
+        }).save();
+
+        const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
+        await sendEmail(user.email, "Verify Email", url);
+        res.status(201).send({
+            success: true,
+            message: "An Email sent to your account please verify",
+            user
+        });
+
+
+    } catch (error) {
+        res.status(500).send({ message: "Internal Server Error" });
+        console.log(error)
+    }
+
+
+
+
+
+
+    // } catch (error) {
+    //     console.log(error);
+    //     res.status(500).json(error.message);
+    // }
+
+
+
+    // // const token = user.getJwtToken();
+
+
     // sendToken(user, 200, res)
 };
 
+exports.verifyEmail = async (req, res, next) => {
+    try {
+        const user = await User.findOne({ _id: req.params.id });
+        if (!user) return res.status(400).send({ message: "Invalid Link" });
+
+        const token = await Token.findOne({
+            userId: user._id,
+            token: req.params.token
+        });
+        if (!token) return res.status(400).send({ message: "Invalid Link" });
+
+
+        await User.updateOne({ _id: user._id }, { $set: { verified: true } })
+        await token.remove()
+
+        res.status(200).send({ message: "Email verified successfully" });
+
+
+
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({ message: "Internals server error" });
+    }
+}
 
 exports.application = async (req, res, next) => {
     let user = await User.findById(req.params.id);
@@ -113,6 +192,7 @@ exports.logout = async (req, res, next) => {
 exports.loginUser = async (req, res, next) => {
     const { email, password } = req.body;
 
+
     // Checks if email and password is entered by user
     if (!email || !password) {
         return next(new ErrorHandler('Please enter email & password', 400))
@@ -131,14 +211,22 @@ exports.loginUser = async (req, res, next) => {
         return next(new ErrorHandler('Invalid Email or Password', 401));
     }
 
-    if (user.status !== 'activated') {
-        return next(new ErrorHandler('Your account must be active, Please contact support!', 401));
-    }
+    // if (user.status !== 'activated') {
+    //     return next(new ErrorHandler('Your account must be active, Please contact support!', 401));
+    // }
+    if (!user.verified) {
+        let token = await Token.findOne({ userId: user._id });
+        if (!token) {
+            token = await new Token({
+                userId: user._id,
+                token: crypto.randomBytes(32).toString("hex")
+            }).save();
 
-
-
-
-    else {
+            const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
+            await sendEmail(user.email, "Verify Email", url);
+        }
+        return res.status(400).send({ messasge: "An Email sent to your account,  please verify" });
+    } else {
         sendToken(user, 200, res, { success: true })
         //     const token = user.getJwtToken();
         //  res.status(201).json({

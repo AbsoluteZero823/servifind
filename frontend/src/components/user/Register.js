@@ -21,6 +21,8 @@ const Register = () => {
         password: '',
     })
 
+    // const [msg, setMsg] = useState("")
+
     const { name, age, gender, contact, email, password } = user;
 
     const [avatar, setAvatar] = useState('')
@@ -40,7 +42,7 @@ const Register = () => {
             dispatch(clearErrors());
         }
         if (success) {
-            swal("Success!", "Registered successfully. wait to be accepted", "success");
+            swal("Success!", "Registered successfully. A verification email have been sent to your gmail", "success");
             // alert.success('Registered successfully. wait to be accepted')
             navigate('/login')
             dispatch({ type: REGISTER_USER_RESET })
@@ -62,6 +64,7 @@ const Register = () => {
 
         dispatch(register(formData))
 
+        // setMsg(res.message)
     }
 
     const onChange = e => {

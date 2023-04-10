@@ -30,18 +30,19 @@ const Login = () => {
 
         if (error) {
             return alert.error(error);
+            swal()
             dispatch(clearErrors());
         }
         if (success) {
 
             swal("Success!", "Logged in Successfully!", "success");
-if(user.role === 'admin'){
-    navigate('/dashboard')
-}
-else{
-    navigate('/all')
-}
-            
+            if (user.role === 'admin') {
+                navigate('/dashboard')
+            }
+            else {
+                navigate('/all')
+            }
+
             // dispatch({ type: NEW_SERVICES_RESET })
         }
 
@@ -51,7 +52,7 @@ else{
         e.preventDefault();
         dispatch(login(email, password))
 
-        
+
         // alert.success('Logged in successfully.')
     }
 

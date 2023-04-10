@@ -45,6 +45,7 @@ import ManageRequest from './components/user/client/ManageRequest';
 import FreelancerOffers from './components/user/client/FreelancerOffers';
 
 import Message from './components/user/Message';
+import EmailVerify from './components/emailVerify/index'
 
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux'
@@ -61,6 +62,9 @@ function App() {
   return (
     <Router>
 
+      <Routes>
+        <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact />
+      </Routes>
       <div className="App">
 
 
@@ -135,6 +139,7 @@ function App() {
                   <Route path="/manage-requests" element={<ManageRequest />} exact />
                   <Route path="/offers-request/:request_id" element={<FreelancerOffers />} exact />
                   <Route path="/message" element={<Message />} exact />
+                  {/* <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact /> */}
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>
@@ -218,7 +223,7 @@ function App() {
               <Route path="/service/details/:id" element={<SingleService />} />
               <Route path="/maintenance" element={<Maintenance />} exact />
 
-
+              {/* <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact /> */}
 
 
 
