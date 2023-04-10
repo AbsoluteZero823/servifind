@@ -1,11 +1,13 @@
-const asyncHandler = require("express-async-handler");
+// const asyncHandler = require("express-async-handler");
 const Chat = require("../models/chat");
 const User = require("../models/user");
+const ErrorHandler = require('../utils/errorHandler');
+
 
 //@description     Create or fetch One to One Chat
 //@route           POST /api/chat/
 //@access          Protected
-const accessChat = asyncHandler(async (req, res) => {
+exports.accessChat = async (req, res, next) => {
   const { userId } = req.body;
 
   if (!userId) {
@@ -14,7 +16,6 @@ const accessChat = asyncHandler(async (req, res) => {
   }
 
   var isChat = await Chat.find({
-    isGroupChat: false,
     $and: [
       { users: { $elemMatch: { $eq: req.user._id } } },
       { users: { $elemMatch: { $eq: userId } } },
@@ -33,7 +34,6 @@ const accessChat = asyncHandler(async (req, res) => {
   } else {
     var chatData = {
       chatName: "sender",
-      isGroupChat: false,
       users: [req.user._id, userId],
     };
 
@@ -49,22 +49,24 @@ const accessChat = asyncHandler(async (req, res) => {
       throw new Error(error.message);
     }
   }
-});
+
+}
+
 
 //@description     Fetch all chats for a user
 //@route           GET /api/chat/
 //@access          Protected
-const fetchChats = asyncHandler(async (req, res) => {
+exports.fetchChats = async (req, res, next) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
-    //   .populate("groupAdmin", "-password")
+      //   .populate("groupAdmin", "-password")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
       .then(async (results) => {
         results = await User.populate(results, {
           path: "latestMessage.sender",
-          select: "name pic email",
+          select: "name avatar email",
         });
         res.status(200).send(results);
       });
@@ -72,11 +74,6 @@ const fetchChats = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error(error.message);
   }
-});
+}
 
 
-module.exports = {
-  accessChat,
-  fetchChats,
-
-};
