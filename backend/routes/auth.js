@@ -10,6 +10,7 @@ const { registerUser,
      activateUser,
      deactivateUser,
      createUser,
+     verifyEmail,
      //
      forgotPassword,
      resetPassword,
@@ -61,6 +62,7 @@ router.route('/customer/:id').put(updateUser, isAuthenticatedUser, authorizeRole
 // router.route('/user/new').post(newUser, isAuthenticatedUser, authorizeRoles('admin'));
 
 router.route('/user/:id').get(getUserDetails);
+router.route("/user/:id/verify/:token").get(verifyEmail);
 
 // router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 
