@@ -10,7 +10,7 @@ const Category = require('../models/category');
 //create new service
 exports.newService = async (req, res, next) => {
     try {
-        const userId = req.user.id;
+        const userId = req.user._id;
 
         // Check if the user has existing services
         const existingServices = await Service.find({ user: userId });

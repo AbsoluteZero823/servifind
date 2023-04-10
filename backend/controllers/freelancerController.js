@@ -112,7 +112,7 @@ exports.makemeaFreelancer = async (req, res, next) => {
     });
     const result = await freelancer.save();
     res.status(201).json({
-      message: 'Registered as a Freelancer, Wait for Confirmation',
+      message: 'Application Sent, Wait for Confirmation',
       freelancer: result,
       success: true
     });
