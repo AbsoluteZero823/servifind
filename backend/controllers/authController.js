@@ -95,6 +95,7 @@ exports.registerUser = async (req, res, next) => {
     // sendToken(user, 200, res)
 };
 
+
 exports.verifyEmail = async (req, res, next) => {
     try {
         const user = await User.findOne({ _id: req.params.id });
@@ -190,6 +191,7 @@ exports.logout = async (req, res, next) => {
 }
 
 exports.loginUser = async (req, res, next) => {
+    console.log(req.body)
     const { email, password } = req.body;
 
 

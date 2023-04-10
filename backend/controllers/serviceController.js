@@ -1,6 +1,7 @@
 const { reset } = require('nodemon');
 const Rating = require('../models/rating');
 const Service = require('../models/service');
+const Freelancer = require('../models/freelancer');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const cloudinary = require('cloudinary')
@@ -8,21 +9,43 @@ const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Category = require('../models/category');
 //create new service
 exports.newService = async (req, res, next) => {
-    const result = await cloudinary.v2.uploader.upload(req.body.image, {
-        folder: 'servifind/avatar',
-        width: 150,
-        crop: "scale"
-    })
+    try {
+        const userId = req.user.id;
 
-    req.body.images = {public_id: result.public_id, url: result.secure_url};
-    // req.body.user = req.user.id;
-    const service = await Service.create(req.body);
+        // Check if the user has existing services
+        const existingServices = await Service.find({ user: userId });
 
-    res.status(201).json({
-        success: true,
-        service
-    })
-}
+        if (existingServices.length > 0) {
+            // Check if the user is premium
+            const freelancer = await Freelancer.findOne({ user_id: userId });
+            if (!freelancer.isPremium) {
+                return res.status(403).json({
+                    success: false,
+                    message: 'You need to be a premium freelancer to create more services'
+                });
+            }
+        }
+
+        const result = await cloudinary.v2.uploader.upload(req.body.image, {
+            folder: 'servifind/avatar',
+            width: 150,
+            crop: "scale"
+        });
+
+        req.body.images = { public_id: result.public_id, url: result.secure_url };
+        req.body.user = userId;
+
+        const service = await Service.create(req.body);
+
+        res.status(201).json({
+            success: true,
+            service
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 
 
 exports.getServices = async (req, res, next) => {

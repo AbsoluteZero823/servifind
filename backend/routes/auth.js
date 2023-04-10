@@ -62,7 +62,9 @@ router.route('/customer/:id').put(updateUser, isAuthenticatedUser, authorizeRole
 // router.route('/user/new').post(newUser, isAuthenticatedUser, authorizeRoles('admin'));
 
 router.route('/user/:id').get(getUserDetails);
+// Problem with .get is security.
 router.route("/user/:id/verify/:token").get(verifyEmail);
+// .Post is more secure.
 
 // router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 
