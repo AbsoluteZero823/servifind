@@ -1,5 +1,5 @@
 // const asyncHandler = require("express-async-handler");
-const Message = require("../models/messageModel");
+const Message = require("../models/message");
 const User = require("../models/user");
 const Chat = require("../models/chat");
 
@@ -38,11 +38,29 @@ const sendMessage = async (req, res) => {
   try {
     var message = await Message.create(newMessage);
 
-    message = await message.populate("sender", "name pic").execPopulate();
-    message = await message.populate("chat").execPopulate();
+    // const inquiries = await Inquiry.find().populate(['customer', {
+    //   path: 'service_id',
+
+    //   populate: { path: 'user' }
+    // }, {
+    //     path: 'service_id',
+    //     populate: { path: 'category' }
+    //   },
+    //   {
+    //     path: 'freelancer',
+    //     populate: { path: 'user_id' }
+    //   }
+    // ]);
+
+    message = await message.populate(['chat', {
+      path: 'sender',
+      model: 'user'
+    }]);
+    // message = await message.populate("sender", "name avatar").execPopulate();
+    // message = await message.populate("chat").execPopulate();
     message = await User.populate(message, {
       path: "chat.users",
-      select: "name pic email",
+      select: "name avatar email",
     });
 
     await Chat.findByIdAndUpdate(req.body.chatId, { latestMessage: message });

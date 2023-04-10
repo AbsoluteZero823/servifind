@@ -5,10 +5,10 @@ const {
   sendMessage,
 } = require("../controllers/messageController");
 // const { protect } = require("../middleware/authMiddleware");
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 
-
-router.route("/messages/:chatId").get(allMessages);
-router.route("/message").post(sendMessage);
+router.route("/messages/:chatId").get(isAuthenticatedUser, allMessages);
+router.route("/message").post(isAuthenticatedUser, sendMessage);
 
 module.exports = router;
