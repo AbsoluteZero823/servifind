@@ -5,7 +5,7 @@ const ErrorHandler = require('../utils/errorHandler');
 
 
 //@description     Create or fetch One to One Chat
-//@route           POST /api/chat/
+//@route           POST /api/v1/chat/
 //@access          Protected
 exports.accessChat = async (req, res, next) => {
   const { userId } = req.body;
@@ -54,7 +54,7 @@ exports.accessChat = async (req, res, next) => {
 
 
 //@description     Fetch all chats for a user
-//@route           GET /api/chat/
+//@route           GET /api/v1/chat/
 //@access          Protected
 exports.fetchChats = async (req, res, next) => {
   try {
@@ -63,12 +63,20 @@ exports.fetchChats = async (req, res, next) => {
       //   .populate("groupAdmin", "-password")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
-      .then(async (results) => {
-        results = await User.populate(results, {
+      .then(async (chats) => {
+        chats = await User.populate(chats, {
           path: "latestMessage.sender",
           select: "name avatar email",
         });
-        res.status(200).send(results);
+        res.status(200).json({
+          success: true,
+          chats
+        })
+
+
+
+
+        // .send(results);
       });
   } catch (error) {
     res.status(400);

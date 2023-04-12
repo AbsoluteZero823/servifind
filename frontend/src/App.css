@@ -45,7 +45,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 14vh;
+  height: 100px;
   padding: 0 5%;
   /* background-color: white;
   color: black; */
@@ -1438,7 +1438,7 @@ a:hover {
   background: #fff;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
-  top: 14vh;
+  top: 100px;
   z-index: 5;
 }
 
@@ -1996,18 +1996,20 @@ $gray: #92959E; */
 }
 
 .people-list ul {
-  padding: 20px;
-  height: 50vh;
+  padding: 20px 10px;
+  /* height: 75vh; */
+  /* color: rgb(96, 96, 96); */
+  height: 80.5vh;
 
-
-
+  /* color: rgb(96, 96, 96); */
+  overflow-y: scroll;
 
 
 }
 
-.people-list ul li {
+/* .people-list ul li {
   padding-bottom: 20px;
-}
+} */
 
 .people-list img {
   float: left;
@@ -2029,7 +2031,7 @@ $gray: #92959E; */
 .people-list {
   width: 20vw;
   float: left;
-
+  height: calc(100vh - 100px);
 
 }
 
@@ -2120,7 +2122,7 @@ $gray: #92959E; */
   padding: 30px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
-  height: 65vh;
+  height: 69vh;
 
 
 }
@@ -2178,7 +2180,7 @@ $gray: #92959E; */
   background: #F2F5F8;
   /* border-top-right-radius: 5px;
   border-bottom-right-radius: 5px; */
-  height: 86vh;
+  height: calc(100vh - 100px);
   color: #434651;
 
 
@@ -2296,3 +2298,31 @@ input:checked+.slider:before {
 }
 
 /* SLIDERS SWITCH END*/
+
+
+/* CHAT CLICK */
+.chatclicked {
+  background-color: #38B2AC;
+  /* color: white; */
+  cursor: pointer;
+  border-radius: 10px;
+  outline: solid #38B2AC;
+  display: block;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.chatnotclicked {
+  /* background-color: #E8E8E8; */
+  /* color: black; */
+  cursor: pointer;
+  border-radius: 10px;
+  /* outline: solid #E8E8E8; */
+  display: block;
+  padding: 8px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+/* END CHAT CLICK */
