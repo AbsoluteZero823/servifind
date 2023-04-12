@@ -2017,15 +2017,36 @@ $gray: #92959E; */
 
 .people-list .about {
   float: left;
-  margin-top: 8px;
+  /* margin-top: 8px; */
 }
 
 .people-list .about {
   padding-left: 8px;
 }
 
-.people-list .status {
+.chatclicked .status {
+
+  color: black;
+}
+
+.chatnotclicked .status {
   color: gray;
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 13vw;
+}
+
+.people-list .status {
+
+
+
+  position: absolute;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 13vw;
 }
 
 .people-list {
@@ -2104,12 +2125,13 @@ $gray: #92959E; */
 }
 
 .chat .chat-history .my-message {
-  background: green;
+  background: #38B2AC;
+  color: white;
 }
 
 .chat .chat-history .other-message {
-  background: blue;
-
+  background: rgb(215 215 215);
+  color: black;
 
 }
 
@@ -2122,18 +2144,18 @@ $gray: #92959E; */
   padding: 30px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
-  height: 69vh;
+  height: 70vh;
 
 
 }
 
-.chat .chat-message textarea {
+.chat .chat-message input {
   width: 100%;
-  height: 3.5vw;
+  height: 3vw;
   border: none;
-  padding: 10px 20px;
-  font: 14px/22px "Lato", Arial, sans-serif;
-  margin-bottom: 10px;
+  padding: 15px 15px;
+  font: 16px/22px "Lato", Arial, sans-serif;
+  /* margin-bottom: 10px; */
   border-radius: 5px;
   resize: none;
 

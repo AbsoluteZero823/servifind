@@ -13,6 +13,7 @@ import MetaData from '../layout/MetaData'
 import MyChats from './MyChats'
 import ChatBox from './ChatBox'
 
+
 const ChatPage = () => {
     // const { user, loading } = useSelector(state => state.auth)
     const fetchChats = async () => {

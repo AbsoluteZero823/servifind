@@ -6,15 +6,16 @@ import {
 
 import { getChats } from '../../actions/chatActions'
 import Loader from '../layout/Loader'
-
+import { ChatState } from '../../Context/ChatProvider'
 
 const MyChats = () => {
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => state.auth)
     const { chats, loading } = useSelector(state => state.chats)
+    const { selectedChat, setSelectedChat } = ChatState();
 
-    const [selectedChat, setSelectedChat] = useState()
+    // const [selectedChat, setSelectedChat] = useState()
     useEffect(() => {
 
 
@@ -48,7 +49,7 @@ const MyChats = () => {
                                 <Fragment>
                                     {chat.users[0]._id === user._id && (
                                         <a
-                                            onClick={() => setSelectedChat(chat)}
+                                            onClick={() => [setSelectedChat(chat), console.log(chat)]}
 
                                             className={selectedChat === chat ? `chatclicked` : "chatnotclicked"}
                                             px={3}
@@ -66,10 +67,17 @@ const MyChats = () => {
                                                         alt="avatar" /></figure>
                                                 <div className="about">
                                                     <div className="name">{chat.users[1].name}</div>
-                                                    <div className="status">
+                                                    {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
+                                                        <div className="status">
+                                                            {/* <i className="fa fa-circle online"></i>  */}
+                                                            You :{chat.latestMessage.content}
+                                                        </div>
+                                                    ) : (<div className="status">
                                                         {/* <i className="fa fa-circle online"></i>  */}
-                                                        online
-                                                    </div>
+                                                        {chat.latestMessage.sender.name}:{chat.latestMessage.content}
+                                                    </div>)}
+
+                                                    {/* {chat.latestMessage.sender.name}:{chat.latestMessage.content} */}
                                                 </div>
                                             </li>
                                         </a>
@@ -97,10 +105,19 @@ const MyChats = () => {
 
                                                 <div className="about">
                                                     <div className="name">{chat.users[0].name}</div>
-                                                    <div className="status">
-                                                        {/* <i className="fa fa-circle online"></i>  */}
-                                                        online
-                                                    </div>
+                                                    {chat.latestMessage && (
+                                                        <Fragment>
+                                                            {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
+                                                                <div className="status">
+                                                                    {/* <i className="fa fa-circle online"></i>  */}
+                                                                    You : {chat.latestMessage.content}
+                                                                </div>
+                                                            ) : (<div className="status">
+                                                                {/* <i className="fa fa-circle online"></i>  */}
+                                                                {chat.latestMessage.sender.name} : {chat.latestMessage.content}
+                                                            </div>)}
+                                                        </Fragment>
+                                                    )}
                                                 </div>
                                             </li>
                                         </a>

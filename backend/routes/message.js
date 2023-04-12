@@ -9,6 +9,6 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 
 router.route("/messages/:chatId").get(isAuthenticatedUser, allMessages);
-router.route("/message").post(isAuthenticatedUser, sendMessage);
+router.route("/message/new").post(isAuthenticatedUser, sendMessage);
 
 module.exports = router;
