@@ -63,7 +63,7 @@ const Sidebar = () => {
 
 
                     <li>
-                        <Link to="/message"><i className="fa fa-envelope"></i>Messages</Link>
+                        <Link to="/chat"><i className="fa fa-envelope"></i>Messages</Link>
                     </li>
                     <li>
                         <Link to="/all"><i className="fa fa-cogs"></i>Available Services</Link>

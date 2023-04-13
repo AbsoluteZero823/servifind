@@ -20,6 +20,9 @@ exports.registerUser = async (req, res, next) => {
     //     let useremail = await User.findOne({ email });
     //     if (useremail) res.status(400).json("User already exists...");
     const { name, age, gender, contact, email, password, role } = req.body;
+
+
+
     try {
 
 
@@ -64,7 +67,8 @@ exports.registerUser = async (req, res, next) => {
         }).save();
 
         const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
-        await sendEmail(user.email, "Verify Email", url);
+
+        await sendEmail(user.email, "Verify Email", url, user.name);
         res.status(201).send({
             success: true,
             message: "An Email sent to your account please verify",
@@ -225,7 +229,7 @@ exports.loginUser = async (req, res, next) => {
             }).save();
 
             const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
-            await sendEmail(user.email, "Verify Email", url);
+            await sendEmail(user.email, "Verify Email", url, user.name);
         }
         return res.status(400).send({ messasge: "An Email sent to your account,  please verify" });
     } else {

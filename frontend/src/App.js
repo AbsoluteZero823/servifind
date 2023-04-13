@@ -44,7 +44,7 @@ import PostRequest from './components/user/client/PostRequest';
 import ManageRequest from './components/user/client/ManageRequest';
 import FreelancerOffers from './components/user/client/FreelancerOffers';
 
-import Message from './components/user/Message';
+import Chat from './components/user/ChatPage';
 import EmailVerify from './components/emailVerify/index'
 
 import { loadUser } from './actions/userActions';
@@ -138,7 +138,7 @@ function App() {
                   <Route path="/post-request" element={<PostRequest />} exact />
                   <Route path="/manage-requests" element={<ManageRequest />} exact />
                   <Route path="/offers-request/:request_id" element={<FreelancerOffers />} exact />
-                  <Route path="/message" element={<Message />} exact />
+                  <Route path="/chat" element={<Chat />} exact />
                   {/* <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact /> */}
 
                   <Route path="/services" element={

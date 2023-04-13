@@ -26,6 +26,8 @@ const report = require('./routes/report');
 const request = require('./routes/request');
 const category = require('./routes/category');
 const offer = require('./routes/offer');
+const chat = require('./routes/chat');
+const message = require('./routes/message');
 // const message = require('./routes/message');
 // app.use('/api/v1', products);
 // app.use('/api/v1', auth);
@@ -43,6 +45,9 @@ app.use('/api/v1', report);
 app.use('/api/v1', request);
 app.use('/api/v1', category);
 app.use('/api/v1', offer);
+app.use('/api/v1', chat);
+app.use('/api/v1', message);
+
 app.use(errorMiddleware);
 
 module.exports = app

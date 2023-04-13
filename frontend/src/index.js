@@ -11,7 +11,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 
 import { positions, transitions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
-
+import ChatProvider from './Context/ChatProvider';
 
 
 const options = {
@@ -31,7 +31,9 @@ const options = {
 ReactDOM.render(
   <Provider store={store} >
     <AlertProvider template={AlertTemplate} {...options}>
-      <App />
+      <ChatProvider>
+        <App />
+      </ChatProvider>
     </AlertProvider>
   </Provider>,
   document.getElementById('root')

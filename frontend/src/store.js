@@ -10,6 +10,8 @@ import { freelancerDetailsReducer } from './reducers/freelancerReducers';
 import { getRequestsReducer, newRequestReducer, requestDetailsReducer } from './reducers/requestReducers';
 import { getCategoriesReducer } from './reducers/categoryReducers';
 import { getOffersReducer, newOfferReducer, offerDetailsReducer, getRequestOffersReducer, updateReducer } from './reducers/offerReducers';
+import { chatsReducer } from './reducers/chatReducers';
+import { messagesReducer, newMessageReducer } from './reducers/messageReducers';
 // import { getTransactions } from '../../backend/controllers/transactionController';
 const reducer = combineReducers({
 
@@ -45,10 +47,15 @@ const reducer = combineReducers({
 
     offers: getOffersReducer,
     updateoffer: updateReducer,
-    
+
 
     requestoffers: getRequestOffersReducer,
     requestDetails: requestDetailsReducer,
+
+    chats: chatsReducer,
+
+    messages: messagesReducer,
+    addMessage: newMessageReducer,
 
 })
 let initialState = {
