@@ -1,9 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
-
-
+import { Link, useNavigate } from 'react-router-dom'
+// import { useParams,  } from "react-router-dom";
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 
 import Swal from 'sweetalert2'
 
@@ -16,6 +16,7 @@ const Offers = ({ offer }) => {
     const { user, isAuthenticated } = useSelector(state => state.auth)
 
     const dispatch = useDispatch();
+    let navigate = useNavigate();
 
     const alert = useAlert();
 
@@ -45,12 +46,35 @@ const Offers = ({ offer }) => {
 
     }, [dispatch, alert])
 
+    const accessChat = async (userId) => {
+        console.log(userId);
+
+        try {
+            // setLoadingChat(true);
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    // Authorization: `Bearer ${user.token}`,
+                },
+            };
+            const { data } = await axios.post(`/api/v1/chat`, { userId }, config);
+            console.log(data);
+            // if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+            // setSelectedChat(data);
+            // setLoadingChat(false);
+            // onClose();
+            navigate(`/chat`)
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
     const acceptOfferHandler = (id) => {
         const offerData = new FormData();
         offerData.set('request_id', offer.request_id._id);
         // formData.set('client', 'false');
 
-        
+
         const formData = new FormData();
         formData.set('offer_id', id);
 
@@ -69,11 +93,13 @@ const Offers = ({ offer }) => {
                 dispatch(CancelOtherOffer(offer.request_id._id))
                 dispatch(AcceptOffer(id))
                 dispatch(newTransaction(formData));
+                accessChat(offer.offered_by._id);
                 Swal.fire(
                     'Offer Accepted!',
                     'Thank you',
                     'success'
                 )
+
                 //closes the modal
                 // $('.close').click();
 

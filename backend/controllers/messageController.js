@@ -11,10 +11,11 @@ const allMessages = async (req, res) => {
     const messages = await Message.find({ chat: req.params.chatId })
       .populate("sender", "name avatar email")
       .populate("chat");
-    res.status(200).json({
-      success: true,
-      messages
-    })
+    res.json(messages);
+    // res.status(200).json({
+    //   // success: true,
+    //   messages
+    // })
   } catch (error) {
     res.status(400);
     throw new Error(error.message);

@@ -8,7 +8,7 @@ import { getChats } from '../../actions/chatActions'
 import Loader from '../layout/Loader'
 import { ChatState } from '../../Context/ChatProvider'
 
-const MyChats = () => {
+const MyChats = ({ fetchAgain }) => {
     const dispatch = useDispatch();
 
     const { user } = useSelector(state => state.auth)
@@ -34,7 +34,7 @@ const MyChats = () => {
         // }
 
 
-    }, [dispatch, alert])
+    }, [dispatch, alert, fetchAgain])
     return (
         <div className="container clearfix" style={{ backgroundColor: '#444753', width: '20.3vw', paddingLeft: '0px' }}>
             <div className="people-list" id="people-list">
@@ -74,7 +74,10 @@ const MyChats = () => {
                                                         </div>
                                                     ) : (<div className="status">
                                                         {/* <i className="fa fa-circle online"></i>  */}
-                                                        {chat.latestMessage.sender.name}:{chat.latestMessage.content}
+
+                                                        {chat && chat.latestMessage && (
+                                                            <div> {chat.latestMessage.sender.name}:{chat.latestMessage.content}</div>
+                                                        )}
                                                     </div>)}
 
                                                     {/* {chat.latestMessage.sender.name}:{chat.latestMessage.content} */}
