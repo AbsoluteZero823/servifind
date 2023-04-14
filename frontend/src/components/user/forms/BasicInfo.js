@@ -14,9 +14,10 @@ function BasicInfo({ formData, setFormData }) {
     const [age, setAge] = useState('')
     const [gender, setGender] = useState('')
     const [contact, setContact] = useState('')
-    const [email, setEmail] = useState('')
+    // const [email, setEmail] = useState('')
     const [avatar, setAvatar] = useState('')
     const [avatarPreview, setAvatarPreview] = useState('/images/default_avatar.jpg')
+    const [avatarName, setAvatarName] = useState('')
 
     const { user, loading } = useSelector(state => state.auth)
     const { error, isUpdated } = useSelector(state => state.user)
@@ -30,7 +31,7 @@ function BasicInfo({ formData, setFormData }) {
             setAge(user.age);
             setGender(user.gender);
             setContact(user.contact);
-            setEmail(user.email);
+            // setEmail(user.email);
             setAvatarPreview(user.avatar.url)
         }
 
@@ -60,7 +61,7 @@ function BasicInfo({ formData, setFormData }) {
         formData.set('age', age);
         formData.set('gender', gender);
         formData.set('contact', contact);
-        formData.set('email', email);
+        // formData.set('email', email);
         formData.set('avatar', avatar);
 
         document.querySelectorAll(".modal-backdrop")
@@ -77,6 +78,8 @@ function BasicInfo({ formData, setFormData }) {
             if (reader.readyState === 2) {
                 setAvatarPreview(reader.result)
                 setAvatar(reader.result)
+                setAvatarName(e.target.files[0].name)
+
             }
         }
 
@@ -100,7 +103,7 @@ function BasicInfo({ formData, setFormData }) {
                                 />
                             </figure>
                         </div>
-                        <br />
+
                         <h5 style={{ color: "red" }} >*Make sure your details is correct</h5>
                         <div className='room'>
                             <div className='contents'>
@@ -108,7 +111,7 @@ function BasicInfo({ formData, setFormData }) {
                                 <label htmlFor="email_field">Age: {user.age}</label>
                                 <label htmlFor="email_field">Gender: {user.gender}</label>
                                 <label htmlFor="email_field">Contact Number: {user.contact}</label>
-                                <label htmlFor="email_field">Email: {user.email}</label>
+                                {/* <label htmlFor="email_field">Email: {user.email}</label> */}
                             </div>
                         </div>
 
@@ -275,7 +278,7 @@ function BasicInfo({ formData, setFormData }) {
                                             />
                                         </div>
 
-                                        <div className="form-group">
+                                        {/* <div className="form-group">
                                             <label htmlFor="email_field">Email</label>
                                             <input
                                                 type="email"
@@ -285,7 +288,7 @@ function BasicInfo({ formData, setFormData }) {
                                                 value={email}
                                                 onChange={(e) => setEmail(e.target.value)}
                                             />
-                                        </div>
+                                        </div> */}
 
                                         <div className='form-group'>
                                             <label htmlFor='avatar_upload'>Avatar</label>
@@ -307,9 +310,11 @@ function BasicInfo({ formData, setFormData }) {
                                                         id='customFile'
                                                         accept='image/*'
                                                         onChange={onChange}
+
                                                     />
                                                     <label className='custom-file-label' htmlFor='customFile'>
-                                                        Choose Avatar
+                                                        {/* Choose Avatar */}
+                                                        {avatarName}
                                                     </label>
                                                 </div>
                                             </div>

@@ -13,7 +13,7 @@ const { getFreelancers,
 
 
 // router.route('/freelancers').get(getFreelancers);
-// router.route('/freelancer/new').post(newFreelancer);
+router.route('/freelancer/new').post(newFreelancer);
 router.route('/freelancer/:id').get(getSingleFreelancer);
 // router.route('/freelancer/:id').put(updateFreelancer).delete(deleteFreelancer);
 module.exports = router;

@@ -1,13 +1,21 @@
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: true
-    },
+    // title: {
+    //     type: String,
+    //     required: true
+    // },
     name: {
         type: String,
         required: true
+    },
+    description: {
+        type: String,
+        required: false,
+    },
+    priceStarts_At: {
+        type: String,
+        required: true,
     },
     category: {
         type: mongoose.Schema.Types.ObjectId,
@@ -19,19 +27,19 @@ const serviceSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-    experience: {
-        type: String,
-        required: true
-    },
+    // experience: {
+    //     type: String,
+    //     required: true
+    // },
     freelancer_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Freelancer',
         required: true
     },
-    status: {
-        type: String,
-        default: 'approved'
-    },
+    // status: {
+    //     type: String,
+    //     default: 'approved'
+    // },
     images: {
         public_id: {
             type: String,
@@ -44,7 +52,7 @@ const serviceSchema = new mongoose.Schema({
             //    default:'https://res.cloudinary.com/dawhmjhu1/image/upload/v1651110818/shelter/avatar_rk4v2w.jpg'
         }
     }
- 
+
 
 })
 

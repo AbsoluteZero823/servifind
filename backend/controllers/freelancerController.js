@@ -4,18 +4,16 @@ const Freelancer = require('../models/freelancer');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
+const cloudinary = require('cloudinary')
 // const  Category  = require('../models/category');
 
-// exports.newTransaction = async (req, res, next) => {
-//     console.log(req.body);
-//     // req.body.user = req.user.id;
-//     const transaction = await Transaction.create(req.body);
+exports.newFreelancer = async (req, res, next) => {
+    console.log(req.body);
+    // req.body.user = req.user.id;
 
-//     res.status(201).json({
-//         success: true,
-//         transaction
-//     })
-// }
+
+
+}
 
 //all Transactions
 // exports.getTransactions = async (req, res, next) => {

@@ -1,23 +1,29 @@
 const mongoose = require('mongoose');
 
 const freelancerSchema = new mongoose.Schema({
-    approved_date: {
-        type: Date,
-        required: true
-    },
-    isPremium: {
+    status: {
         type: String,
         required: true,
-        default: 'false'
+        default: 'applying'
+        // "applying", "approved", "restricted", "rejected"
+    },
+    approved_date: {
+        type: Date,
+        required: false
+    },
+    isPremium: {
+        type: Boolean,
+        required: true,
+        default: false
     },
     availability: {
         type: String,
         required: true,
-        default: 'true'
+        default: 'false'
     },
     gcash_name: {
-       type: String,
-       required: false,
+        type: String,
+        required: false,
 
     },
     gcash_num: {
@@ -36,6 +42,30 @@ const freelancerSchema = new mongoose.Schema({
             default: 'https://res.cloudinary.com/dawhmjhu1/image/upload/v1674014501/servifind/avatar/default_profile.jpg'
         }
     },
+    resume: {
+        public_id: {
+            type: String,
+            required: true,
+            default: 'servifind/freelancer/resume/emptyResume_i8hkio'
+        },
+        url: {
+            type: String,
+            required: true,
+            default: 'https://res.cloudinary.com/dawhmjhu1/image/upload/v1681466742/servifind/freelancer/resume/emptyResume_i8hkio.jpg'
+        }
+    },
+    schoolID: {
+        public_id: {
+            type: String,
+            required: true,
+            default: 'servifind/freelancer/school_id/schoolID_p9fna0'
+        },
+        url: {
+            type: String,
+            required: true,
+            default: 'https://res.cloudinary.com/dawhmjhu1/image/upload/v1681466602/servifind/freelancer/school_id/schoolID_p9fna0.jpg'
+        }
+    },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'user',
@@ -43,8 +73,8 @@ const freelancerSchema = new mongoose.Schema({
     },
 
 
- 
+
 
 })
 
-module.exports= mongoose.model('Freelancer', freelancerSchema);
+module.exports = mongoose.model('Freelancer', freelancerSchema);

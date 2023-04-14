@@ -5,6 +5,7 @@ import { Link, useParams } from "react-router-dom";
 import MetaData from './layout/MetaData'
 // import Animal from './animal/Animal'
 import Loader from './layout/Loader'
+import Swal from 'sweetalert2';
 
 import { useDispatch, useSelector } from 'react-redux'
 import { useAlert } from 'react-alert';
@@ -23,6 +24,34 @@ const Become = () => {
   const alert = useAlert();
   const dispatch = useDispatch();
 
+  const { user, isAuthenticated } = useSelector(state => state.auth)
+  const [isTupEmail, setIsTupEmail] = useState();
+
+  // THIS FUNCTION VALIDATES IF EMAIL IS TUP EMAIL
+  const validateEmail = () => {
+    var regex = /^[^\s@]+@tup\.edu.ph$/;
+    var result = regex.test(user && user.email);
+    if (result == true) {
+      //Proceed further
+      console.log(result)
+      setIsTupEmail(result)
+    }
+    else {
+      console.log("Email address is not TUP email")
+    }
+  }
+
+  useEffect(() => {
+    validateEmail()
+  }, []);
+
+  const SwalAlert = () => {
+    Swal.fire(
+      'Your Email is not TUP Email',
+      'Only TUP students can apply for a freelancer',
+      'warning'
+    )
+  }
 
   return (
     <Fragment>
@@ -48,8 +77,15 @@ const Become = () => {
                   {/* <h3 className=''>Any student currently enrolled at Technological University of the Philippines Taguig Branch</h3> */}
 
                 </div>
+
                 <div style={{ paddingTop: '50px', display: 'flex', justifyContent: 'flex-start' }}>
-                  <Link to='/application'><button className='nav-button'>Become a Freelancer</button></Link>
+                  {isTupEmail === true && (
+                    <Link to='/application'><button className='nav-button'>Become a Freelancer</button></Link>
+                  )}
+
+                  {!isTupEmail && (
+                    <button className='nav-button' onClick={SwalAlert}>Become a Freelancer</button>
+                  )}
                 </div>
               </div>
             </div>

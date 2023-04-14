@@ -393,7 +393,7 @@ exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
         age: req.body.age,
         gender: req.body.gender,
         contact: req.body.contact,
-        email: req.body.email
+        // email: req.body.email
     }
     // Update avatar
     if (req.body.avatar !== '') {
