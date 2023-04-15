@@ -36,8 +36,6 @@ const io = require('socket.io')(server, {
 });
 
 io.on("connection", (socket) => {
-    console.log('connected to socket.io');
-
     socket.on('setup', (userData) => {
         socket.join(userData._id);
         // console.log(userData._id);
@@ -45,21 +43,29 @@ io.on("connection", (socket) => {
     });
 
     socket.on('join chat', (room) => {
-        socket.join(room);
-        console.log("User joined room: " + room);
+        const ourroom = room;
+        socket.join(ourroom);
+        if (socket.rooms.has(ourroom)) {
+            const roomClients = io.sockets.adapter.rooms.get(ourroom);
+            if (roomClients) {
+                console.log(`Clients in room ${ourroom}:`, roomClients);
+            }
+        } else {
+            console.log(`Socket is not connected to room ${ourroom}`);
+        }
     });
 
+    
+    
     socket.on('typing', (room) => socket.in(room).emit("typing"));
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"));
 
     socket.on('new message', (newMessageReceived) => {
+        socket.broadcast.emit("message received", newMessageReceived);
         var chat = newMessageReceived.chat;
-
         if (!chat.users) return console.log('chat.users not defined');
-
         chat.users.forEach(user => {
             if (user._id === newMessageReceived.sender._id) return;
-
             socket.in(user._id).emit("message received", newMessageReceived);
         });
     });

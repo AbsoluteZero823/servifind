@@ -8,7 +8,6 @@ const path = require('path');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-const cloudinary = require('cloudinary')
 // const  Category  = require('../models/category');
 
 exports.newFreelancer = async (req, res, next) => {
