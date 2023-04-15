@@ -1,6 +1,22 @@
-import React from "react";
+import React, { Fragment, useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { getCategories, clearErrors, newCategory } from '../../../actions/categoryActions';
 
-function ServiceInfo({ formData, setFormData }) {
+function ServiceInfo({ serviceData, setServiceData }) {
+
+    const dispatch = useDispatch();
+
+    // let navigate = useNavigate();
+
+    const { loading, error, categories } = useSelector(state => state.categories);
+
+    useEffect(() => {
+        dispatch(getCategories())
+
+
+
+    }, [dispatch, error])
+
     return (
         <div className="service-info-container">
             {/* <input
@@ -15,43 +31,59 @@ function ServiceInfo({ formData, setFormData }) {
 
 
             /> */}
-            <label htmlFor="email_field">Service Category</label>
+            <label htmlFor="email_field">Select Category</label>
+
             <select
-                type="text"
-                id="gender_field"
-                className="form-control"
-                name='gender'
-                value={formData.category}
-                onChange={(e) => {
-                    setFormData({ ...formData, category: e.target.value });
-                }}>
-                <option value="" disabled hidden>Select Category</option>
-                <option value="Writing & Translation">Writing & Translation</option>
-                <option value="Graphic Design and Multimedia">Graphic Design and Multimedia</option>
-                <option value="Programming and IT">Programming and IT</option>
-                {/* <option value="VA">Administrative Support</option> */}
-                {/* <option value="MA">Marketing and Sales</option> */}
-                <option value="Creative and Artistic">Creative and Artistic</option>
-                {/* <option value="Data">Consulting and Business</option> */}
-                <option value="Engineering and Architecture">Engineering and Architecture</option>
-                <option value="Education and Training">Education and Training</option>
-                {/* <option value="Lifestyle">Health and Wellness</option> */}
+                name="category"
+                id="category"
+                className='form-control'
+                value={serviceData.category}
+                onChange={(e) => setServiceData({ ...serviceData, category: e.target.value })}
+            >
+                <option value="">Select Category</option>
+
+
+                {categories.map((category) => (
+                    <option value={category._id} key={category._id}>{category.name}</option>
+                    //   <li key={season.id}>{season}</li>
+                ))}
+                {/* categories.forEach(category => {
+                    
+                                        <option value={category._id}>{category.name}</option>
+                                      
+
+  
+}) */}
+
+
             </select>
             <br />
-            <label htmlFor="email_field">Service Description</label>
+            <label htmlFor="email_field">Service Name</label>
             <input
                 type="text"
                 placeholder="I will ...... for you"
                 className="form-control"
-                value={formData.description}
+                value={serviceData.name}
                 onChange={(e) => {
-                    setFormData({ ...formData, description: e.target.value });
+                    setServiceData({ ...serviceData, name: e.target.value });
                 }}
             />
 
             <br />
-            <label>Price Starts</label>
+            <label>Price Starts in (₱)</label>
             <input
+                className="form-control"
+                placeholder="Price Starts At"
+                type="number"
+                id="tentacles"
+                name="tentacles"
+                min="5"
+                onChange={(e) => {
+                    setServiceData({ ...serviceData, priceStarts_At: e.target.value });
+                }}
+                value={serviceData.start}
+            />
+            {/* <input
                 type="text"
                 placeholder="Price Starts At"
                 className="form-control"
@@ -59,9 +91,9 @@ function ServiceInfo({ formData, setFormData }) {
                 onChange={(e) => {
                     setFormData({ ...formData, start: e.target.value });
                 }}
-            />
-            <label>Time Interval</label>
-            <input
+            /> */}
+            {/* <label>Time Interval</label> */}
+            {/* <input
                 type="text"
                 placeholder="Expected Accomplishment time interval in days"
                 className="form-control"
@@ -69,7 +101,7 @@ function ServiceInfo({ formData, setFormData }) {
                 onChange={(e) => {
                     setFormData({ ...formData, end: e.target.value });
                 }}
-            />
+            /> */}
             {/* a */}
 
 

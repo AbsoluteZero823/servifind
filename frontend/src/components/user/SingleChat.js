@@ -4,59 +4,181 @@ import {
     useSelector
     , useDispatch
 } from 'react-redux'
+import axios from "axios";
 import { getMessages, addMessage } from '../../actions/messageActions'
 import Loader from '../layout/Loader'
 import { Form } from 'react-bootstrap'
 import { event } from 'jquery'
 import ScrollableChat from './ScrollableChat'
+import Lottie from "react-lottie"
+import animationData from "../../animations/typing.json"
 
-const SingleChat = () => {
+
+import io from 'socket.io-client'
+const ENDPOINT = "http://localhost:4002";
+var socket, selectedChatCompare;
+
+
+
+const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     const dispatch = useDispatch();
+    const defaultOptions = {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice",
+        },
+    };
 
-    const { selectedChat } = ChatState();
+
+
+    const { selectedChat, setSelectedChat, notification, setNotification } = ChatState();
     const { user } = useSelector(state => state.auth)
-    const { messages, loading } = useSelector(state => state.messages)
+    // const { messages, loading } = useSelector(state => state.messages)
 
-
+    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [newMessage, setNewMessage] = useState([]);
+    const [typing, setTyping] = useState(false);
+    const [istyping, setIsTyping] = useState(false);
+    const [socketConnected, setSocketConnected] = useState(false)
+    useEffect(() => {
+        socket = io(ENDPOINT);
+        socket.emit("setup", user);
+        socket.on('connected', () => setSocketConnected(true));
+        socket.on('typing', () => setIsTyping(true))
+        socket.on('stop typing', () => setIsTyping(false))
+    }, []);
 
     useEffect(() => {
 
         fetchMessages();
 
+        selectedChatCompare = selectedChat;
 
     }, [selectedChat]);
 
 
-    const fetchMessages = async () => {
-        // if (!selectedChat) return;
 
-        dispatch(getMessages(selectedChat._id));
-        console.log(messages)
+
+    useEffect(() => {
+        socket.on("message received", (newMessageReceived) => {
+            if (!selectedChatCompare ||
+                selectedChatCompare._id !== newMessageReceived.chat._id) {
+                if (!notification.includes(newMessageReceived)) {
+                    setNotification([newMessageReceived, ...notification]);
+                    setFetchAgain(!fetchAgain);
+                }
+                //give notification
+            } else {
+                setMessages([...messages, newMessageReceived]);
+            }
+        })
+    })
+    // useEffect(() => {
+    //     socket.on('message received', (newMessageReceived) => {
+    //         if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id) {
+    //             //give notification
+    //         } else {
+    //             setMessages([...messages, newMessageReceived]);
+    //         }
+    //     });
+    // })
+
+    const fetchMessages = async () => {
+        if (!selectedChat) return;
+        try {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            };
+
+            setLoading(true);
+
+            const { data } = await axios.get(
+                // `/api/v1/messages/${id}`
+                `/api/v1/messages/${selectedChat._id}`
+                ,
+                // config
+            );
+            setMessages(data);
+            // console.log(data);
+            setLoading(false);
+
+            socket.emit("join chat", selectedChat._id);
+
+        } catch (error) {
+            console.log(error)
+        }
+        // dispatch(getMessages(selectedChat._id));
+        // console.log(messages)
+
+        // socket.emit('join chat', selectedChat._id);
     }
 
     const sendMessage = async (event) => {
-
-        const messageData = new FormData();
-
-
-        messageData.set('content', newMessage);
-        messageData.set('chatId', selectedChat._id);
-        // console.log(event)
         if (event.key === "Enter" && newMessage) {
-            event.preventDefault();
-            // dispatch(newOffer(offerData));\
-            console.log(newMessage)
-            setNewMessage("");
+            event.preventDefault()
+            socket.emit('stop typing', selectedChat._id);
 
-            dispatch(addMessage(messageData));
-            // return false;
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                        // Authorization: `Bearer ${user.token}`,
+                    },
+                };
+                setNewMessage("");
+                const { data } = await axios.post(
+                    "/api/v1/message/new",
+                    {
+                        content: newMessage,
+                        chatId: selectedChat._id,
+                    },
+                    config
+                );
+                socket.emit("new message", data);
+                setMessages([...messages, data]);
+            } catch (error) {
+                console.log(error)
 
+            }
         }
-        else {
-            return false;
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // const messageData = new FormData();
+
+
+        // messageData.set('content', newMessage);
+        // messageData.set('chatId', selectedChat._id);
+        // // console.log(event)
+        // if (event.key === "Enter" && newMessage) {
+        //     event.preventDefault();
+        //     // dispatch(newOffer(offerData));\
+        //     console.log(newMessage)
+        //     setNewMessage("");
+
+        //     dispatch(addMessage(messageData));
+        //     // return false;
+
+        // }
+        // else {
+        //     return false;
+        // }
     };
 
 
@@ -71,7 +193,7 @@ const SingleChat = () => {
         if (newMessage) {
             event.preventDefault();
             // dispatch(newOffer(offerData));\
-            console.log(newMessage)
+            // console.log(newMessage)
             setNewMessage("");
 
             dispatch(addMessage(messageData));
@@ -83,29 +205,68 @@ const SingleChat = () => {
         }
     };
 
+
+
     const typingHandler = (e) => {
         // console.log(newMessage)
         setNewMessage(e.target.value);
 
         //Typing Indicator Logic
+        if (!socketConnected) return;
+
+        if (!typing) {
+            setTyping(true)
+            socket.emit('typing', selectedChat._id);
+        }
+        let lastTypingTime = new Date().getTime()
+        var timerLength = 3000;
+        setTimeout(() => {
+            var timeNow = new Date().getTime();
+            var timeDiff = timeNow - lastTypingTime;
+
+            if (timeDiff >= timerLength && typing) {
+                socket.emit('stop typing', selectedChat._id)
+                setTyping(false);
+            }
+        }, timerLength)
     };
 
     return (
         <Fragment>
-            <div className="chat-header clearfix">
-                <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
-                    <img
-                        src={selectedChat.users[0].avatar.url}
-                        className='rounded-circle'
-                        alt="avatar" />
-                </figure>
+            {selectedChat.users[0]._id === user._id && (
+                <div className="chat-header clearfix">
+                    <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
 
-                <div className="chat-about">
-                    <div className="chat-with">{selectedChat.users[0].name}</div>
-                    {/* <div className="chat-num-messages">already 1 902 messages</div> */}
+                        <img
+                            src={selectedChat.users[1].avatar.url}
+                            className='rounded-circle'
+                            alt="avatar" />
+                    </figure>
+
+                    <div className="chat-about">
+                        <div className="chat-with">{selectedChat.users[1].name}</div>
+                        {/* <div className="chat-num-messages">already 1 902 messages</div> */}
+                    </div>
+                    {/* <i className="fa fa-star"></i> */}
                 </div>
-                {/* <i className="fa fa-star"></i> */}
-            </div>
+            )}
+            {selectedChat.users[1]._id === user._id && (
+                <div className="chat-header clearfix">
+                    <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
+
+                        <img
+                            src={selectedChat.users[0].avatar.url}
+                            className='rounded-circle'
+                            alt="avatar" />
+                    </figure>
+
+                    <div className="chat-about">
+                        <div className="chat-with">{selectedChat.users[0].name}</div>
+                        {/* <div className="chat-num-messages">already 1 902 messages</div> */}
+                    </div>
+                    {/* <i className="fa fa-star"></i> */}
+                </div>
+            )}
             {/* <!-- end chat-header --> */}
 
             <div className="chat-history">
@@ -113,81 +274,22 @@ const SingleChat = () => {
                     <div>
                         <ScrollableChat messages={messages} />
                     </div>
-                    // <ul>
-                    //     <li className="clearfix">
-                    //         <div className="message-data align-right">
-                    //             <span className="message-data-time" >10:10 AM, Today</span> &nbsp; &nbsp;
-                    //             <span className="message-data-name" >{user.name}<img className='small-circle' src={user.avatar.url} /></span>
-                    //             {/* <i className="fa fa-circle me"></i> */}
 
-                    //         </div>
-                    //         <div className="message my-message float-right">
-                    //             Hi Vincent, how are you? How is the project coming along?
-                    //         </div>
-                    //     </li>
-
-                    //     <li>
-
-                    //         <div className="message-data">
-
-
-                    //             {/* <i className="fa fa-circle me"></i> */}
-                    //             <span className="message-data-name">
-                    //                 {/* <i className="fa fa-circle online"></i>  */}
-                    //                 <img className='small-circle' src={selectedChat.users[0].avatar.url} />{selectedChat.users[0].name}</span>
-                    //             <span className="message-data-time">10:12 AM, Today</span>
-                    //         </div>
-                    //         <div className="message other-message">
-                    //             Are we meeting today? Project has been already finished and I have results to show you.
-                    //         </div>
-                    //     </li>
-
-                    //     <li className="clearfix">
-                    //         <div className="message-data align-right">
-                    //             <span className="message-data-time" >10:14 AM, Today</span> &nbsp; &nbsp;
-                    //             <span className="message-data-name" >Me &nbsp;<img className='small-circle' src={user.avatar.url} /></span>
-                    //             {/* <i className="fa fa-circle me"></i> */}
-
-                    //         </div>
-                    //         <div className="message my-message float-right">
-                    //             Well I am not sure. The rest of the team is not here yet. Maybe in an hour or so? Have you faced any problems at the last phase of the project?
-
-                    //         </div>
-
-                    //     </li>
-
-                    //     <li>
-                    //         <div className="message-data">
-                    //             <span className="message-data-name">
-                    //                 {/* <i className="fa fa-circle online"></i>  */}
-                    //                 <img className='small-circle' src={selectedChat.users[0].avatar.url} />{selectedChat.users[0].name}</span>
-                    //             <span className="message-data-time">10:20 AM, Today</span>
-                    //         </div>
-                    //         <div className="message other-message">
-                    //             Actually everything was fine. I'm very excited to show this to our team.
-                    //         </div>
-                    //     </li>
-                    //     <li>
-                    //         <div className="message-data">
-                    //             <span className="message-data-name">
-                    //                 {/* <i className="fa fa-circle online"></i>  */}
-                    //                 <img className='small-circle' src={selectedChat.users[0].avatar.url} />{selectedChat.users[0].name}</span>
-                    //             <span className="message-data-time">10:20 AM, Today</span>
-                    //         </div>
-                    //         <div className="message other-message">
-                    //             Actually everything was fine. I'm very excited to show this to our team.
-                    //         </div>
-                    //     </li>
-
-
-
-                    // </ul>
                 )}
+                {istyping ? <div>
+                    <Lottie
+                        options={defaultOptions}
+                        width={70}
+                        style={{ marginBottom: 15, marginLeft: 0 }}
+                    />
+                </div> : (<></>)}
             </div>
             {/* <!-- end chat-history --> */}
 
             <div className="chat-message clearfix" style={{ display: 'flex' }}>
+
                 <form onKeyDown={sendMessage} onSubmit={sendMessageViaButton} style={{ width: '100%', display: 'flex' }}>
+
                     <input placeholder="Type your message" rows="3"
                         onChange={typingHandler}
                         value={newMessage}

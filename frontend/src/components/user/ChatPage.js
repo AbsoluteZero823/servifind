@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 import {
     Link
 } from 'react-router-dom'
@@ -15,6 +15,7 @@ import ChatBox from './ChatBox'
 
 
 const ChatPage = () => {
+    const [fetchAgain, setFetchAgain] = useState(false);
     // const { user, loading } = useSelector(state => state.auth)
     const fetchChats = async () => {
         // console.log(user._id);
@@ -26,12 +27,12 @@ const ChatPage = () => {
         <div style={{ display: 'flex' }}>
 
 
-            <ChatBox />
+            <ChatBox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
 
 
 
 
-            <MyChats />
+            <MyChats fetchAgain={fetchAgain} />
 
         </div>
     )

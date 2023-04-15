@@ -6,11 +6,13 @@ import { useAlert } from 'react-alert'
 import { logout } from '../../actions/userActions'
 
 
+
 import swal from 'sweetalert';
 import Search from './Search'
 
 import 'mdbreact/dist/css/mdb.css'
 import '../../App.css'
+import { ChatState } from '../../Context/ChatProvider'
 
 
 // import Header from "./Header";
@@ -19,6 +21,8 @@ const Header = () => {
     const [isMobile, setIsMobile] = useState(false);
     const alert = useAlert();
     const dispatch = useDispatch();
+
+    const { notification, SetNotification } = ChatState();
 
     const { user, loading, isAuthenticated } = useSelector(state => state.auth)
 
@@ -99,47 +103,59 @@ const Header = () => {
                     )}
 
                     {user ? (
-                        <div className="ml-4 dropdown d-inline">
-                            <Link to="#!" className="btn dropdown-toggle text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <Fragment>
+                            {/* <div className="btn text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i className="fa fa-envelope"></i>
 
-                                <figure className="avatar avatar-nav">
-                                    <img
-                                        src={user.avatar && user.avatar.url}
-                                        alt={user && user.name}
-                                        className="rounded-circle"
-                                    />
-                                </figure>
-                                <span>{user && user.name}</span>
-                            </Link>
+                                <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
 
-                            <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
+                                    <Link className="dropdown-item" to="/me">Profile</Link></div>
+                            </div> */}
+                            <div className="ml-4 dropdown d-inline">
 
-                                {user && user.role === 'admin' && (
-                                    <Link className="dropdown-item" to="/">Dashboard</Link>
-                                )}
+                                <Link to="#!" className="btn dropdown-toggle text-white mr-4" type="button" id="dropDownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 
-                                <Link className="dropdown-item" to="/me">Profile</Link>
-                                <Link className="dropdown-item" to="/chat">Inbox</Link>
-                                <Link className="dropdown-item" to="/manage-requests">Manage Request</Link>
-                                <Link className="dropdown-item" to="/post-request">Post a Request</Link>
-                                <hr></hr>
-                                {user && user.role === 'customer' && (
-                                    <Link className="dropdown-item" to="/become-freelancer">Become a Freelancer</Link>
-                                )}
-                                {/* <Link className="dropdown-item" to="/orders/me">Orders</Link> */}
-                                {user && user.role === 'customer' && (
+                                    <figure className="avatar avatar-nav">
+                                        <img
+                                            src={user.avatar && user.avatar.url}
+                                            alt={user && user.name}
+                                            className="rounded-circle"
+                                        />
+                                    </figure>
+                                    <span>{user && user.name}</span>
+                                </Link>
+
+
+
+
+                                <div className="dropdown-menu" aria-labelledby="dropDownMenuButton">
+
+                                    {user && user.role === 'admin' && (
+                                        <Link className="dropdown-item" to="/">Dashboard</Link>
+                                    )}
+
+                                    <Link className="dropdown-item" to="/me">Profile</Link>
+                                    <Link className="dropdown-item" to="/chat">Inbox</Link>
+                                    <Link className="dropdown-item" to="/manage-requests">Manage Request</Link>
+                                    <Link className="dropdown-item" to="/post-request">Post a Request</Link>
                                     <hr></hr>
-                                )}
-                                <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>Sign Out</Link>
-                                {/* <Link className="dropdown-item text-danger" to="/" >
+                                    {user && user.role === 'customer' && (
+                                        <Link className="dropdown-item" to="/become-freelancer">Become a Freelancer</Link>
+                                    )}
+                                    {/* <Link className="dropdown-item" to="/orders/me">Orders</Link> */}
+                                    {user && user.role === 'customer' && (
+                                        <hr></hr>
+                                    )}
+                                    <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>Sign Out</Link>
+                                    {/* <Link className="dropdown-item text-danger" to="/" >
                                     Logout
                                 </Link> */}
 
+                                </div>
+
+
                             </div>
-
-
-                        </div>
-
+                        </Fragment>
                     ) : !loading && <Link to="/login"><li><button className='nav-button'>SIGN IN</button></li></Link>}
 
                 </ul>

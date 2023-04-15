@@ -390,6 +390,13 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 })
 // Update user profile   =>   /api/v1/me/update
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
+    const newUserData = {
+        name: req.body.name,
+        age: req.body.age,
+        gender: req.body.gender,
+        contact: req.body.contact,
+        // email: req.body.email
+    }
     // Update avatar
     if (req.body.avatar !== undefined) {
         const user = await User.findById(req.user.id)
