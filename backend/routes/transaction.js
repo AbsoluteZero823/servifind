@@ -20,6 +20,9 @@ const { getTransactions,
     FreelancerReportTransaction,
     FreelancerFetchTransaction,
 
+    FetchTransactionbyOfferorInquiry,
+    AddOffertoInquiryByCreatingTransaction,
+
     createTransactionReview,
     getTransactionReviews,
     deleteReview,
@@ -46,6 +49,9 @@ router.route('/myfreelancertransactions').post(isAuthenticatedUser, FreelancerFe
 router.route('/myfreelancertransactions/generatetransaction').post(isAuthenticatedUser, FreelancerGenerateTransaction);
 router.route('/myfreelancertransactions/completetransaction').post(isAuthenticatedUser, FreelancerCompleteTransaction);
 router.route('/myfreelancertransactions/reporttransaction').post(isAuthenticatedUser, FreelancerReportTransaction);
+
+router.route('/messages/transaction/offerorinquiry').post(isAuthenticatedUser, FetchTransactionbyOfferorInquiry);
+router.route('/messages/transaction/offerorinquiry/new').post(isAuthenticatedUser, AddOffertoInquiryByCreatingTransaction);
 
 // router.route('/transaction/client/done/:id').put(transactionDoneC);
 // router.route('/transaction/:id').put(updateTransaction).delete(deleteTransaction);

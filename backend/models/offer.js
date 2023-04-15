@@ -29,7 +29,12 @@ const offerSchema = new mongoose.Schema({
     request_id:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Request',
-        required: true
+        required: false
+    },
+    inquiry_id:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Inquiry',
+        required: false
     }
 })
 

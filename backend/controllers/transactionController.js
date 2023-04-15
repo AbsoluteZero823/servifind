@@ -2,6 +2,7 @@ const { reset } = require('nodemon');
 const cloudinary = require('cloudinary');
 const Request = require('../models/request');
 const Offer = require('../models/offer');
+const Inquiry = require('../models/inquiry');
 const Rating = require('../models/rating');
 const Report = require('../models/report');
 const Transaction = require('../models/transaction');
@@ -200,6 +201,69 @@ exports.FreelancerReportTransaction = async (req, res, next) => {
     }
 }
 
+exports.FetchTransactionbyOfferorInquiry = async (req, res, next) => {
+    const { offer_id, inquiry_id } = req.body;
+    try {
+        let query = {};
+        if (offer_id !== null && offer_id !== undefined) {
+            query.offer_id = offer_id;
+        }
+        if (inquiry_id !== null && inquiry_id !== undefined) {
+            query.inquiry_id = inquiry_id;
+        }
+        const transaction = await Transaction.findOne(query).populate('offer_id');
+        if (!transaction) {
+            return res.status(200).json({ success: false, message: 'No transaction found.' });
+        }
+        return res.status(200).json({ success: true, transaction });
+    } catch (error) {
+        return next(error);
+    }
+}
+
+exports.AddOffertoInquiryByCreatingTransaction = async (req, res, next) => {
+    try {
+        // Find the Inquiry object with the given inquiry_id and set its status to "granted".
+        const inquiry = await Inquiry.findByIdAndUpdate(
+            req.body.inquiry_id,
+            { status: "granted" },
+            { new: true }
+        );
+
+        if (!inquiry) {
+            return res.status(404).json({ message: "Inquiry not found" });
+        }
+
+        // Create a new Offer object with the required fields.
+        const offer = new Offer({
+            ...req.body,
+            offered_by: req.user._id,
+        });
+
+        // Save the new Offer object to the database.
+        const savedOffer = await offer.save();
+
+        // Create a new Transaction object with the required fields,
+        // including the offer_id of the newly created Offer.
+        const transaction = new Transaction({
+            offer_id: savedOffer._id,
+            ...req.body,
+        });
+
+        // Save the new Transaction object to the database.
+        const savedTransaction = await transaction.save();
+
+        return res.status(200).json({
+            success: true,
+            message: "Offer added to inquiry successfully",
+            offer: savedOffer,
+            transaction: savedTransaction,
+            inquiry: inquiry,
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
 
 
 

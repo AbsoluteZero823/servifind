@@ -1,7 +1,8 @@
 const { reset } = require('nodemon');
 const Offer = require('../models/offer');
 const Request = require('../models/request');
-const Category = require('../models/category')
+const Category = require('../models/category');
+const Transaction = require('../models/transaction');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
@@ -128,45 +129,90 @@ exports.deleteMyRequest = async (req, res, next) => {
   };
 
 exports.refuseanOffer = async (req, res, next) => {
+    const { offer_id, inquiry_id } = req.body;
     try {
-        const offer = await Offer.findById(req.body._id);
+        if (inquiry_id) {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            {inquiry_id: inquiry_id},
+            { offer_status: 'cancelled' },
+            { new: true }
+        );
         if (!offer) {
-        return res.status(404).json({ success: false, message: 'Offer not found' });
+            return res.status(404).json({ success: false, message: 'Offer not found' });
         }
-        offer.offer_status = 'cancelled';
-        await offer.save();
-        res.status(200).json({ success: true, message: 'Offer refused successfully' });
+        // Update transaction status
+        const transaction = await Transaction.findOneAndUpdate(
+            { offer_id: offer._id },
+            { transaction_status: 'cancelled' },
+            { new: true }
+        );
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+        } else {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            { _id: offer_id },
+            { offer_status: 'cancelled' },
+            { new: true }
+        );
+        if (!offer) {
+            return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        }
+        res.status(200).json({ success: true, message: 'Offer Refused!' });
     } catch (error) {
         return next(error);
     }
 };
 
 exports.acceptanOffer = async (req, res, next) => {
-  const offerId = req.body.id;
-  try {
-    // Accept the selected offer
-    const acceptedOffer = await Offer.findOneAndUpdate(
-      { _id: offerId },
-      { offer_status: 'granted' },
-      { new: true }
-    );
-
-    await Request.findOneAndUpdate(
-        { _id: acceptedOffer.request_id },
-        { request_status: 'granted' },
-    );
-
-    res.status(200).json({
-      success: true,
-      message: 'Offer accepted successfully.',
-    });
-  } catch (err) {
-    next(err);
-  }
+    const { offer_id, inquiry_id } = req.body;
+    console.log(req.body);
+    try {
+        if (inquiry_id) {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            {inquiry_id: inquiry_id},
+            { offer_status: 'granted' },
+            { new: true }
+        );
+        if (!offer) {
+            return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        // Do not update transaction status as offer is accepted
+        } else if (offer_id) {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            { _id: offer_id },
+            { offer_status: 'granted' },
+            { new: true }
+        );
+        if (!offer) {
+            return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        // Update request status
+        const request = await Request.findOneAndUpdate(
+            { _id: offer.request_id },
+            { request_status: 'granted' },
+            { new: true }
+        );
+        if (!request) {
+            return res.status(404).json({ success: false, message: 'Request not found' });
+        }
+        } else {
+        return res.status(400).json({ success: false, message: 'Missing offer_id or inquiry_id' });
+        }
+        res.status(200).json({
+        success: true,
+        message: 'Offer Accepted!',
+        });
+    } catch (err) {
+        next(err);
+    }
 };
-
-
-
+  
 
 exports.getSingleRequest = async (req, res, next) => {
     const singlerequest = await Request.findById(req.params.id);
