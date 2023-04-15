@@ -7,7 +7,7 @@ const Category = require('../models/category');
 //create new service
 exports.newService = async (req, res, next) => {
     console.log(req.body);
-    // req.body.user = req.user.id;
+    req.body.user = req.user.id;
     const service = await Service.create(req.body);
 
     res.status(201).json({

@@ -10,10 +10,10 @@ const { getFreelancers,
     getFreelancerReviews,
     deleteReview
 } = require('../controllers/freelancerController');
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
-
-// router.route('/freelancers').get(getFreelancers);
-router.route('/freelancer/new').post(newFreelancer);
+router.route('/freelancers').get(isAuthenticatedUser, getFreelancers);
+router.route('/freelancer/new').post(isAuthenticatedUser, newFreelancer);
 router.route('/freelancer/:id').get(getSingleFreelancer);
 // router.route('/freelancer/:id').put(updateFreelancer).delete(deleteFreelancer);
 module.exports = router;

@@ -48,7 +48,7 @@ router.route('/me').get(isAuthenticatedUser, getUserProfile)
 router.route('/password/update').put(isAuthenticatedUser, updatePassword)
 router.route('/me/update').put(isAuthenticatedUser, updateProfile)
 router.route('/users').get(isAuthenticatedUser, authorizeRoles('admin'), allUsers)
-router.route('/freelancers').get(isAuthenticatedUser, authorizeRoles('admin'), allFreelancers)
+// router.route('/freelancers').get(isAuthenticatedUser, allFreelancers)
 
 
 

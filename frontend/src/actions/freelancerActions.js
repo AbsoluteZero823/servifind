@@ -2,6 +2,9 @@ import axios from 'axios';
 
 import {
 
+    GET_FREELANCERS_REQUEST,
+    GET_FREELANCERS_SUCCESS,
+    GET_FREELANCERS_FAIL,
 
     SINGLE_FREELANCER_REQUEST,
     SINGLE_FREELANCER_SUCCESS,
@@ -25,6 +28,26 @@ export const clearErrors = () => async (dispatch) => {
 
 
 
+
+export const getFreelancers = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: GET_FREELANCERS_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/freelancers`)
+
+        dispatch({
+            type: GET_FREELANCERS_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: GET_FREELANCERS_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
 export const SingleFreelancer = (id) => async (dispatch) => {
     try {
         dispatch({ type: SINGLE_FREELANCER_REQUEST })

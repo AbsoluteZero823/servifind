@@ -8,33 +8,61 @@ const cloudinary = require('cloudinary')
 // const  Category  = require('../models/category');
 
 exports.newFreelancer = async (req, res, next) => {
-    console.log(req.body);
+    // console.log(req.body.resume);
+    req.body.user = req.user._id;
+
+
+    const resultResume = await cloudinary.v2.uploader.upload(req.body.resume, {
+        folder: 'servifind/freelancer/resume',
+        width: 150,
+        crop: "scale"
+    })
+    const resultSchoolID = await cloudinary.v2.uploader.upload(req.body.schoolID, {
+        folder: 'servifind/freelancer/resume',
+        width: 150,
+        crop: "scale"
+    })
+
+
     // req.body.user = req.user.id;
+    // const freelancer = await Freelancer.create(req.body);
+    const freelancer = await Freelancer.create({
+        user_id: req.body.user,
+        resume: {
+            public_id: resultResume.public_id,
+            url: resultResume.secure_url
+        },
+        schoolID: {
+            public_id: resultSchoolID.public_id,
+            url: resultSchoolID.secure_url
+        },
+
+    })
+
+    res.status(201).json({
+        success: true,
+        freelancer
+
+    })
+
+
+
 
 
 
 }
 
-//all Transactions
-// exports.getTransactions = async (req, res, next) => {
+// all Freelancers
+exports.getFreelancers = async (req, res, next) => {
 
 
-//     const transactions = await Transaction.find().populate([{
-//         path: 'inquiry_id',
+    const freelancers = await Freelancer.find()
 
-//         populate: { path: 'customer' }
-//     },
-//     {
-//         path: 'inquiry_id',
-
-//         populate: { path: 'freelancer' }
-//     }
-//     ]);
-//     res.status(200).json({
-//         success: true,
-//         transactions
-//     })
-// }
+    res.status(200).json({
+        success: true,
+        freelancers
+    })
+}
 
 // const inquiries = await Inquiry.find({ freelancer: user._id }).populate(['customer', {
 //     path: 'service_id',
