@@ -4,6 +4,7 @@ const router = express.Router();
 const { getFreelancers,
     newFreelancer,
     getSingleFreelancer,
+    getApplicationEntries,
     updateFreelancer,
     deleteFreelancer,
     createFreelancerReview,
@@ -15,5 +16,6 @@ const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 router.route('/freelancers').get(isAuthenticatedUser, getFreelancers);
 router.route('/freelancer/new').post(isAuthenticatedUser, newFreelancer);
 router.route('/freelancer/:id').get(getSingleFreelancer);
+router.route('/application-entries').get(getApplicationEntries);
 // router.route('/freelancer/:id').put(updateFreelancer).delete(deleteFreelancer);
 module.exports = router;

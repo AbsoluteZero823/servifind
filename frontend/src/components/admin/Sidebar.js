@@ -39,7 +39,9 @@ const Sidebar = () => {
                                 <li>
                                     <Link to="/freelancers"><i className="fa fa-briefcase"></i> Freelancers</Link>
                                 </li>
-
+                                <li>
+                                    <Link to="/application-entries"><i className="fa fa-briefcase"></i>Application for Freelancer</Link>
+                                </li>
                                 <li>
                                     <Link to="/create"><i className="fa fa-plus"></i> Create</Link>
                                 </li>

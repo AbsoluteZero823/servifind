@@ -46,6 +46,7 @@ import FreelancerOffers from './components/user/client/FreelancerOffers';
 
 import Chat from './components/user/ChatPage';
 import EmailVerify from './components/emailVerify/index'
+import ApplicationEntries from './components/admin/ApplicationEntries';
 
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux'
@@ -140,6 +141,7 @@ function App() {
                   <Route path="/offers-request/:request_id" element={<FreelancerOffers />} exact />
                   <Route path="/chat" element={<Chat />} exact />
                   {/* <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact /> */}
+                  <Route path="/application-entries" element={<ApplicationEntries />} exact />
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>

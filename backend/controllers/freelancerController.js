@@ -1,10 +1,12 @@
 const { reset } = require('nodemon');
 const Freelancer = require('../models/freelancer');
+const Service = require('../models/service');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
-const cloudinary = require('cloudinary')
+const cloudinary = require('cloudinary');
+
 // const  Category  = require('../models/category');
 
 exports.newFreelancer = async (req, res, next) => {
@@ -86,4 +88,84 @@ exports.getSingleFreelancer = async (req, res, next) => {
         success: true,
         freelancer
     })
+}
+
+exports.getApplicationEntries = async (req, res, next) => {
+
+    // const freelancers = await Freelancer.find();
+
+
+    // const applyingfreelancer = await Freelancer.find({ status: 'applying', _id: { $in: Services.freelancer_id } }).populate('user_id');
+
+
+    // const applyingfreelancer = await Service.find({ freelancer_id: { $in: Freelancer._id } })
+    const applyingfreelancer = await Freelancer.aggregate([
+        {
+            $match: { status: 'applying' }
+        },
+        {
+            $lookup: {
+                from: "services",
+                localField: "_id",
+                foreignField: "freelancer_id",
+                as: "firstService"
+            }
+        },
+        {
+            $sort: {
+                "firstService": 1
+            }
+        }
+    ])
+
+
+    await Freelancer.populate(applyingfreelancer, { path: "user_id" });
+    // const applyingfreelancer = freelancers.filter(function (o) {
+    //     return o.status === 'applying';
+
+    // });
+
+
+    // const applyingfreelancer = await Service.aggregate([
+    //     {
+    //         $lookup: {
+    //             from: "freelancers",
+    //             localField: "freelancer_id",
+    //             foreignField: "_id",
+    //             as: "table2_data"
+    //         }
+    //     },
+    //     {
+    //         $sort: {
+    //             "table2_data.column1": 1
+    //         }
+    //     }
+    // ])
+
+    res.status(200).json({
+        success: true,
+        applyingfreelancer
+    })
+
+    // Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
+    //     .populate("users", "-password")
+    //     //   .populate("groupAdmin", "-password")
+    //     .populate("latestMessage")
+    //     .sort({ updatedAt: -1 })
+    //     .then(async (chats) => {
+    //         chats = await User.populate(chats, {
+    //             path: "latestMessage.sender",
+    //             select: "name avatar email",
+    //         });
+    //         res.status(200).json({
+    //             success: true,
+    //             chats
+    //         })
+
+
+
+
+    //         // .send(results);
+    //     });
+
 }
