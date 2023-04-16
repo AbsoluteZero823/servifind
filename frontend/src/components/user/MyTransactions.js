@@ -4,7 +4,7 @@ import { MDBDataTable } from 'mdbreact'
 
 import MetaData from '../layout/MetaData'
 import Loader from '../layout/Loader'
-import Sidebar from '../admin/Sidebar'
+// import Sidebar from '../admin/Sidebar'
 // import moment from 'moment-timezone/builds/moment-timezone-with-data-2012-2022';
 import moment from 'moment/moment'
 import Swal from 'sweetalert2';
@@ -386,17 +386,17 @@ const MyTransactions = () => {
         const FreelancerTransactions = transactions.filter(function (ftransaction) {
             // return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
 
-            if(ftransaction.inquiry_id){
+            if (ftransaction.inquiry_id) {
                 return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
             }
-            else if(ftransaction.offer_id){
+            else if (ftransaction.offer_id) {
                 return ftransaction.offer_id.offered_by === user._id;
             }
 
         });
 
         FreelancerTransactions.forEach(transaction => {
-            
+
             // if( transaction.inquiry_id){
             //     setClientName(transaction.inquiry_id.customer.name)
             //     // return clientName;
@@ -404,11 +404,11 @@ const MyTransactions = () => {
             //     setClientName(transaction.offer_id.request_id.requested_by.name)
             //     //    return clientName;
             //   }
-             
-              
+
+
             data.rows.push({
 
-                
+
                 // Client: clientName,
                 status: transaction.status,
                 created_At: moment(transaction.created_At).format('MMM/DD/yy'),
@@ -505,13 +505,13 @@ const MyTransactions = () => {
             rows: []
         }
         const ClientTransactions = transactions.filter(function (ctransaction) {
-            if(ctransaction.inquiry_id){
+            if (ctransaction.inquiry_id) {
                 return ctransaction.inquiry_id.customer._id === user._id;
             }
-            else if(ctransaction.offer_id){
+            else if (ctransaction.offer_id) {
                 return ctransaction.offer_id.request_id.requested_by === user._id;
             }
-            
+
 
         });
 
@@ -526,7 +526,7 @@ const MyTransactions = () => {
             //   }
             data.rows.push({
 
-              
+
                 // Freelancer: freelancerName,
                 status: ctransaction.status,
                 created_At: moment(ctransaction.created_At).format('MMM/DD/yy'),

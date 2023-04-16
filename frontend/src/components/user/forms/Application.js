@@ -129,7 +129,7 @@ const Application = () => {
             createService(freelancer._id)
             // dispatch(newService(servicesData))
 
-            dispatch(NEW_FREELANCER_RESET);
+            dispatch({ type: NEW_FREELANCER_RESET });
         }
 
     }, [dispatch, alert, error, success, navigate, user])

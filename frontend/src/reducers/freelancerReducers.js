@@ -14,6 +14,20 @@ import {
     NEW_FREELANCER_FAIL,
     NEW_FREELANCER_RESET,
 
+    GET_APPLICATION_REQUEST,
+    GET_APPLICATION_SUCCESS,
+    GET_APPLICATION_FAIL,
+
+    APPROVE_APPLICATION_REQUEST,
+    APPROVE_APPLICATION_SUCCESS,
+    APPROVE_APPLICATION_FAIL,
+    APPROVE_APPLICATION_RESET,
+
+    REJECT_APPLICATION_REQUEST,
+    REJECT_APPLICATION_SUCCESS,
+    REJECT_APPLICATION_FAIL,
+    REJECT_APPLICATION_RESET,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants'
 
@@ -128,4 +142,103 @@ export const newFreelancerReducer = (state = { freelancer: {} }, action) => {
     }
 }
 
+
+export const applicationFreelancerReducer = (state = { applyingfreelancers: [] }, action) => {
+    switch (action.type) {
+
+
+        case GET_APPLICATION_REQUEST:
+            return {
+                ...state,
+                loading: true,
+            }
+
+        case GET_APPLICATION_SUCCESS:
+
+            return {
+                ...state,
+                loading: false,
+                success: action.payload.success,
+                applyingfreelancers: action.payload.applyingfreelancers,
+            }
+
+        case GET_APPLICATION_FAIL:
+
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state;
+    }
+}
+
+
+export const updateFreelancerReducer = (state = {}, action) => {
+    switch (action.type) {
+
+
+        case APPROVE_APPLICATION_REQUEST:
+        case REJECT_APPLICATION_REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+
+
+        case APPROVE_APPLICATION_SUCCESS:
+        case REJECT_APPLICATION_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                isUpdated: action.payload
+            }
+
+        // case DELETE_USER_SUCCESS:
+        //     return {
+        //         ...state,
+        //         loading: false,
+        //         isDeleted: action.payload
+        //     }
+
+        case APPROVE_APPLICATION_RESET:
+        case REJECT_APPLICATION_RESET:
+            return {
+                ...state,
+                isUpdated: false
+            }
+
+        // case DELETE_USER_RESET:
+        //     return {
+        //         ...state,
+        //         isDeleted: false
+        //     }
+
+        case APPROVE_APPLICATION_FAIL:
+        case REJECT_APPLICATION_FAIL:
+
+            return {
+                ...state,
+                loading: false,
+                error: action.payload
+            }
+
+        case CLEAR_ERRORS:
+            return {
+                ...state,
+                error: null
+            }
+
+        default:
+            return state;
+    }
+}
 

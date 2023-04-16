@@ -119,7 +119,7 @@ const Become = () => {
                   )}
                   {/* <Link to='/application'><button className='nav-button'>Become a Freelancer</button></Link> */}
                   {!isTupEmail && (
-                    <button className='nav-button' onClick={NotTUPEmail}>Become a Freelancera</button>
+                    <button className='nav-button' onClick={NotTUPEmail}>Become a Freelancer</button>
                   )}
                 </div>
               </div>

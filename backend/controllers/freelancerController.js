@@ -1,5 +1,6 @@
 const { reset } = require('nodemon');
 const Freelancer = require('../models/freelancer');
+const User = require('../models/user');
 const Service = require('../models/service');
 // const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
@@ -16,13 +17,13 @@ exports.newFreelancer = async (req, res, next) => {
 
     const resultResume = await cloudinary.v2.uploader.upload(req.body.resume, {
         folder: 'servifind/freelancer/resume',
-        width: 150,
-        crop: "scale"
+        // width: 150,
+        // crop: "scale"
     })
     const resultSchoolID = await cloudinary.v2.uploader.upload(req.body.schoolID, {
-        folder: 'servifind/freelancer/resume',
-        width: 150,
-        crop: "scale"
+        folder: 'servifind/freelancer/schoolID',
+        // width: 150,
+        // crop: "scale"
     })
 
 
@@ -92,14 +93,8 @@ exports.getSingleFreelancer = async (req, res, next) => {
 
 exports.getApplicationEntries = async (req, res, next) => {
 
-    // const freelancers = await Freelancer.find();
 
-
-    // const applyingfreelancer = await Freelancer.find({ status: 'applying', _id: { $in: Services.freelancer_id } }).populate('user_id');
-
-
-    // const applyingfreelancer = await Service.find({ freelancer_id: { $in: Freelancer._id } })
-    const applyingfreelancer = await Freelancer.aggregate([
+    const applyingfreelancers = await Freelancer.aggregate([
         {
             $match: { status: 'applying' }
         },
@@ -119,53 +114,68 @@ exports.getApplicationEntries = async (req, res, next) => {
     ])
 
 
-    await Freelancer.populate(applyingfreelancer, { path: "user_id" });
-    // const applyingfreelancer = freelancers.filter(function (o) {
-    //     return o.status === 'applying';
+    await Freelancer.populate(applyingfreelancers, { path: "user_id" });
 
-    // });
-
-
-    // const applyingfreelancer = await Service.aggregate([
-    //     {
-    //         $lookup: {
-    //             from: "freelancers",
-    //             localField: "freelancer_id",
-    //             foreignField: "_id",
-    //             as: "table2_data"
-    //         }
-    //     },
-    //     {
-    //         $sort: {
-    //             "table2_data.column1": 1
-    //         }
-    //     }
-    // ])
 
     res.status(200).json({
         success: true,
-        applyingfreelancer
+        applyingfreelancers
     })
 
-    // Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
-    //     .populate("users", "-password")
-    //     //   .populate("groupAdmin", "-password")
-    //     .populate("latestMessage")
-    //     .sort({ updatedAt: -1 })
-    //     .then(async (chats) => {
-    //         chats = await User.populate(chats, {
-    //             path: "latestMessage.sender",
-    //             select: "name avatar email",
-    //         });
-    //         res.status(200).json({
-    //             success: true,
-    //             chats
-    //         })
+
+
+}
+
+
+exports.approveApplication = async (req, res, next) => {
+    let freelancer = await Freelancer.findById(req.params.id);
+
+    const freelancerData = {
+        status: "approved",
+        approved_date: Date.now()
+    }
+    const userData = {
+        role: 'freelancer'
+    }
+    if (!freelancer) {
+        return next(new ErrorHandler('User not found', 404));
+    }
+
+
+    freelancer = await Freelancer.findByIdAndUpdate(req.params.id, freelancerData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    const user = await User.findByIdAndUpdate(freelancer.user_id, userData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        isUpdated: true,
+        freelancer,
+        user
+    })
+}
+exports.rejectApplication = async (req, res, next) => {
+    let freelancer = await Freelancer.findById(req.params.id);
+    const freelancerData = {
+        status: "rejected"
+    }
 
 
 
-
-    //         // .send(results);
-    //     });
-
+    if (!freelancer) {
+        return next(new ErrorHandler('User  not found', 404));
+    }
+    freelancer = await Freelancer.findByIdAndUpdate(req.params.id, freelancerData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        isUpdated: true,
+        freelancer
+    })
 }

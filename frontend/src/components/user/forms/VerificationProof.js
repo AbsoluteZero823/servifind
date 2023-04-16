@@ -49,18 +49,26 @@ function VerificationProof({ freelancerData, setFreelancerData }) {
         <div className="verification-proof-container">
 
             <div className='form-group'>
+                <label htmlFor="service_id">Course:</label>
+
+                <select
+                    name="service_id"
+                    id="service_id"
+                    className='form-control'
+                // value={service_id}
+                // onChange={(e) => setServiceId(e.target.value)}
+                >
+                    <option value="">Select Course</option>
+
+
+                    <option value="Course 1">Course 1</option>
+                    <option value="Course 1">Course 2</option>
+                    <option value="Course 1">Course 3</option>
+                </select>
                 <br />
                 <label htmlFor="email_field">Resumé</label>
                 <div className='d-flex align-items-center'>
-                    {/* <div>
-                        <figure className='avatar mr-3 item-rtl'>
-                            <img
-                                // src={avatarPreview}
-                                className='rounded-circle'
-                                alt='Avatar Preview'
-                            />
-                        </figure>
-                    </div> */}
+
                     <div className='custom-file'>
                         <input
                             type='file'

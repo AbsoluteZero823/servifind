@@ -14,6 +14,18 @@ import {
     NEW_FREELANCER_SUCCESS,
     NEW_FREELANCER_FAIL,
 
+    GET_APPLICATION_REQUEST,
+    GET_APPLICATION_SUCCESS,
+    GET_APPLICATION_FAIL,
+
+    APPROVE_APPLICATION_REQUEST,
+    APPROVE_APPLICATION_SUCCESS,
+    APPROVE_APPLICATION_FAIL,
+
+    REJECT_APPLICATION_REQUEST,
+    REJECT_APPLICATION_SUCCESS,
+    REJECT_APPLICATION_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants';
 
@@ -87,6 +99,81 @@ export const newFreelancer = (freelancerData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: NEW_FREELANCER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+
+export const getApplicationEntries = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: GET_APPLICATION_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/application-entries`)
+
+        dispatch({
+            type: GET_APPLICATION_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: GET_APPLICATION_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const approveApplication = (id, freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: APPROVE_APPLICATION_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/application-approve/${id}`, freelancerData, config)
+
+        dispatch({
+            type: APPROVE_APPLICATION_SUCCESS,
+            // payload: data.success,
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: APPROVE_APPLICATION_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+export const rejectApplication = (id, freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: REJECT_APPLICATION_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/application-reject/${id}`, freelancerData, config)
+
+        dispatch({
+            type: REJECT_APPLICATION_SUCCESS,
+            // payload: data.success
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: REJECT_APPLICATION_FAIL,
             payload: error.response.data.message
         })
     }

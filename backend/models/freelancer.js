@@ -11,6 +11,11 @@ const freelancerSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
+    course: {
+        type: String,
+        required: true,
+        default: 'BS - Information Technology'
+    },
     isPremium: {
         type: Boolean,
         required: true,

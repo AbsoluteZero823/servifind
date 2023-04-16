@@ -2371,3 +2371,29 @@ input:checked+.slider:before {
 }
 
 /* END CHAT CLICK */
+
+.centerTD {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  position: absolute;
+  background-color: #0000008a;
+  height: 70px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .3s ease;
+  opacity: 0;
+}
+
+.centerTD:hover .overlay {
+  opacity: 1;
+}
+
+.noStylebtn {
+  box-decoration-break: unset;
+}

@@ -6,12 +6,13 @@ import { authReducer, getUsersReducer, userReducer, UpDelUserReducer, newUserRed
 import { servicesReducer, serviceDetailsReducer, newServiceReducer, UpDelServiceReducer } from './reducers/serviceReducers'
 import { newInquiryReducer, inquiriesReducer, inquiryDetailsReducer, statusReducer } from './reducers/inquiryReducers';
 import { getTransactionsReducer, newTransactionReducer, transactionDetailsReducer, paymentReducer } from './reducers/transactionReducers';
-import { freelancerDetailsReducer, newFreelancerReducer, freelancersReducer } from './reducers/freelancerReducers';
+import { freelancerDetailsReducer, newFreelancerReducer, freelancersReducer, applicationFreelancerReducer, updateFreelancerReducer } from './reducers/freelancerReducers';
 import { getRequestsReducer, newRequestReducer, requestDetailsReducer } from './reducers/requestReducers';
 import { getCategoriesReducer } from './reducers/categoryReducers';
 import { getOffersReducer, newOfferReducer, offerDetailsReducer, getRequestOffersReducer, updateReducer } from './reducers/offerReducers';
 import { chatsReducer } from './reducers/chatReducers';
 import { messagesReducer, newMessageReducer } from './reducers/messageReducers';
+
 // import { getTransactions } from '../../backend/controllers/transactionController';
 const reducer = combineReducers({
 
@@ -41,6 +42,8 @@ const reducer = combineReducers({
     freelancerDetails: freelancerDetailsReducer,
     addFreelancer: newFreelancerReducer,
     freelancers: freelancersReducer,
+    applying: applicationFreelancerReducer,
+    updateFreelancer: updateFreelancerReducer,
 
     requests: getRequestsReducer,
     addRequest: newRequestReducer,
