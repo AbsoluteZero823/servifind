@@ -146,6 +146,12 @@ const Header = () => {
                                     {user && user.role === 'customer' && (
                                         <hr></hr>
                                     )}
+
+                                    {user && user.role === 'freelancer' && (
+                                        <Fragment>
+                                            <Link className="dropdown-item" to="/premium">Upgrade to Premium</Link>
+                                            <hr></hr></Fragment>
+                                    )}
                                     <Link className="dropdown-item text-danger" to="/" onClick={logoutHandler}>Sign Out</Link>
                                     {/* <Link className="dropdown-item text-danger" to="/" >
                                     Logout

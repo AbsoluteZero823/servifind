@@ -71,11 +71,11 @@ const Users = () => {
 
                 },
 
-                {
-                    label: 'User ID',
-                    field: 'id',
-                    sort: 'asc'
-                },
+                // {
+                //     label: 'User ID',
+                //     field: 'id',
+                //     sort: 'asc'
+                // },
                 {
                     label: 'Name',
                     field: 'name',
@@ -126,7 +126,7 @@ const Users = () => {
                     />
 
                 </Fragment>,
-                id: customer._id,
+                // id: customer._id,
                 name: customer.name,
                 age: customer.age,
                 gender: customer.gender,

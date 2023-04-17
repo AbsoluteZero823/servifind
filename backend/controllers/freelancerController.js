@@ -179,3 +179,40 @@ exports.rejectApplication = async (req, res, next) => {
         freelancer
     })
 }
+
+exports.availPremium = async (req, res, next) => {
+    let freelancer = await Freelancer.findById(req.user.freelancer_id._id);
+    // console.log(req.user.freelancer._id);
+    const result = await cloudinary.v2.uploader.upload(req.body.premiumReceipt, {
+        folder: 'servifind/freelancer/receipt',
+        // width: 150,
+        // crop: "scale"
+    })
+
+    const freelancerData = {
+        premiumReceipt: {
+            public_id: result.public_id,
+            url: result.secure_url
+        }
+    }
+
+    // const freelancerData = {
+    //     premiumReceipt: {
+    //         public_id: 'result.public_id',
+    //         url: 'result.secure_url'
+    //     }
+    // }
+
+    if (!freelancer) {
+        return next(new ErrorHandler('User  not found', 404));
+    }
+    freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        isUpdated: true,
+        freelancer
+    })
+}

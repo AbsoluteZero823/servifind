@@ -28,7 +28,7 @@ const Profile = () => {
                     <div className="flex-container space-between">
                         <div className="col card" id='profile-div'>
                             <figure className='img-placeholder'>
-                                <img className="rounded-circle img-fluid" src={user.avatar.url} alt={user.name} />
+                                <img className="rounded-circle img-fluid" src={user && user.avatar.url} alt={user.name} />
                             </figure>
 
                             <Link to="/me/update" id="edit_profile" className="btn btn-primary btn-block my-5">

@@ -17,7 +17,11 @@ const Sidebar = () => {
                         </li>
                     )}
 
-
+                    {user && user.role === "freelancer" && (
+                        <li>
+                            <Link to="/freelancer/dashboard"><i className="fa fa-tachometer-alt" aria-hidden="true"></i> Dashboard</Link>
+                        </li>
+                    )}
 
 
                     {/* <li>

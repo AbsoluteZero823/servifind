@@ -26,6 +26,10 @@ import {
     REJECT_APPLICATION_SUCCESS,
     REJECT_APPLICATION_FAIL,
 
+    AVAIL_PREMIUM_REQUEST,
+    AVAIL_PREMIUM_SUCCESS,
+    AVAIL_PREMIUM_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants';
 
@@ -174,6 +178,34 @@ export const rejectApplication = (id, freelancerData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: REJECT_APPLICATION_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const availPremium = (freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: AVAIL_PREMIUM_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/avail-premium`, freelancerData, config)
+
+        dispatch({
+            type: AVAIL_PREMIUM_SUCCESS,
+            // payload: data.success
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: AVAIL_PREMIUM_FAIL,
             payload: error.response.data.message
         })
     }

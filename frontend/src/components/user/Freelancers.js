@@ -67,11 +67,11 @@ const Freelancers = () => {
 
                 },
 
-                {
-                    label: 'User ID',
-                    field: 'id',
-                    sort: 'asc'
-                },
+                // {
+                //     label: 'User ID',
+                //     field: 'id',
+                //     sort: 'asc'
+                // },
                 {
                     label: 'Name',
                     field: 'name',
@@ -123,7 +123,7 @@ const Freelancers = () => {
                     />
 
                 </Fragment>,
-                id: customer._id,
+                // id: customer._id,
                 name: customer.name,
                 age: customer.age,
                 gender: customer.gender,

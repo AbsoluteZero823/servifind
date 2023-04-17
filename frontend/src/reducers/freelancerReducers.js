@@ -28,6 +28,11 @@ import {
     REJECT_APPLICATION_FAIL,
     REJECT_APPLICATION_RESET,
 
+    AVAIL_PREMIUM_REQUEST,
+    AVAIL_PREMIUM_SUCCESS,
+    AVAIL_PREMIUM_FAIL,
+    AVAIL_PREMIUM_RESET,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants'
 
@@ -188,6 +193,7 @@ export const updateFreelancerReducer = (state = {}, action) => {
 
         case APPROVE_APPLICATION_REQUEST:
         case REJECT_APPLICATION_REQUEST:
+        case AVAIL_PREMIUM_REQUEST:
             return {
                 ...state,
                 loading: true
@@ -196,6 +202,7 @@ export const updateFreelancerReducer = (state = {}, action) => {
 
         case APPROVE_APPLICATION_SUCCESS:
         case REJECT_APPLICATION_SUCCESS:
+        case AVAIL_PREMIUM_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -211,6 +218,7 @@ export const updateFreelancerReducer = (state = {}, action) => {
 
         case APPROVE_APPLICATION_RESET:
         case REJECT_APPLICATION_RESET:
+        case AVAIL_PREMIUM_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -224,7 +232,7 @@ export const updateFreelancerReducer = (state = {}, action) => {
 
         case APPROVE_APPLICATION_FAIL:
         case REJECT_APPLICATION_FAIL:
-
+        case AVAIL_PREMIUM_FAIL:
             return {
                 ...state,
                 loading: false,

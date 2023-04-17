@@ -348,7 +348,14 @@ exports.forgotPassword = async (req, res, next) => {
 }
 
 exports.getUserProfile = async (req, res, next) => {
-    const user = await User.findById(req.user.id);
+    var user = {}
+
+    if (req.user.role === "freelancer") {
+        user = await User.findById(req.user.id).populate('freelancer_id');
+    } else {
+        user = await User.findById(req.user.id);
+    }
+
 
 
     res.status(200).json({
@@ -356,6 +363,44 @@ exports.getUserProfile = async (req, res, next) => {
         user
 
     })
+    // try {
+    //     const id = req.user.id
+    //     const user = await User.aggregate([
+    //         {
+    //             $match: {
+    //                 _id: ObjectId(id)
+    //             },
+
+    //         },
+
+    //         {
+    //             $lookup: {
+    //                 from: "freelancers",
+    //                 localField: "_id",
+    //                 foreignField: "user_id",
+    //                 as: "freelancer"
+    //             }
+    //         },
+    //         {
+    //             $sort: {
+    //                 "freelancer": 1
+    //             }
+    //         }
+    //     ]).then(user => user[0]);
+
+
+
+    //         res.status(200).json({
+    //             success: true,
+    //             user
+
+    //         })
+
+
+
+    // } catch (error) {
+    //     console.log(error)
+    // }
 }
 
 // Update / Change password   =>  /api/v1/password/update

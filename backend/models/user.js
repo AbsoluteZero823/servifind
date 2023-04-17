@@ -75,6 +75,11 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    freelancer_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Freelancer',
+        required: false
+    },
     emailToken: {
         type: String
     },
