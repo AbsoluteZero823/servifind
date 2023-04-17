@@ -124,7 +124,7 @@ function App() {
                   <Route path="/contact" element={<Contact />} exact />
                   <Route path="/dashboard" element={<Dashboard />} exact />
                   <Route path="/users" element={<Users />} exact />
-                  <Route path="/freelancers" element={<Freelancers />} exact />
+                  <Route path="/all/freelancers" element={<Freelancers />} exact />
                   <Route path="/create" element={<Create />} exact />
                   <Route path="/user/:id" element={<UpdateUser />} exact />
                   <Route path="/service/details/:id" element={<SingleService />} />
@@ -219,7 +219,7 @@ function App() {
               <Route path="/contact" element={<Contact />} exact />
               {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
               <Route path="/users" element={<Users />} exact />
-              <Route path="/freelancers" element={<Freelancers />} exact />
+              <Route path="/all/freelancers" element={<Freelancers />} exact />
               <Route path="/create" element={<Create />} exact />
               <Route path="/user/:id" element={<UpdateUser />} exact />
               <Route path="/service/details/:id" element={<SingleService />} />

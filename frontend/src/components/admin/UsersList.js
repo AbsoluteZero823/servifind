@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react'
-import { Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { MDBDataTable } from 'mdbreact'
 
 import MetaData from '../layout/MetaData'
@@ -86,7 +86,7 @@ const UsersList = () => {
                     <button className="btn btn-danger py-1 px-2 ml-2" onClick={() => deleteUserHandler(user._id)}>
                         <i className="fa fa-trash"></i>
                     </button>
-                  
+
                 </Fragment>
             })
         })
@@ -105,19 +105,23 @@ const UsersList = () => {
 
                 <div className="col-12 col-md-10">
                     <Fragment>
-                        <h1 className="my-5">All Users</h1>
+                        <div className='forTable'>
+                            <h1 className="my-5">All Users</h1>
 
-                        {loading ? <Loader /> : (
-                            <MDBDataTable
-                                data={setUsers()}
-                                className="px-3"
-                                bordered
-                                striped
-                                hover
-                            />
-                        )}
-
+                            {loading ? <Loader /> : (
+                                <MDBDataTable
+                                    data={setUsers()}
+                                    className="px-3"
+                                    bordered
+                                    striped
+                                    hover
+                                    scrollY
+                                    maxHeight='48vh'
+                                />
+                            )}
+                        </div>
                     </Fragment>
+
                 </div>
             </div>
 

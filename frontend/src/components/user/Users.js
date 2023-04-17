@@ -5,7 +5,7 @@ import { MDBDataTable } from 'mdbreact'
 import MetaData from '../layout/MetaData'
 import Loader from '../layout/Loader'
 import Sidebar from '../admin/Sidebar'
-
+import $ from 'jquery';
 import { useAlert } from 'react-alert'
 import { useDispatch, useSelector } from 'react-redux'
 import { allUsers, deleteUser, activateUser, deactivateUser, clearErrors } from '../../actions/userActions'
@@ -44,7 +44,13 @@ const Users = () => {
 
     }, [dispatch, alert, error, isDeleted, isUpdated, navigate])
 
-
+    // $(document).ready(function () {
+    //     $('#forTable').DataTable({
+    //         "scrollY": "200px",
+    //         "scrollCollapse": true,
+    //     });
+    //     $('.dataTables_length').addClass('bs-select');
+    // });
     const deleteUserHandler = (id) => {
         dispatch(deleteUser(id))
     }
@@ -176,31 +182,36 @@ const Users = () => {
 
     return (
         <Fragment>
-            <MetaData title={'All Users'} />
+            <div className='forTable'>
+                <MetaData title={'All Users'} />
 
-           
-             
-               
-              
-                    <Fragment>
-                        <h1 className="my-5">All Users
-                            <span> <Link to="/create" className="btn update-btn fa fa-plus">
-                            </Link> </span>
-                        </h1>
 
-                        {loading ? <Loader /> : (
-                            <MDBDataTable
-                                data={setUsers()}
-                                className="px-3"
-                                bordered
-                                striped
-                                hover
-                            />
-                        )}
 
-                    </Fragment>
-              
-           
+
+
+                <Fragment>
+                    <h1>All Users
+                        <span> <Link to="/create" className="btn update-btn fa fa-plus">
+                        </Link> </span>
+                    </h1>
+
+                    {loading ? <Loader /> : (
+                        <MDBDataTable
+                            data={setUsers()}
+                            className="px-3"
+                            bordered
+                            striped
+                            hover
+                            scrollY
+                            maxHeight='48vh'
+                            id='forTable'
+
+                        />
+                    )}
+
+                </Fragment>
+
+            </div>
 
         </Fragment>
     )

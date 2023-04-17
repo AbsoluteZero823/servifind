@@ -270,7 +270,7 @@ export const allFreelancers = () => async (dispatch) => {
 
         dispatch({ type: ALL_FREELANCERS_REQUEST })
 
-        const { data } = await axios.get('/api/v1/freelancers')
+        const { data } = await axios.get('/api/v1/all/freelancers')
 
         dispatch({
             type: ALL_FREELANCERS_SUCCESS,

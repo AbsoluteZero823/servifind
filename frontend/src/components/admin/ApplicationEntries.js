@@ -217,9 +217,7 @@ const ApplicationEntries = () => {
     return (
         <Fragment>
 
-            <div style={{
-                backgroundColor: 'white', margin: '50px', borderRadius: 10, height: '75vh', boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2)', padding: '30px'
-            }}>
+            <div className='forTable'>
 
                 <div style={{ padding: '0', margin: '0' }}>
                     <h1 style={{ padding: '0 !important', margin: '0 !important' }}>Applications for Freelancer</h1>
@@ -242,6 +240,8 @@ const ApplicationEntries = () => {
                                     bordered
                                     striped
                                     hover
+                                    scrollY
+                                    maxHeight='48vh'
                                 />
                             )}
 

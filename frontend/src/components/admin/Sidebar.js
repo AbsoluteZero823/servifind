@@ -37,7 +37,7 @@ const Sidebar = () => {
                                     <Link to="/users"><i className="fa fa-clipboard"></i> All</Link>
                                 </li>
                                 <li>
-                                    <Link to="/freelancers"><i className="fa fa-briefcase"></i> Freelancers</Link>
+                                    <Link to="/all/freelancers"><i className="fa fa-briefcase"></i> Freelancers</Link>
                                 </li>
                                 <li>
                                     <Link to="/application-entries"><i className="fa fa-briefcase"></i>Application for Freelancer</Link>
