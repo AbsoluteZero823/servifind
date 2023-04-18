@@ -220,7 +220,7 @@ exports.availPremium = async (req, res, next) => {
 
 exports.getApplicationPremium = async (req, res, next) => {
 
-    const applyingfreelancers = await Freelancer.find({ premiumReceipt: { $exists: true }, isPremium: 'false' }).populate('user_id')
+    const applyingfreelancers = await Freelancer.find({ premiumReceipt: { $exists: true }, isPremium: 'false', 'premiumReceipt.rejectReason': { $exists: false } }).populate('user_id')
 
     res.status(200).json({
         success: true,
