@@ -81,7 +81,17 @@ const freelancerSchema = new mongoose.Schema({
             type: String,
             required: false,
 
+        },
+        isPaymentReceived: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        rejectReason: {
+            type: String,
+            required: false
         }
+
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,

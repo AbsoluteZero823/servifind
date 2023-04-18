@@ -216,3 +216,75 @@ exports.availPremium = async (req, res, next) => {
         freelancer
     })
 }
+
+
+exports.getApplicationPremium = async (req, res, next) => {
+
+    const applyingfreelancers = await Freelancer.find({ premiumReceipt: { $exists: true }, isPremium: 'false' }).populate('user_id')
+
+    res.status(200).json({
+        success: true,
+        applyingfreelancers
+    })
+
+}
+
+
+exports.approveApplicationPremium = async (req, res, next) => {
+    let freelancer = await Freelancer.findById(req.params.id);
+
+    const freelancerData = {
+        isPremium: true,
+
+    }
+
+    freelancerData.premiumReceipt = {
+        public_id: freelancer.premiumReceipt.public_id,
+        url: freelancer.premiumReceipt.url,
+        isPaymentReceived: true,
+
+    }
+
+    if (!freelancer) {
+        return next(new ErrorHandler('User not found', 404));
+    }
+
+
+    freelancer = await Freelancer.findByIdAndUpdate(req.params.id, freelancerData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+
+    res.status(200).json({
+        isUpdated: true,
+        freelancer
+
+    })
+}
+exports.rejectApplicationPremium = async (req, res, next) => {
+    let freelancer = await Freelancer.findById(req.params.id);
+    const freelancerData = {
+
+    }
+    freelancerData.premiumReceipt = {
+        public_id: freelancer.premiumReceipt.public_id,
+        url: freelancer.premiumReceipt.url,
+        isPaymentReceived: false,
+        rejectReason: req.body.rejectReason
+    }
+
+
+    if (!freelancer) {
+        return next(new ErrorHandler('User  not found', 404));
+    }
+    freelancer = await Freelancer.findByIdAndUpdate(req.params.id, freelancerData, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        isUpdated: true,
+        freelancer
+    })
+}

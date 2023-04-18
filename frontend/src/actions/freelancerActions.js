@@ -30,6 +30,10 @@ import {
     AVAIL_PREMIUM_SUCCESS,
     AVAIL_PREMIUM_FAIL,
 
+    GET_APPLICATIONPREMIUM_REQUEST,
+    GET_APPLICATIONPREMIUM_SUCCESS,
+    GET_APPLICATIONPREMIUM_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants';
 
@@ -206,6 +210,27 @@ export const availPremium = (freelancerData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: AVAIL_PREMIUM_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const getApplicationPremium = () => async (dispatch) => {
+    try {
+
+        dispatch({ type: GET_APPLICATIONPREMIUM_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/application-premium`)
+
+        dispatch({
+            type: GET_APPLICATIONPREMIUM_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: GET_APPLICATIONPREMIUM_FAIL,
             payload: error.response.data.message
         })
     }

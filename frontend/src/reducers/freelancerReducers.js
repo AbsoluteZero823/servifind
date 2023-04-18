@@ -33,6 +33,10 @@ import {
     AVAIL_PREMIUM_FAIL,
     AVAIL_PREMIUM_RESET,
 
+    GET_APPLICATIONPREMIUM_REQUEST,
+    GET_APPLICATIONPREMIUM_SUCCESS,
+    GET_APPLICATIONPREMIUM_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants'
 
@@ -153,13 +157,14 @@ export const applicationFreelancerReducer = (state = { applyingfreelancers: [] }
 
 
         case GET_APPLICATION_REQUEST:
+        case GET_APPLICATIONPREMIUM_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
 
         case GET_APPLICATION_SUCCESS:
-
+        case GET_APPLICATIONPREMIUM_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -168,7 +173,7 @@ export const applicationFreelancerReducer = (state = { applyingfreelancers: [] }
             }
 
         case GET_APPLICATION_FAIL:
-
+        case GET_APPLICATIONPREMIUM_FAIL:
             return {
                 ...state,
                 loading: false,
