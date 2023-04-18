@@ -265,7 +265,7 @@ exports.approveApplicationPremium = async (req, res, next) => {
 exports.rejectApplicationPremium = async (req, res, next) => {
     let freelancer = await Freelancer.findById(req.params.id);
     const freelancerData = {
-
+        isPremium: false,
     }
     freelancerData.premiumReceipt = {
         public_id: freelancer.premiumReceipt.public_id,

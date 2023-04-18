@@ -9,15 +9,19 @@ import Swal from 'sweetalert2';
 import $ from 'jquery';
 
 
-import { getApplicationPremium, clearErrors } from '../../actions/freelancerActions'
-
+import { getApplicationPremium, clearErrors, approveApplicationPremium, rejectApplicationPremium } from '../../actions/freelancerActions'
+import { APPROVE_APPLICATIONPREMIUM_RESET, REJECT_APPLICATIONPREMIUM_RESET } from '../../constants/freelancerConstants'
 const ApplicationPremium = () => {
 
     const dispatch = useDispatch();
     const { user, isAuthenticated } = useSelector(state => state.auth)
     const { applyingfreelancers, success, error, loading } = useSelector(state => state.applying)
+    const { freelancer, isUpdated } = useSelector(state => state.updateFreelancer)
+
 
     const [premiumReceipt, setPremiumReceipt] = useState('')
+    const [rejectReason, setRejectReason] = useState('')
+    const [selectedFreelancer, setSelectedFreelancer] = useState('')
 
     useEffect(() => {
         dispatch(getApplicationPremium());
@@ -25,19 +29,111 @@ const ApplicationPremium = () => {
             console.log(applyingfreelancers)
         }
 
-        // if (isUpdated) {
-        //     dispatch({ type: APPROVE_APPLICATION_RESET })
-        //     dispatch({ type: REJECT_APPLICATION_RESET })
-        // }
+        if (isUpdated) {
+            dispatch({ type: APPROVE_APPLICATIONPREMIUM_RESET })
+            dispatch({ type: REJECT_APPLICATIONPREMIUM_RESET })
+        }
 
         if (error) {
             alert.error(error);
             dispatch(clearErrors())
         }
 
-    }, [dispatch, error, success])
+    }, [dispatch, error, success, isUpdated])
+
+    const submitUpdateHandler = (e) => {
+        e.preventDefault();
+        const freelancerData = new FormData();
+        freelancerData.set('rejectReason', rejectReason);
+        Swal.fire({
+            title: 'Are you Sure?',
+            text: "Rejecting this Application will reject premium application",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Reject'
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                // dispatch(PaymentSent(transaction._id, statusData));
+                dispatch(rejectApplicationPremium(selectedFreelancer, freelancerData))
+                Swal.fire(
+                    'Application Rejected',
+                    '',
+                    'success'
+                )
+                //closes the modal
+                // $('.close').trigger("click");
+                // $('.modal')
+                $('.modal-backdrop').hide();
+                clodeModal()
+                // $('body').removeClass('modal-open');
+
+            }
+        })
 
 
+    }
+
+    const clodeModal = () => {
+        $("#rejectModal").hide();
+    }
+    const approveApplicationHandler = (id) => {
+        Swal.fire({
+            title: 'Are you Sure?',
+            text: "Accepting this Application will make this student acquire a freelancer role.",
+            icon: 'info',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Approve'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(approveApplicationPremium(id))
+
+
+                Swal.fire(
+                    'Success',
+                    '',
+                    'success'
+                )
+                //closes the modal
+                $('.close').click();
+
+            }
+        })
+
+
+
+    }
+    // const rejectApplicationHandler = (id) => {
+
+    //     Swal.fire({
+    //         title: 'Are you Sure?',
+    //         text: "Rejecting this Application will prohibit this student to become a freelancer.",
+    //         icon: 'info',
+    //         showCancelButton: true,
+    //         confirmButtonColor: '#3085d6',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonText: 'Reject'
+    //     }).then((result) => {
+    //         if (result.isConfirmed) {
+
+    //             dispatch(rejectApplicationPremium(id))
+
+    //             Swal.fire(
+    //                 'Reject Success',
+
+    //                 'success'
+    //             )
+    //             //closes the modal
+    //             $('.close').click();
+
+    //         }
+    //     })
+
+    // }
     const setTableData = () => {
 
         const data = {
@@ -130,16 +226,16 @@ const ApplicationPremium = () => {
                     <div className='action'>
 
                         <Link to={''} className="btn btn-success py-1 px-2"
-                        // onClick={() => approveApplicationHandler(freelancer._id)}
+                            onClick={() => approveApplicationHandler(freelancer._id)}
                         >
-                            <div data-toggle="tooltip" title='Approve Application'>
+                            <div data-toggle="tooltip" title='Approve Premium Application'>
                                 <i className="fa fa-check" ></i>
                             </div>
                         </Link>
-                        <Link to={''} className="btn btn-danger py-1 px-2"
-                        // onClick={() => rejectApplicationHandler(freelancer._id)}
+                        <Link to={''} className="btn btn-danger py-1 px-2" data-toggle="modal" data-target="#rejectModal"
+                            onClick={() => setSelectedFreelancer(freelancer._id)}
                         >
-                            <div data-toggle="tooltip" title='Reject Application'>
+                            <div data-toggle="tooltip" title='Reject Premium Application'>
                                 <i className="fa fa-times"></i>
                             </div>
                         </Link>
@@ -217,6 +313,51 @@ const ApplicationPremium = () => {
                                 style={{ padding: '20px', objectFit: 'contain', maxHeight: '83vh' }}
                             />
 
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+
+            {/* RejectModal */}
+            <Fragment>
+                <div className="modal fade" id="rejectModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div className="modal-dialog modal-dialog-centered" role="document">
+                        <div className="modal-content">
+                            {/* <div className="modal-header">
+                                <h5 className="modal-title" id="exampleModalCenterTitle">Edit Info</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div> */}
+                            <form className="a" onSubmit={submitUpdateHandler} encType='multipart/form-data'>
+                                <div className="modal-body">
+
+
+                                    <div className="form-group">
+                                        <label htmlFor="email_field">Reason</label>
+                                        <select
+                                            type=""
+                                            id="gender_field"
+                                            className="form-control"
+                                            name='rejectReason'
+                                            value={rejectReason}
+                                            onChange={(e) => setRejectReason(e.target.value)}
+                                            placeholder="Select Reason">
+                                            <option value="" disabled hidden>Select Reason</option>
+                                            <option value="Didn't Receive Payment">Didn't Receive Payment</option>
+                                            <option value="Invalid Receipt Attachment">Invalid Receipt Attachment</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary" >Save changes</button>
+
+
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

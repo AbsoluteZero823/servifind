@@ -37,6 +37,16 @@ import {
     GET_APPLICATIONPREMIUM_SUCCESS,
     GET_APPLICATIONPREMIUM_FAIL,
 
+    APPROVE_APPLICATIONPREMIUM_REQUEST,
+    APPROVE_APPLICATIONPREMIUM_SUCCESS,
+    APPROVE_APPLICATIONPREMIUM_FAIL,
+    APPROVE_APPLICATIONPREMIUM_RESET,
+
+    REJECT_APPLICATIONPREMIUM_REQUEST,
+    REJECT_APPLICATIONPREMIUM_SUCCESS,
+    REJECT_APPLICATIONPREMIUM_FAIL,
+    REJECT_APPLICATIONPREMIUM_RESET,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants'
 
@@ -199,6 +209,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case APPROVE_APPLICATION_REQUEST:
         case REJECT_APPLICATION_REQUEST:
         case AVAIL_PREMIUM_REQUEST:
+        case APPROVE_APPLICATIONPREMIUM_REQUEST:
+        case REJECT_APPLICATIONPREMIUM_REQUEST:
             return {
                 ...state,
                 loading: true
@@ -208,6 +220,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case APPROVE_APPLICATION_SUCCESS:
         case REJECT_APPLICATION_SUCCESS:
         case AVAIL_PREMIUM_SUCCESS:
+        case APPROVE_APPLICATIONPREMIUM_SUCCESS:
+        case REJECT_APPLICATIONPREMIUM_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -224,6 +238,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case APPROVE_APPLICATION_RESET:
         case REJECT_APPLICATION_RESET:
         case AVAIL_PREMIUM_RESET:
+        case APPROVE_APPLICATIONPREMIUM_RESET:
+        case REJECT_APPLICATIONPREMIUM_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -238,6 +254,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case APPROVE_APPLICATION_FAIL:
         case REJECT_APPLICATION_FAIL:
         case AVAIL_PREMIUM_FAIL:
+        case APPROVE_APPLICATIONPREMIUM_FAIL:
+        case REJECT_APPLICATIONPREMIUM_FAIL:
             return {
                 ...state,
                 loading: false,

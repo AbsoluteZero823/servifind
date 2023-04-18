@@ -34,6 +34,14 @@ import {
     GET_APPLICATIONPREMIUM_SUCCESS,
     GET_APPLICATIONPREMIUM_FAIL,
 
+    APPROVE_APPLICATIONPREMIUM_REQUEST,
+    APPROVE_APPLICATIONPREMIUM_SUCCESS,
+    APPROVE_APPLICATIONPREMIUM_FAIL,
+
+    REJECT_APPLICATIONPREMIUM_REQUEST,
+    REJECT_APPLICATIONPREMIUM_SUCCESS,
+    REJECT_APPLICATIONPREMIUM_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants';
 
@@ -231,6 +239,59 @@ export const getApplicationPremium = () => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: GET_APPLICATIONPREMIUM_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const approveApplicationPremium = (id, freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: APPROVE_APPLICATIONPREMIUM_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/approve-premium/${id}`, freelancerData, config)
+
+        dispatch({
+            type: APPROVE_APPLICATIONPREMIUM_SUCCESS,
+            // payload: data.success,
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: APPROVE_APPLICATIONPREMIUM_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+export const rejectApplicationPremium = (id, freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: REJECT_APPLICATIONPREMIUM_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/reject-premium/${id}`, freelancerData, config)
+
+        dispatch({
+            type: REJECT_APPLICATIONPREMIUM_SUCCESS,
+            // payload: data.success
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: REJECT_APPLICATIONPREMIUM_FAIL,
             payload: error.response.data.message
         })
     }
