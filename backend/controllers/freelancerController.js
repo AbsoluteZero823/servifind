@@ -107,6 +107,7 @@ exports.makemeaFreelancer = async (req, res, next) => {
     if (existingFreelancer) {
       return next(new ErrorHandler('You already have a freelancer document registered, Wait for Administrator Verification', 400));
     }
+
     const qrResult = await cloudinary.v2.uploader.upload(req.body.qrCode, {
       folder: 'servifind/freelancer/documents',
       width: 300,
@@ -117,12 +118,18 @@ exports.makemeaFreelancer = async (req, res, next) => {
       width: 300,
       crop: "scale"
     });
-    const resumeFile = req.files.resume;
-    const resumePath = path.join(__dirname,'..','resumes', resumeFile.name);
-    // Write the file to disk
-    await fs.promises.writeFile(resumePath, resumeFile.data);
-    // Create a new freelancer document with the file URLs
+    const resumeresult = await cloudinary.v2.uploader.upload(req.body.resume, {
+      folder: 'servifind/freelancer/documents',
+      width: 300,
+      crop: "scale"
+    });
+    req.body.resume = {
+      public_id: resumeresult.public_id,
+      url: resumeresult.secure_url
+    };
+
     const freelancer = new Freelancer({
+      status: 'applying',
       user_id: req.user.id,
       gcash_name: req.body.gcash_name,
       gcash_number: req.body.gcash_number,

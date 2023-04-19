@@ -21,16 +21,6 @@ const freelancerSchema = new mongoose.Schema({
         required: true,
         default: false
     },
-    premiumReceipt: {
-        public_id: {
-            type: String,
-            required: true,
-        },
-        url: {
-            type: String,
-            required: true,
-        }
-    },
     availability: {
         type: Boolean,
         required: true,
@@ -44,22 +34,6 @@ const freelancerSchema = new mongoose.Schema({
     gcash_num: {
         type: String,
         required: false
-    },
-    schoolId: {
-        public_id: {
-            type: String,
-            required: true,
-        },
-        url: {
-            type: String,
-            required: true,
-        }
-    },
-    resume: {
-        path:{
-            type: String,
-            required: true
-        }
     },
     qrCode: {
         public_id: {
