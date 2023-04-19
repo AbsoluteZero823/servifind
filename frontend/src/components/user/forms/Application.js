@@ -37,6 +37,7 @@ const Application = () => {
 
 
         // user_id: user && user._id,
+        course:"",
         resume: "",
         schoolID: ""
 
@@ -140,6 +141,7 @@ const Application = () => {
         // console.log(freelancerData);
         // console.log(serviceData);
         const freelancersData = new FormData();
+        freelancersData.set('course', freelancerData.course);
         freelancersData.set('resume', freelancerData.resume);
         freelancersData.set('schoolID', freelancerData.schoolID);
 

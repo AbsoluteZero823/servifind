@@ -31,6 +31,7 @@ exports.newFreelancer = async (req, res, next) => {
     // const freelancer = await Freelancer.create(req.body);
     const freelancer = await Freelancer.create({
         user_id: req.body.user,
+        course: req.body.course,
         resume: {
             public_id: resultResume.public_id,
             url: resultResume.secure_url
@@ -287,4 +288,87 @@ exports.rejectApplicationPremium = async (req, res, next) => {
         isUpdated: true,
         freelancer
     })
+}
+
+exports.availabiltyUpdate = async (req, res, next) => {
+    try {
+        let freelancer = await Freelancer.findById(req.user.freelancer_id._id);
+        let freelancerData = {
+       
+        }
+           if(req.user.freelancer_id.availability === 'true'){
+               freelancerData = {
+                   availability: 'false'
+               }
+           } else{
+               freelancerData = {
+                   availability: 'true'
+               }
+           }
+       
+       
+       
+       
+           if (!freelancer) {
+               return next(new ErrorHandler('User  not found', 404));
+           }
+           freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
+               new: true,
+               runValidators: true,
+               // useFindandModify:false
+           })
+           res.status(200).json({
+               isUpdated: true,
+               freelancer
+           })
+    } catch (error) {
+        console.log(error)
+    }
+  
+}
+
+
+exports.completeFreelancerSetup = async (req, res, next) => {
+    try {
+        let freelancer = await Freelancer.findById(req.user.freelancer_id._id);
+
+        const result = await cloudinary.v2.uploader.upload(req.body.qrCode, {
+            folder: 'servifind/freelancer/qrcode',
+            // width: 150,
+            // crop: "scale"
+        })
+    
+ const freelancerData = {
+        gcash_name : req.body.gcash_name,
+        gcash_num : req.body.gcash_num,
+        qrCode: {
+                public_id:result.public_id,
+                url: result.secure_url
+           
+            }
+        }
+
+        
+        
+      
+          
+       
+       
+       
+           if (!freelancer) {
+               return next(new ErrorHandler('User  not found', 404));
+           }
+           freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
+               new: true,
+               runValidators: true,
+               // useFindandModify:false
+           })
+           res.status(200).json({
+               isUpdated: true,
+               freelancer
+           })
+    } catch (error) {
+        console.log(error)
+    }
+  
 }

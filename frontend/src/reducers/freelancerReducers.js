@@ -47,6 +47,16 @@ import {
     REJECT_APPLICATIONPREMIUM_FAIL,
     REJECT_APPLICATIONPREMIUM_RESET,
 
+    AVAILABILITY_UPDATE_REQUEST,
+    AVAILABILITY_UPDATE_SUCCESS,
+    AVAILABILITY_UPDATE_FAIL,
+    AVAILABILITY_UPDATE_RESET,
+
+    FREELANCER_SETUP_REQUEST,
+    FREELANCER_SETUP_SUCCESS,
+    FREELANCER_SETUP_FAIL,
+    FREELANCER_SETUP_RESET,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants'
 
@@ -211,6 +221,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case AVAIL_PREMIUM_REQUEST:
         case APPROVE_APPLICATIONPREMIUM_REQUEST:
         case REJECT_APPLICATIONPREMIUM_REQUEST:
+            case AVAILABILITY_UPDATE_REQUEST:
+                case FREELANCER_SETUP_REQUEST:
             return {
                 ...state,
                 loading: true
@@ -222,6 +234,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case AVAIL_PREMIUM_SUCCESS:
         case APPROVE_APPLICATIONPREMIUM_SUCCESS:
         case REJECT_APPLICATIONPREMIUM_SUCCESS:
+            case AVAILABILITY_UPDATE_SUCCESS:
+                case FREELANCER_SETUP_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -240,6 +254,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case AVAIL_PREMIUM_RESET:
         case APPROVE_APPLICATIONPREMIUM_RESET:
         case REJECT_APPLICATIONPREMIUM_RESET:
+            case AVAILABILITY_UPDATE_RESET:
+                case FREELANCER_SETUP_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -256,6 +272,8 @@ export const updateFreelancerReducer = (state = {}, action) => {
         case AVAIL_PREMIUM_FAIL:
         case APPROVE_APPLICATIONPREMIUM_FAIL:
         case REJECT_APPLICATIONPREMIUM_FAIL:
+            case AVAILABILITY_UPDATE_FAIL:
+                case FREELANCER_SETUP_FAIL:
             return {
                 ...state,
                 loading: false,

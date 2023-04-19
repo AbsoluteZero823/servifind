@@ -42,6 +42,14 @@ import {
     REJECT_APPLICATIONPREMIUM_SUCCESS,
     REJECT_APPLICATIONPREMIUM_FAIL,
 
+    AVAILABILITY_UPDATE_REQUEST,
+    AVAILABILITY_UPDATE_SUCCESS,
+    AVAILABILITY_UPDATE_FAIL,
+
+    FREELANCER_SETUP_REQUEST,
+    FREELANCER_SETUP_SUCCESS,
+    FREELANCER_SETUP_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/freelancerConstants';
 
@@ -292,6 +300,60 @@ export const rejectApplicationPremium = (id, freelancerData) => async (dispatch)
     } catch (error) {
         dispatch({
             type: REJECT_APPLICATIONPREMIUM_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const availabilityUpdate = (freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: AVAILABILITY_UPDATE_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/availability-update`, freelancerData, config)
+
+        dispatch({
+            type: AVAILABILITY_UPDATE_SUCCESS,
+            // payload: data.success
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: AVAILABILITY_UPDATE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const completeFreelancerSetup = (freelancerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: FREELANCER_SETUP_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/complete-setup`, freelancerData, config)
+
+        dispatch({
+            type: FREELANCER_SETUP_SUCCESS,
+            // payload: data.success
+            payload: data.isUpdated
+        })
+
+    } catch (error) {
+        dispatch({
+            type: FREELANCER_SETUP_FAIL,
             payload: error.response.data.message
         })
     }
