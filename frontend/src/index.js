@@ -7,7 +7,7 @@ import store from './store'
 
 import '@fortawesome/fontawesome-free/css/all.min.css';
 // import 'bootstrap-css-only/css/bootstrap.min.css';
-
+// import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 
 import { positions, transitions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'

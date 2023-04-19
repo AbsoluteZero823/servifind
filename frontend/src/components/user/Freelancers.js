@@ -34,12 +34,12 @@ const Freelancers = () => {
 
         if (isDeleted) {
             alert.success('Freelancer deleted successfully');
-            navigate('/freelancers');
+            navigate('/all/freelancers');
             dispatch({ type: DELETE_USER_RESET })
         }
         if (isUpdated) {
             alert.success('Freelancer Updated successfully');
-            navigate('/freelancers');
+            navigate('/all/freelancers');
             dispatch({ type: ACTIVATE_USER_RESET })
             dispatch({ type: DEACTIVATE_USER_RESET })
         }
@@ -67,11 +67,11 @@ const Freelancers = () => {
 
                 },
 
-                {
-                    label: 'User ID',
-                    field: 'id',
-                    sort: 'asc'
-                },
+                // {
+                //     label: 'User ID',
+                //     field: 'id',
+                //     sort: 'asc'
+                // },
                 {
                     label: 'Name',
                     field: 'name',
@@ -123,7 +123,7 @@ const Freelancers = () => {
                     />
 
                 </Fragment>,
-                id: customer._id,
+                // id: customer._id,
                 name: customer.name,
                 age: customer.age,
                 gender: customer.gender,
@@ -179,21 +179,24 @@ const Freelancers = () => {
 
 
             <Fragment>
-                <h1 className="my-5">All Freelancers
-                    <span> <Link to="/create" className="btn update-btn fa fa-plus">
-                    </Link> </span>
-                </h1>
+                <div className='forTable'>
+                    <h1>All Freelancers
+                        <span> <Link to="/create" className="btn update-btn fa fa-plus">
+                        </Link> </span>
+                    </h1>
 
-                {loading ? <Loader /> : (
-                    <MDBDataTable
-                        data={setUsers()}
-                        className="px-3"
-                        bordered
-                        striped
-                        hover
-                    />
-                )}
-
+                    {loading ? <Loader /> : (
+                        <MDBDataTable
+                            data={setUsers()}
+                            className="px-3"
+                            bordered
+                            striped
+                            hover
+                            scrollY
+                            maxHeight='48vh'
+                        />
+                    )}
+                </div>
             </Fragment>
 
 

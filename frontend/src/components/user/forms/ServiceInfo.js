@@ -62,6 +62,7 @@ function ServiceInfo({ serviceData, setServiceData }) {
             <input
                 type="text"
                 placeholder="I will ...... for you"
+                name='name'
                 className="form-control"
                 value={serviceData.name}
                 onChange={(e) => {
@@ -75,34 +76,15 @@ function ServiceInfo({ serviceData, setServiceData }) {
                 className="form-control"
                 placeholder="Price Starts At"
                 type="number"
-                id="tentacles"
-                name="tentacles"
+                id="priceStarts_At"
+                name="priceStarts_At"
                 min="5"
                 onChange={(e) => {
                     setServiceData({ ...serviceData, priceStarts_At: e.target.value });
                 }}
-                value={serviceData.start}
+                value={serviceData.priceStarts_At}
             />
-            {/* <input
-                type="text"
-                placeholder="Price Starts At"
-                className="form-control"
-                value={formData.start}
-                onChange={(e) => {
-                    setFormData({ ...formData, start: e.target.value });
-                }}
-            /> */}
-            {/* <label>Time Interval</label> */}
-            {/* <input
-                type="text"
-                placeholder="Expected Accomplishment time interval in days"
-                className="form-control"
-                value={formData.end}
-                onChange={(e) => {
-                    setFormData({ ...formData, end: e.target.value });
-                }}
-            /> */}
-            {/* a */}
+
 
 
 

@@ -350,7 +350,14 @@ exports.forgotPassword = async (req, res, next) => {
 }
 
 exports.getUserProfile = async (req, res, next) => {
-    const user = await User.findById(req.user.id);
+    var user = {}
+
+    if (req.user.role === "freelancer") {
+        user = await User.findById(req.user.id).populate('freelancer_id');
+    } else {
+        user = await User.findById(req.user.id);
+    }
+
 
 
     res.status(200).json({
@@ -358,6 +365,44 @@ exports.getUserProfile = async (req, res, next) => {
         user
 
     })
+    // try {
+    //     const id = req.user.id
+    //     const user = await User.aggregate([
+    //         {
+    //             $match: {
+    //                 _id: ObjectId(id)
+    //             },
+
+    //         },
+
+    //         {
+    //             $lookup: {
+    //                 from: "freelancers",
+    //                 localField: "_id",
+    //                 foreignField: "user_id",
+    //                 as: "freelancer"
+    //             }
+    //         },
+    //         {
+    //             $sort: {
+    //                 "freelancer": 1
+    //             }
+    //         }
+    //     ]).then(user => user[0]);
+
+
+
+    //         res.status(200).json({
+    //             success: true,
+    //             user
+
+    //         })
+
+
+
+    // } catch (error) {
+    //     console.log(error)
+    // }
 }
 
 // Update / Change password   =>  /api/v1/password/update
@@ -390,37 +435,47 @@ exports.updatePassword = catchAsyncErrors(async (req, res, next) => {
 })
 // Update user profile   =>   /api/v1/me/update
 exports.updateProfile = catchAsyncErrors(async (req, res, next) => {
-    const newUserData = {
-        name: req.body.name,
-        age: req.body.age,
-        gender: req.body.gender,
-        contact: req.body.contact,
-        // email: req.body.email
-    }
-    // Update avatar
-    if (req.body.avatar !== undefined) {
-        const user = await User.findById(req.user.id)
-        const image_id = user.avatar.public_id;
-        const res = await cloudinary.v2.uploader.destroy(image_id);
-        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'servifind/avatar',
-            width: 150,
-            crop: "scale"
-        })
-        req.body.avatar = {
-            public_id: result.public_id,
-            url: result.secure_url
+    // console.log(req.body.avatar)
+    try {
+        const newUserData = {
+            name: req.body.name,
+            age: req.body.age,
+            gender: req.body.gender,
+            contact: req.body.contact,
+            // email: req.body.email
         }
+        // Update avatar
+        if (req.body.avatar !== '') {
+            const user = await User.findById(req.user.id)
+            const image_id = user.avatar.public_id;
+            const res = await cloudinary.v2.uploader.destroy(image_id);
+            const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+                folder: 'servifind/avatar',
+                width: 150,
+                crop: "scale"
+            })
+
+
+
+
+            newUserData.avatar = {
+                public_id: result.public_id,
+                url: result.secure_url
+            }
+        }
+        const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+            new: true,
+            runValidators: true,
+            // useFindAndModify: false
+        })
+        res.status(200).json({
+            success: true,
+            user
+        })
+    } catch (error) {
+        console.log(error)
     }
-    const user = await User.findByIdAndUpdate(req.user.id, req.body, {
-        new: true,
-        runValidators: true,
-        // useFindAndModify: false
-    })
-    res.status(200).json({
-        success: true,
-        user
-    })
+
 })
 
 

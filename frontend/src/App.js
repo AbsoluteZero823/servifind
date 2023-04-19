@@ -17,6 +17,7 @@ import Application from './components/user/forms/Application'
 import Profile from './components/user/Profile'
 
 import Dashboard from './components/admin/Dashboard'
+import FreelancerDashboard from './components/user/freelancer/Dashboard';
 import Users from './components/user/Users'
 import Freelancers from './components/user/Freelancers'
 import Create from './components/user/Create'
@@ -46,6 +47,9 @@ import FreelancerOffers from './components/user/client/FreelancerOffers';
 
 import Chat from './components/user/ChatPage';
 import EmailVerify from './components/emailVerify/index'
+import ApplicationEntries from './components/admin/ApplicationEntries';
+import Premium from './components/user/freelancer/Premium';
+import ApplicationPremium from './components/admin/ApplicationPremium';
 
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux'
@@ -122,8 +126,9 @@ function App() {
                   <Route path="/about" element={<About />} exact />
                   <Route path="/contact" element={<Contact />} exact />
                   <Route path="/dashboard" element={<Dashboard />} exact />
+                  <Route path="/freelancer/dashboard" element={<FreelancerDashboard />} exact />
                   <Route path="/users" element={<Users />} exact />
-                  <Route path="/freelancers" element={<Freelancers />} exact />
+                  <Route path="/all/freelancers" element={<Freelancers />} exact />
                   <Route path="/create" element={<Create />} exact />
                   <Route path="/user/:id" element={<UpdateUser />} exact />
                   <Route path="/service/details/:id" element={<SingleService />} />
@@ -140,6 +145,10 @@ function App() {
                   <Route path="/offers-request/:request_id" element={<FreelancerOffers />} exact />
                   <Route path="/chat" element={<Chat />} exact />
                   {/* <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact /> */}
+                  <Route path="/application-entries" element={<ApplicationEntries />} exact />
+                  <Route path="/premium" element={<Premium />} exact />
+                  <Route path="/application-premium" element={<ApplicationPremium />} exact />
+
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>
@@ -217,7 +226,7 @@ function App() {
               <Route path="/contact" element={<Contact />} exact />
               {/* <Route path="/dashboard" element={<Dashboard />} exact /> */}
               <Route path="/users" element={<Users />} exact />
-              <Route path="/freelancers" element={<Freelancers />} exact />
+              <Route path="/all/freelancers" element={<Freelancers />} exact />
               <Route path="/create" element={<Create />} exact />
               <Route path="/user/:id" element={<UpdateUser />} exact />
               <Route path="/service/details/:id" element={<SingleService />} />

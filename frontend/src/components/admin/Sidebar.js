@@ -17,7 +17,11 @@ const Sidebar = () => {
                         </li>
                     )}
 
-
+                    {user && user.role === "freelancer" && (
+                        <li>
+                            <Link to="/freelancer/dashboard"><i className="fa fa-tachometer-alt" aria-hidden="true"></i> Dashboard</Link>
+                        </li>
+                    )}
 
 
                     {/* <li>
@@ -37,9 +41,14 @@ const Sidebar = () => {
                                     <Link to="/users"><i className="fa fa-clipboard"></i> All</Link>
                                 </li>
                                 <li>
-                                    <Link to="/freelancers"><i className="fa fa-briefcase"></i> Freelancers</Link>
+                                    <Link to="/all/freelancers"><i className="fa fa-briefcase"></i> Freelancers</Link>
                                 </li>
-
+                                <li>
+                                    <Link to="/application-entries"><i className="fa fa-briefcase"></i>Application for Freelancer</Link>
+                                </li>
+                                <li>
+                                    <Link to="/application-premium"><i className="fa fa-briefcase"></i>Premium Application</Link>
+                                </li>
                                 <li>
                                     <Link to="/create"><i className="fa fa-plus"></i> Create</Link>
                                 </li>

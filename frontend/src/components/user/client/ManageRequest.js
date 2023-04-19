@@ -181,26 +181,31 @@ const ManageRequest = () => {
 
         <Fragment>
             <MetaData title={'Manage Requests'} />
-            <div className='container' style={{ marginTop: '50px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '30px 0px' }}>
-                    <div><h1 style={{ color: 'black' }}>Manage Requests</h1></div>
-                    <div >
-                        <Link to={'/post-request'}><button className='nav-button'>Post a Request</button></Link>
+            <div className='forTable'>
+                <div className='container'>
+                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '30px 0px' }}>
+                        <div><h1 style={{ color: 'black' }}>Manage Requests</h1></div>
+                        <div >
+                            <Link to={'/post-request'}><button className='nav-button'>Post a Request</button></Link>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <Fragment>
-                {loading ? <Loader /> : (
-                    <MDBDataTable
-                        data={setOffers()}
-                        className="px-3"
-                        bordered
-                        striped
-                        hover
-                        id='mdbtable'
-                    />
-                )}
-            </Fragment>
+                <Fragment>
+
+                    {loading ? <Loader /> : (
+                        <MDBDataTable
+                            data={setOffers()}
+                            className="px-3"
+                            bordered
+                            striped
+                            hover
+                            id='mdbtable'
+                            scrollY
+                            maxHeight='48vh'
+                        />
+                    )}
+
+                </Fragment> </div>
         </Fragment>
     );
 }

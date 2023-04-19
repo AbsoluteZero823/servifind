@@ -79,6 +79,7 @@ const InquiriesListC = () => {
                         <section id="services" className="containerz mt-5">
 
                             <div className="row" style={{ justifyContent: 'center' }}>
+                                {console.log(clientinquiries)}
                                 {clientinquiries && clientinquiries.map(inquiry => (
 
                                     <ClientInquiries key={inquiry._id} inquiry={inquiry} />

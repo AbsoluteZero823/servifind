@@ -11,6 +11,11 @@ const freelancerSchema = new mongoose.Schema({
         type: Date,
         required: false
     },
+    course: {
+        type: String,
+        required: true,
+        default: 'BS - Information Technology'
+    },
     isPremium: {
         type: Boolean,
         required: true,
@@ -91,6 +96,28 @@ const freelancerSchema = new mongoose.Schema({
             required: true,
             default: 'https://res.cloudinary.com/dawhmjhu1/image/upload/v1681466602/servifind/freelancer/school_id/schoolID_p9fna0.jpg'
         }
+    },
+    premiumReceipt: {
+        public_id: {
+            type: String,
+            required: false,
+
+        },
+        url: {
+            type: String,
+            required: false,
+
+        },
+        isPaymentReceived: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+        rejectReason: {
+            type: String,
+            required: false
+        }
+
     },
     user_id: {
         type: mongoose.Schema.Types.ObjectId,
