@@ -127,13 +127,11 @@ exports.FreelancerFetchTransaction = async (req, res, next) => {
         // Get all the transactions associated with those offers
         const transactions = await Transaction.find({ offer_id: { $in: offers.map((offer) => offer._id) } }).populate({
             path: "offer_id",
-            populate: {
-              path: "service_id", 
-              path: "request_id",
-              populate: {
-                path: "requested_by", 
-              },
-            },
+            populate: [
+                { path: "service_id" },
+                { path: "request_id", populate: { path: "requested_by" } },
+                { path: "inquiry_id", populate: { path: "customer" } }
+              ],
           })
         // Return the transactions
         res.status(200).json({

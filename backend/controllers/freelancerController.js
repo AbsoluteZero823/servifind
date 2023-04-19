@@ -139,9 +139,8 @@ exports.getmyFreelancers = async (req, res, next) => {
 exports.updatemyFreelancers = async (req, res, next) => {
   try{
     const freelancer = await Freelancer.findOneAndUpdate({ user_id: req.user.id }, req.body, { new: true });
-    console.log(freelancer);
     res.status(200).json({
-      message: "Freelancer updated successfully",
+      message: "Freelancer Updated Successfully",
       freelancer: freelancer,
       success: true
     });
@@ -153,3 +152,28 @@ exports.updatemyFreelancers = async (req, res, next) => {
   }
 }
 
+exports.upgrademyFreelancer = async (req, res, next) => {
+  try{
+    const receiptresult = await cloudinary.v2.uploader.upload(req.body.receipt, {
+      folder: 'servifind/freelancer/documents',
+      width: 300,
+      crop: "scale"
+    });
+    req.body.premiumreceipt = {
+      public_id: receiptresult.public_id,
+      url: receiptresult.secure_url
+    };
+    const freelancer = await Freelancer.findOneAndUpdate({ user_id: req.user.id }, req.body, { new: true });
+    console.log(freelancer);
+    res.status(200).json({
+      message: "Applied for Premium",
+      freelancer: freelancer,
+      success: true
+    });
+  }catch(error){
+    console.log(error);
+    res.status(500).json({
+      error: error.message
+    });
+  }
+}

@@ -16,6 +16,16 @@ const freelancerSchema = new mongoose.Schema({
         required: true,
         default: false
     },
+    premiumReceipt: {
+        public_id: {
+            type: String,
+            required: true,
+        },
+        url: {
+            type: String,
+            required: true,
+        }
+    },
     availability: {
         type: Boolean,
         required: true,
