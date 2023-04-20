@@ -7,7 +7,7 @@ const inquirySchema = new mongoose.Schema({
     },
     attachments: {
         type: String,
-        required: true
+        required: false
     },
     customer: {
         type: mongoose.Schema.Types.ObjectId,
@@ -34,8 +34,8 @@ const inquirySchema = new mongoose.Schema({
         default: 'pending'
     },
 
- 
+
 
 })
 
-module.exports= mongoose.model('Inquiry', inquirySchema);
+module.exports = mongoose.model('Inquiry', inquirySchema);

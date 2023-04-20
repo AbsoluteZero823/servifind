@@ -22,18 +22,6 @@ const MyChats = ({ fetchAgain }) => {
         dispatch(getChats());
 
 
-        // if (error) {
-        //     alert.error(error);
-        //     dispatch(clearErrors())
-        // }
-
-        // if (isDeleted) {
-        //     alert.success('Animal deleted successfully');
-        //     navigate('/animals');
-        //     dispatch({ type: DELETE_ANIMALS_RESET })
-        // }
-
-
     }, [dispatch, alert, fetchAgain])
     return (
         <div className="container clearfix" style={{ backgroundColor: '#444753', width: '20.3vw', paddingLeft: '0px' }}>
@@ -43,108 +31,110 @@ const MyChats = ({ fetchAgain }) => {
                     {/* <i className="fa fa-search"></i> */}
                 </div>
                 <ul className="list">
-                    {loading ? <Loader /> : (
-                        <Fragment>
-                            {chats && chats.map((chat) => (
-                                <Fragment>
-                                    {chat.users[0]._id === user._id && (
-                                        <a
-                                            onClick={() => [setSelectedChat(chat), console.log(chat)]}
+                    {chats ? (<Fragment>
+                        {chats && chats.map((chat) => (
+                            <Fragment>
+                                {chat.users[0]._id === user._id && (
+                                    <a
+                                        onClick={() => [setSelectedChat(chat), console.log(chat)]}
 
-                                            className={selectedChat === chat ? `chatclicked` : "chatnotclicked"}
-                                            px={3}
-                                            py={2}
+                                        className={selectedChat === chat ? `chatclicked` : "chatnotclicked"}
+                                        px={3}
+                                        py={2}
 
-                                            key={chat._id}
-                                        >
-                                            <li className="clearfix"
+                                        key={chat._id}
+                                    >
+                                        <li className="clearfix"
 
-                                                key={chat._id}>
-                                                <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
-                                                    <img
-                                                        src={chat.users[1].avatar.url}
-                                                        className='rounded-circle'
-                                                        alt="avatar" /></figure>
-                                                <div className="about">
-                                                    <div className="name">{chat.users[1].name}</div>
-                                                    {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
-                                                        <div className="status">
-                                                            {/* <i className="fa fa-circle online"></i>  */}
-                                                            You :{chat.latestMessage.content}
-                                                        </div>
-                                                    ) : (<div className="status">
+                                            key={chat._id}>
+                                            <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
+                                                <img
+                                                    src={chat.users[1].avatar.url}
+                                                    className='rounded-circle'
+                                                    alt="avatar" /></figure>
+                                            <div className="about">
+                                                <div className="name">{chat.users[1].name}</div>
+                                                {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
+                                                    <div className="status">
                                                         {/* <i className="fa fa-circle online"></i>  */}
+                                                        You :{chat.latestMessage.content}
+                                                    </div>
+                                                ) : (<div className="status">
+                                                    {/* <i className="fa fa-circle online"></i>  */}
 
-                                                        {chat && chat.latestMessage && (
-                                                            <div> {chat.latestMessage.sender.name}:{chat.latestMessage.content}</div>
-                                                        )}
-                                                    </div>)}
-
-                                                    {/* {chat.latestMessage.sender.name}:{chat.latestMessage.content} */}
-                                                </div>
-                                            </li>
-                                        </a>
-                                    )}
-                                    {chat.users[1]._id === user._id && (
-                                        <a
-                                            onClick={() => setSelectedChat(chat)}
-                                            className={selectedChat === chat ? `chatclicked` : "chatnotclicked"}
-
-                                            px={3}
-                                            py={2}
-
-                                            key={chat._id}
-                                        >
-                                            <li className="clearfix"
-                                                key={chat._id}>
-                                                <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
-                                                    <img
-                                                        src={chat.users[0].avatar.url}
-                                                        alt="avatar"
-                                                        className='rounded-circle'
-                                                    />
-                                                </figure>
-
-
-                                                <div className="about">
-                                                    <div className="name">{chat.users[0].name}</div>
-                                                    {chat.latestMessage && (
-                                                        <Fragment>
-                                                            {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
-                                                                <div className="status">
-                                                                    {/* <i className="fa fa-circle online"></i>  */}
-                                                                    You : {chat.latestMessage.content}
-                                                                </div>
-                                                            ) : (<div className="status">
-                                                                {/* <i className="fa fa-circle online"></i>  */}
-                                                                {chat.latestMessage.sender.name} : {chat.latestMessage.content}
-                                                            </div>)}
-                                                        </Fragment>
+                                                    {chat && chat.latestMessage && (
+                                                        <div> {chat.latestMessage.sender.name}:{chat.latestMessage.content}</div>
                                                     )}
-                                                </div>
-                                            </li>
-                                        </a>
-                                    )}
-                                </Fragment>
+                                                </div>)}
 
-                            )
+                                                {/* {chat.latestMessage.sender.name}:{chat.latestMessage.content} */}
+                                            </div>
+                                        </li>
+                                    </a>
+                                )}
+                                {chat.users[1]._id === user._id && (
+                                    <a
+                                        onClick={() => setSelectedChat(chat)}
+                                        className={selectedChat === chat ? `chatclicked` : "chatnotclicked"}
 
-                            )}
+                                        px={3}
+                                        py={2}
 
-                            {/* <Fragment> */}
-                            {chats.length === 0 && (
-                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
-                                    <h5>No Existing Chats Yet</h5>
-                                </div>
+                                        key={chat._id}
+                                    >
+                                        <li className="clearfix"
+                                            key={chat._id}>
+                                            <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
+                                                <img
+                                                    src={chat.users[0].avatar.url}
+                                                    alt="avatar"
+                                                    className='rounded-circle'
+                                                />
+                                            </figure>
 
 
-                            )}
-                            {/* </Fragment> */}
-                        </Fragment>
-                    )
+                                            <div className="about">
+                                                <div className="name">{chat.users[0].name}</div>
+                                                {chat.latestMessage && (
+                                                    <Fragment>
+                                                        {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
+                                                            <div className="status">
+                                                                {/* <i className="fa fa-circle online"></i>  */}
+                                                                You : {chat.latestMessage.content}
+                                                            </div>
+                                                        ) : (<div className="status">
+                                                            {/* <i className="fa fa-circle online"></i>  */}
+                                                            {chat.latestMessage.sender.name} : {chat.latestMessage.content}
+                                                        </div>)}
+                                                    </Fragment>
+                                                )}
+                                            </div>
+                                        </li>
+                                    </a>
+                                )}
+                            </Fragment>
+
+                        )
+
+                        )}
+
+                        {/* <Fragment> */}
+                        {chats.length === 0 && (
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+                                <h5>No Existing Chats Yet</h5>
+                            </div>
 
 
+                        )}
+                        {/* </Fragment> */}
+                    </Fragment>) : (<Loader />)
                     }
+                    {/* // {loading ? <Loader /> : (
+                        
+                    // )
+
+
+                    // } */}
 
 
 

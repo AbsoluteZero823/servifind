@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 import { CancelOtherOffer, AcceptOffer } from '../../../actions/offerActions'
 import { newTransaction, clearErrors } from '../../../actions/transactionActions';
 
+
 const Offers = ({ offer }) => {
     // console.log(users)
 
@@ -93,7 +94,8 @@ const Offers = ({ offer }) => {
                 dispatch(CancelOtherOffer(offer.request_id._id))
                 dispatch(AcceptOffer(id))
                 dispatch(newTransaction(formData));
-                accessChat(offer.offered_by._id);
+
+                dispatch(accessChat(offer.offered_by._id));
                 Swal.fire(
                     'Offer Accepted!',
                     'Thank you',

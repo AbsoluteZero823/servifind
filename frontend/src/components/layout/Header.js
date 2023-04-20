@@ -43,7 +43,7 @@ const Header = () => {
                             <img className='servi_logo' src="../images/ServiFind.png" />
                         </a>
                     }
-                    {(user && user.role != 'admin') &&
+                    {(user && user.role !== 'admin') &&
                         <a className='logo' href="/all">
 
                             <img className='servi_logo' src="../images/ServiFind.png" />
@@ -147,7 +147,7 @@ const Header = () => {
                                         <hr></hr>
                                     )}
 
-                                    {user && user.role === 'freelancer' && (
+                                    {user && user.role === 'freelancer' && !user.freelancer_id.isPremium && (
                                         <Fragment>
                                             <Link className="dropdown-item" to="/premium">Upgrade to Premium</Link>
                                             <hr></hr></Fragment>

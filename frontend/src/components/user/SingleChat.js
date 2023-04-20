@@ -58,7 +58,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         selectedChatCompare = selectedChat;
 
-    }, [selectedChat]);
+    }, [selectedChat, fetchAgain]);
 
 
 
@@ -73,6 +73,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 }
                 //give notification
             } else {
+                // setFetchAgain(!fetchAgain);
                 setMessages([...messages, newMessageReceived]);
             }
         })
@@ -97,6 +98,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             };
 
             setLoading(true);
+
 
             const { data } = await axios.get(
                 // `/api/v1/messages/${id}`
@@ -142,23 +144,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 );
                 socket.emit("new message", data);
                 setMessages([...messages, data]);
+                setFetchAgain(!fetchAgain);
             } catch (error) {
                 console.log(error)
 
             }
         }
 
+    };
 
-
-
-
-
-
-
-
-
-
-
+    // TO DO
+    const sendMessageViaButton = async (event) => {
 
         // const messageData = new FormData();
 
@@ -166,46 +162,53 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         // messageData.set('content', newMessage);
         // messageData.set('chatId', selectedChat._id);
         // // console.log(event)
-        // if (event.key === "Enter" && newMessage) {
+        // if (newMessage) {
         //     event.preventDefault();
         //     // dispatch(newOffer(offerData));\
-        //     console.log(newMessage)
+        //     // console.log(newMessage)
         //     setNewMessage("");
 
         //     dispatch(addMessage(messageData));
+        //     socket.emit("new message", data);
+        //     setMessages([...messages, data]);
         //     // return false;
 
         // }
         // else {
         //     return false;
         // }
-    };
-
-
-    const sendMessageViaButton = async (event) => {
-
-        const messageData = new FormData();
-
-
-        messageData.set('content', newMessage);
-        messageData.set('chatId', selectedChat._id);
-        // console.log(event)
         if (newMessage) {
-            event.preventDefault();
-            // dispatch(newOffer(offerData));\
-            // console.log(newMessage)
-            setNewMessage("");
+            event.preventDefault()
+            socket.emit('stop typing', selectedChat._id);
 
-            dispatch(addMessage(messageData));
-            // return false;
+            try {
+                const config = {
+                    headers: {
+                        "Content-type": "application/json",
+                        // Authorization: `Bearer ${user.token}`,
+                    },
+                };
+                setNewMessage("");
+                const { data } = await axios.post(
+                    "/api/v1/message/new",
+                    {
+                        content: newMessage,
+                        chatId: selectedChat._id,
+                    },
+                    config
+                );
+                socket.emit("new message", data);
+                setMessages([...messages, data]);
+                setFetchAgain(!fetchAgain);
+            } catch (error) {
+                console.log(error)
 
-        }
-        else {
-            return false;
-        }
-    };
+            }
 
 
+        };
+
+    }
 
     const typingHandler = (e) => {
         // console.log(newMessage)
@@ -270,12 +273,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {/* <!-- end chat-header --> */}
 
             <div className="chat-history">
-                {loading ? <Loader /> : (
-                    <div>
-                        <ScrollableChat messages={messages} />
-                    </div>
+                {messages ? (<div>
+                    <ScrollableChat messages={messages} />
+                </div>) : (<Loader />)}
+                {/* {loading ? <Loader /> : (
+                    
 
-                )}
+                )} */}
                 {istyping ? <div>
                     <Lottie
                         options={defaultOptions}

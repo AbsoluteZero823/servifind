@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { useNavigate, useParams, Link } from "react-router-dom";
 
+import axios from 'axios'
 import MetaData from '../layout/MetaData'
 // import Sidebar from './Sidebar'
 import Loader from '../layout/Loader';
@@ -9,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { updateService, getServiceDetails, clearErrors } from '../../actions/serviceActions'
 // import inquiry from '../../../../backend/models/inquiry';
 import { newInquiry } from '../../actions/inquiryActions';
+import { addMessage } from '../../actions/messageActions'
 // import { UPDATE_SERVICES_RESET } from '../../constants/serviceConstants'
 import { NEW_INQUIRY_RESET } from '../../constants/inquiryConstants'
 import $ from 'jquery';
@@ -19,7 +21,7 @@ const SingleService = () => {
     const [service_id, setService_id] = useState('')
     const [customer, setCustomer] = useState('')
     const [freelancer, setFreelancer] = useState('')
-    const [attachments, setAttachments] = useState('')
+    const [newChat, setNewChat] = useState('')
 
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -42,19 +44,6 @@ const SingleService = () => {
         setService_id(id);
         setCustomer(user && user._id);
 
-
-
-
-        setAttachments("trial");
-
-
-
-
-
-
-
-
-
         // console.log(service.user._id)
 
         if (error) {
@@ -63,7 +52,8 @@ const SingleService = () => {
         }
 
         if (success) {
-            navigate('/');
+            // navigate('/');
+            accessChat(service.user._id);
             alert.success('Inquiry created successfully');
             dispatch({ type: NEW_INQUIRY_RESET })
         }
@@ -71,7 +61,55 @@ const SingleService = () => {
 
 
     }, [dispatch, alert, navigate, error, success])
+    const accessChat = async (userId) => {
+        console.log(userId);
 
+        try {
+            // setLoadingChat(true);
+            const config = {
+                headers: {
+                    "Content-type": "application/json",
+                    // Authorization: `Bearer ${user.token}`,
+                },
+            };
+            const { data } = await axios.post(`/api/v1/chat`, { userId }, config);
+            console.log(data._id);
+            setNewChat(data);
+            // if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
+            // setSelectedChat(data);
+            // setLoadingChat(false);
+            // onClose();
+            sendMessage(data._id)
+
+        } catch (error) {
+            console.log(error)
+        }
+    };
+
+
+    const sendMessage = (id) => {
+
+        const messageData = new FormData();
+
+
+        messageData.set('content', inquiry.instruction);
+        // console.log(inquiry.instruction)
+        messageData.set('chatId', id);
+        console.log(inquiry)
+        if (inquiry.instruction) {
+
+
+
+
+            dispatch(addMessage(messageData));
+
+
+            navigate(`/chat`)
+        }
+        else {
+            return false;
+        }
+    };
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -82,14 +120,20 @@ const SingleService = () => {
         formData.set('service_id', service_id);
         formData.set('customer', customer);
         formData.set('freelancer', service.freelancer_id);
-        formData.set('attachments', attachments);
+        // formData.set('attachments', attachments);
 
         // console.log(service.user._id);
 
         dispatch(newInquiry(formData))
+        // TO DO
+        //dispatch create chat
 
+
+        //dispatch ceate message(inquireMessage)
         $('.modal-backdrop').hide();
         $('body').removeClass('modal-open');
+
+
         // $('#exampleModalCenter').modal('hide');
         // $('#<%=hfImg.ClientID%>').val("");
     }
@@ -103,8 +147,8 @@ const SingleService = () => {
             {loading ? <Loader /> : (
                 <Fragment>
                     <div className='row ey' style={{ paddingLeft: '-10 !important' }}>
-                        <div className='1st' style={{ backgroundColor: "#FFD4D4", width: "30%", paddingLeft: '-5px', height:'86vh' }}>
-                           
+                        <div className='1st' style={{ backgroundColor: "#FFD4D4", width: "30%", paddingLeft: '-5px', height: '86vh' }}>
+
                             <center>
                                 <img
                                     src={service.user && service.user.avatar.url}
@@ -115,7 +159,7 @@ const SingleService = () => {
                                     style={{ marginTop: '30px' }}
                                 />
 
-                                <div className="profile-info" style={{fontSize:'20px'}}>
+                                <div className="profile-info" style={{ fontSize: '20px' }}>
                                     <h4>Profile Information:</h4>
                                     <div className="name" >Name: {service.user && service.user.name}</div>
                                     <div className="age">Age: {service.user && service.user.age}</div>
@@ -123,16 +167,16 @@ const SingleService = () => {
                                     <div className="address">Email: {service.user && service.user.email}</div>
                                     <div className="contact">Contact Number: {service.user && service.user.contact}</div>
                                 </div>
-                                <div className='row' style={{justifyContent:'space-around', paddingTop:'10px'}}>
+                                <div className='row' style={{ justifyContent: 'space-around', paddingTop: '10px' }}>
                                     <button className="custom-btn btn-5" style={{ margin: '20px' }} data-toggle="modal" data-target="#exampleModalCenter" ><span style={{ margin: '10px' }} >Inquire</span></button>
                                     <button className="custom-btn btn-5" style={{ margin: '20px' }}><span>Read More</span></button>
-                                  
+
                                 </div>
                             </center>
 
                         </div>
-                        <div className='2nd' style={{ backgroundColor: "transparent", width: "70%", height:'86vh' , padding:'30px'}}>
-                            <h1 style={{ textAlign:'center'}}>Nail Treatments</h1>
+                        <div className='2nd' style={{ backgroundColor: "transparent", width: "70%", height: '86vh', padding: '30px' }}>
+                            <h1 style={{ textAlign: 'center' }}>Nail Treatments</h1>
                             <div className="list-of-service__container">
                                 <div className="list-of-service">
                                     <h2>List of Services</h2>
@@ -145,29 +189,29 @@ const SingleService = () => {
                                         <li>Nail Arts</li>
                                     </ul>
 
-                                    
+
                                 </div>
                                 <div className="customer-ratings">
-                                    <img  src={service && service.image}
-                                    
-                                    key={service._id}
-                                    // className="rounded-img-big"
+                                    <img src={service && service.image}
 
-                                    style={{ marginTop: '30px' }} />
-                                    
+                                        key={service._id}
+                                        // className="rounded-img-big"
+
+                                        style={{ marginTop: '30px' }} />
+
                                 </div>
                             </div>
-<div style={{padding:'0px 30px'}}>
-                            <h2>Customer reviews</h2>
-                                    <div className='rating'>
-                                        <span className="fa fa-star checked"></span>
-                                        <span className="fa fa-star checked"></span>
-                                        <span className="fa fa-star checked"></span>
-                                        <span className="fa fa-star"></span>
-                                        <span className="fa fa-star"></span>
-                                    </div>
-                                    <span>6 customer ratings</span>
-                                    </div>
+                            <div style={{ padding: '0px 30px' }}>
+                                <h2>Customer reviews</h2>
+                                <div className='rating'>
+                                    <span className="fa fa-star checked"></span>
+                                    <span className="fa fa-star checked"></span>
+                                    <span className="fa fa-star checked"></span>
+                                    <span className="fa fa-star"></span>
+                                    <span className="fa fa-star"></span>
+                                </div>
+                                <span>6 customer ratings</span>
+                            </div>
                         </div>
 
 
@@ -187,18 +231,18 @@ const SingleService = () => {
                                     <div className="modal-body">
 
                                         <div className="form-group">
-                                            <label htmlFor="email_field">Instruction</label>
+                                            <label htmlFor="email_field">Inquire Message</label>
                                             <textarea
                                                 type="text"
-                                                placeholder="Instruction for the freelancer"
+                                                // placeholder="Instruction for the freelancer"
                                                 className="form-control"
                                                 value={instruction}
                                                 onChange={(e) => setInstruction(e.target.value)}
                                             />
                                         </div>
 
-                                        <label>Attachments</label><br></br>
-                                        <input type="file" id="exampleInputFile" name="my_file"></input>
+                                        {/* <label>Attachments</label><br></br>
+                                        <input type="file" id="exampleInputFile" name="my_file"></input> */}
 
 
 
