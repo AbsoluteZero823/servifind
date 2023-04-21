@@ -26,11 +26,16 @@ const offerSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-    request_id:{
+    request_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Request',
-        required: true
-    }
+        required: false
+    },
+    inquiry_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Inquiry',
+        required: false
+    },
 })
 
 module.exports = mongoose.model('offer', offerSchema);

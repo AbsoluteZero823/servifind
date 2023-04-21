@@ -2098,11 +2098,13 @@ $gray: #92959E; */
   color: gray;
 }
 
-.chat .chat-header .fa-star {
+.chat .chat-header .custom-offer {
   float: right;
-  color: #D8DADF;
-  font-size: 20px;
+  color: #000000;
+  font-size: 15px;
   margin-top: 12px;
+  border-radius: 10px;
+  padding: 4px 10px;
 }
 
 .chat .chat-header {

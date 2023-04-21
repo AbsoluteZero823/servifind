@@ -250,6 +250,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         <div className="chat-with">{selectedChat.users[1].name}</div>
                         {/* <div className="chat-num-messages">already 1 902 messages</div> */}
                     </div>
+                    <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
                     {/* <i className="fa fa-star"></i> */}
                 </div>
             )}
@@ -267,12 +268,25 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         <div className="chat-with">{selectedChat.users[0].name}</div>
                         {/* <div className="chat-num-messages">already 1 902 messages</div> */}
                     </div>
-                    {/* <i className="fa fa-star"></i> */}
+                    <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
+                    {/* <i className="fa fa-star"> Custom Offer</i> */}
                 </div>
             )}
             {/* <!-- end chat-header --> */}
-
+            <div style={{ backgroundColor: 'white', position: 'absolute', width: '63vw', height: '10vh', alignItems: 'center', display: 'flex', padding: '20px', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <i className='fas fa-tag' style={{ fontSize: '50px', width: '50px', height: '50px', margin: '20px' }}></i>
+                    <p>Freelancer made an offer with the price at ₱{ }, would you like to proceed?</p>
+                </div>
+                {/* buttons */}
+                <div style={{ float: "right" }}>
+                    {/* <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }}>Accept</a>
+                    <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }} >Refuse</a> */}
+                    <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }}>Check Details</a>
+                </div>
+            </div>
             <div className="chat-history">
+
                 {messages ? (<div>
                     <ScrollableChat messages={messages} />
                 </div>) : (<Loader />)}
@@ -307,6 +321,80 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     <button type='submit'>Send</button>
                 </form>
             </div>
+
+
+            {/* CUSTOM OFFER MODAL */}
+            <Fragment>
+                <div className="modal fade" id="CustomOfferModal" tabIndex="-1" role="dialog" aria-labelledby="CustomOfferModalTitle" aria-hidden="true" >
+                    <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '800px' }}>
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="CustomOfferModalTitle">Custom Offer</h5>
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form className="a" encType='multipart/form-data' >
+                                {/* {loadings ? <Loader /> : ( */}
+                                <div className="modal-body">
+
+                                    <div className="form-group">
+                                        <label>Description: </label>
+                                        <textarea
+                                            name="description"
+                                            id="description" className="form-control mt-3"
+                                            style={{ minHeight: '200px' }}
+                                            placeholder='what you should do?'
+                                        // value={description}
+                                        // onChange={(e) => setDescription(e.target.value)}
+                                        >
+                                        </textarea>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <label htmlFor="stock_field">Price</label>
+                                        <input
+                                            type="number"
+                                            id="stock_field"
+                                            className="form-control"
+                                        // value={stock}
+                                        // onChange={(e) => setStock(e.target.value)}
+                                        />
+                                    </div>
+
+
+                                    <div className="form-group">
+                                        <label htmlFor="stock_field">Expected Date Finished</label>
+                                        <input
+                                            type="date"
+                                            id="stock_field"
+                                            className="form-control"
+                                        // value={stock}
+                                        // onChange={(e) => setStock(e.target.value)}
+                                        />
+                                    </div>
+
+
+
+
+
+
+
+                                </div>
+                                {/* )} */}
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary" >Submit</button>
+
+
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+
         </Fragment>
 
     )
