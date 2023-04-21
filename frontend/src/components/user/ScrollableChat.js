@@ -7,8 +7,20 @@ import {
 } from 'react-redux'
 const ScrollableChat = ({ messages }) => {
     const { user } = useSelector(state => state.auth)
+
+    const updateIsAtBottomState = (result) => {
+        this.setState({
+            isAtBottom: result
+        });
+    }
+
+
     return (
-        <ScrollableFeed>
+        <ScrollableFeed
+        // ref={React.createRef()}
+        // forceScroll
+        // onScroll={isAtBottom => isAtBottom(true)}
+        >
             {messages &&
                 messages.map((m, i) => (
                     <div style={{ display: "flex" }} key={m._id}>

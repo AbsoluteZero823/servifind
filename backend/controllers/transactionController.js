@@ -310,7 +310,7 @@ exports.getTransactions = async (req, res, next) => {
         model: 'offer',
         populate: {
             path: 'offered_by',
-          
+
         }
     }
     ]);
@@ -337,6 +337,23 @@ exports.getSingleTransaction = async (req, res, next) => {
                     path: 'user_id',
                     model: 'user'
                 }
+            }
+        },
+        {
+            path: 'offer_id',
+            model: 'offer',
+            populate: {
+                path: 'service_id',
+                model: 'Service',
+                populate: {
+                    path: 'freelancer_id',
+                    model: 'Freelancer',
+                    populate: {
+                        path: 'user_id',
+                        model: 'user',
+                    }
+                },
+
             }
         },
         {

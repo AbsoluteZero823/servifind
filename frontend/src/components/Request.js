@@ -47,7 +47,7 @@ const Request = ({ request }) => {
         // if(request_id){
         //     setRequestId(request_id);
         // }
-    
+
         dispatch(getServices());
 
     }, [dispatch, alert, error]);
@@ -65,12 +65,12 @@ const Request = ({ request }) => {
         // const { requestId } = e.target;
         const offerData = new FormData();
 
-     
+
         offerData.set('service_id', service_id);
         offerData.set('description', description);
         offerData.set('offered_by', user._id);
         offerData.set('request_id', singlerequest && singlerequest._id);
-  
+
 
         dispatch(newOffer(offerData));
         Swal.fire(
@@ -144,7 +144,7 @@ const Request = ({ request }) => {
                             </div>
 
                         )}
-                        {request.requested_by._id != user._id && (
+                        {request.requested_by._id !== user._id && (
                             <div name={request._id} className="action" data-toggle="modal" data-target="#MakeOfferModal" onClick={() => requestDetailsHandler(request._id)}>
                                 {/* <i className="like-icon"></i> */}
                                 <a href="#">

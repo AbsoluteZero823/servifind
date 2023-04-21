@@ -64,7 +64,7 @@ const Feed = () => {
 
 
     const categoryHandler = (id) => {
-        if (id && id != "") {
+        if (id && id !== "") {
             navigate(`/feed/category/${id}`)
             // window.location.reload()
         }

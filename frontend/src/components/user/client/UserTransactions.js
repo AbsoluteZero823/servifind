@@ -25,7 +25,7 @@ const UserTransactions = () => {
 
     // const { createSliderWithToolTip } = Slider;
     // const Range = createSliderWithToolTip(Slider.Range);
-   
+
 
     const alert = useAlert();
     const dispatch = useDispatch();
@@ -89,140 +89,140 @@ const UserTransactions = () => {
     // }
 
     const ClientTransactions = transactions.filter(function (ctransaction) {
-        if(activeButton === 'first'){
-             if(ctransaction.inquiry_id){
-            return ctransaction.inquiry_id.customer._id === user._id;
-        }
-        else if(ctransaction.offer_id){
-            return ctransaction.offer_id.request_id.requested_by._id === user._id;
-        } 
-        }
-        else if(activeButton === 'second'){
-            if(ctransaction.inquiry_id){
-                return ctransaction.inquiry_id.customer._id === user._id && ctransaction.status ==='processing';
+        if (activeButton === 'first') {
+            if (ctransaction.inquiry_id) {
+                return ctransaction.inquiry_id.customer._id === user._id;
             }
-            else if(ctransaction.offer_id){
-                return ctransaction.offer_id.request_id.requested_by._id === user._id && ctransaction.status ==='processing';
-            }  
+            else if (ctransaction.offer_id) {
+                return ctransaction.offer_id.request_id.requested_by._id === user._id;
+            }
         }
-        else if(activeButton === 'third'){
-            if(ctransaction.inquiry_id){
+        else if (activeButton === 'second') {
+            if (ctransaction.inquiry_id) {
+                return ctransaction.inquiry_id.customer._id === user._id && ctransaction.status === 'processing';
+            }
+            else if (ctransaction.offer_id) {
+                return ctransaction.offer_id.request_id.requested_by._id === user._id && ctransaction.status === 'processing';
+            }
+        }
+        else if (activeButton === 'third') {
+            if (ctransaction.inquiry_id) {
                 return ctransaction.inquiry_id.customer._id === user._id && ctransaction.paymentSent === 'false';
             }
-            else if(ctransaction.offer_id){
+            else if (ctransaction.offer_id) {
                 return ctransaction.offer_id.request_id.requested_by._id === user._id && ctransaction.paymentSent === 'false';
-            }  
+            }
         }
-      
-        else if(activeButton === 'fourth'){
-            if(ctransaction.inquiry_id){
+
+        else if (activeButton === 'fourth') {
+            if (ctransaction.inquiry_id) {
                 return ctransaction.inquiry_id.customer._id === user._id && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing';
                 // return ctransaction.inquiry_id.customer._id === user._id &&  ctransaction.transaction_done.client === 'true' && ctransaction.isRated === 'false';
             }
-            else if(ctransaction.offer_id){
+            else if (ctransaction.offer_id) {
                 return ctransaction.offer_id.request_id.requested_by._id === user._id && ctransaction.paymentSent === 'true' && ctransaction.transaction_done.freelancer === 'true' && ctransaction.status === 'processing';
                 // return ctransaction.offer_id.request_id.requested_by === user._id &&  ctransaction.transaction_done.client === 'true' && ctransaction.isRated === 'false';
-            }  
-        }
-        else if(activeButton === 'fifth'){
-            if(ctransaction.inquiry_id){
-                return ctransaction.inquiry_id.customer._id === user._id && ctransaction.status ==='completed';
             }
-            else if(ctransaction.offer_id){
-                return ctransaction.offer_id.request_id.requested_by._id === user._id && ctransaction.status ==='completed';
-            }  
+        }
+        else if (activeButton === 'fifth') {
+            if (ctransaction.inquiry_id) {
+                return ctransaction.inquiry_id.customer._id === user._id && ctransaction.status === 'completed';
+            }
+            else if (ctransaction.offer_id) {
+                return ctransaction.offer_id.request_id.requested_by._id === user._id && ctransaction.status === 'completed';
+            }
         }
 
 
 
-      
+
         // return ctransaction.inquiry_id.customer._id === user._id;
         // console.log(ctransaction)
     });
-    
+
     const FreelancerTransactions = transactions.filter(function (ftransaction) {
-     
-            // return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
-            if(activeButton === 'first'){
-            if(ftransaction.inquiry_id){
+
+        // return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
+        if (activeButton === 'first') {
+            if (ftransaction.inquiry_id) {
                 return ftransaction.inquiry_id.freelancer.user_id._id === user._id;
             }
-            else 
-            if(ftransaction.offer_id){
-                return ftransaction.offer_id.offered_by._id === user._id;
+            else
+                if (ftransaction.offer_id) {
+                    return ftransaction.offer_id.offered_by._id === user._id;
+                }
+        }
+        else if (activeButton === 'second') {
+            if (ftransaction.inquiry_id) {
+                return ftransaction.inquiry_id.freelancer.user_id._id === user._id && ftransaction.status === 'processing';
+            }
+            else if (ftransaction.offer_id) {
+                return ftransaction.offer_id.offered_by._id === user._id && ftransaction.status === 'processing';
             }
         }
-        else if(activeButton === 'second'){
-            if(ftransaction.inquiry_id){
-                return ftransaction.inquiry_id.freelancer.user_id._id === user._id && ftransaction.status ==='processing';
-            }
-            else if(ftransaction.offer_id){
-                return ftransaction.offer_id.offered_by._id === user._id && ftransaction.status ==='processing';
-            }  
-        }
-        else if(activeButton === 'third'){
-            if(ftransaction.inquiry_id){
+        else if (activeButton === 'third') {
+            if (ftransaction.inquiry_id) {
                 return ftransaction.inquiry_id.freelancer.user_id._id === user._id && ftransaction.transaction_done.freelancer === 'true';
             }
-            else if(ftransaction.offer_id){
+            else if (ftransaction.offer_id) {
                 return ftransaction.offer_id.offered_by._id === user._id && ftransaction.transaction_done.freelancer === 'true';
-            }  
+            }
         }
-        else if(activeButton === 'paymentsent'){
-            if(ftransaction.inquiry_id){
+        else if (activeButton === 'paymentsent') {
+            if (ftransaction.inquiry_id) {
                 return ftransaction.inquiry_id.freelancer.user_id._id === user._id && ftransaction.paymentSent === 'true';
             }
-            else if(ftransaction.offer_id){
+            else if (ftransaction.offer_id) {
                 return ftransaction.offer_id.offered_by._id === user._id && ftransaction.paymentSent === 'true';
-            }  
+            }
         }
-        else if(activeButton === 'fourth'){
-            if(ftransaction.inquiry_id){
+        else if (activeButton === 'fourth') {
+            if (ftransaction.inquiry_id) {
                 return ftransaction.inquiry_id.freelancer.user_id._id === user._id && ftransaction.paymentSent === 'false';
             }
-            else if(ftransaction.offer_id){
+            else if (ftransaction.offer_id) {
                 return ftransaction.offer_id.offered_by._id === user._id && ftransaction.paymentSent === 'false';
-            }  
+            }
         }
-        else if(activeButton === 'fifth'){
-            if(ftransaction.inquiry_id){
+        else if (activeButton === 'fifth') {
+            if (ftransaction.inquiry_id) {
                 return ftransaction.inquiry_id.freelancer.user_id._id === user._id && ftransaction.transaction_done.freelancer === 'true' && ftransaction.transaction_done.client === 'true';
             }
-            else if(ftransaction.offer_id){
+            else if (ftransaction.offer_id) {
                 return ftransaction.offer_id.offered_by._id === user._id && ftransaction.transaction_done.freelancer === 'true' && ftransaction.transaction_done.client === 'true';
-            }  
+            }
         }
-      
+
         // return ctransaction.inquiry_id.customer._id === user._id;
         // console.log(ctransaction)
     });
 
-    
+
     const clickedButtonHandler = (e) => {
         console.log(e.target);
         const { name } = e.target;
         setActiveButton(name);
         console.log(activeButton);
-      };
+    };
 
-      const clickedSliderHandler = (e) => {
+    const clickedSliderHandler = (e) => {
         // console.log(e.target);
         var checkBox = document.getElementById("myCheck");
-        if (checkBox.checked == false){
+        if (checkBox.checked == false) {
             setActiveSlider(1);
             console.log(activeSlider);
             console.log(ClientTransactions)
-        }else {
+        } else {
             setActiveSlider(0);
             console.log(activeSlider);
             console.log(FreelancerTransactions)
-         }
+        }
         // const { value } = e.target;
         // setActiveSlider(1);
         // console.log(activeButton);
-      };
+    };
 
-      const transactionDetailsHandler = (id) => {
+    const transactionDetailsHandler = (id) => {
         dispatch(SingleTransaction(id))
 
 
@@ -265,7 +265,12 @@ const UserTransactions = () => {
         const ratingData = new FormData();
         ratingData.set('comment', comment);
         ratingData.set('rating', rating);
-        ratingData.set('service_id', transaction.inquiry_id.service_id._id);
+        if (transaction.inquiry_id) {
+            ratingData.set('service_id', transaction.inquiry_id.service_id._id);
+        } else if (transaction.offer_id) {
+            ratingData.set('service_id', transaction.offer_id.service_id._id);
+        }
+
         ratingData.set('user', user._id)
         ratingData.set('transaction_id', transaction._id)
 
@@ -440,8 +445,8 @@ const UserTransactions = () => {
         }
 
     }
-    
-  
+
+
     return (
 
         <Fragment>
@@ -449,7 +454,7 @@ const UserTransactions = () => {
 
             {loading ? <Loader /> : (
                 <Fragment>
-                       
+
                     <MetaData title={'Transaction'} />
 
                     {/* <div style={{ float:'right', position:"fixed",     top: '15vh'}}>
@@ -464,53 +469,53 @@ const UserTransactions = () => {
 
                         <div className='secondcontainer'>
                             <div className='stickyOne'>
-                            {activeSlider === 1 && (
-                                <Fragment>
-                                <a  name='first' className={activeButton === "first" ? `selection active` : "selection"}
-                                onClick={clickedButtonHandler}>All</a>
-                             
-                                <a name='second' className={activeButton === "second" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>On Process</a>
+                                {activeSlider === 1 && (
+                                    <Fragment>
+                                        <a name='first' className={activeButton === "first" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>All</a>
 
-                                <a name='third' className={activeButton === "third" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>To Pay</a>
-                                <a name='fourth' className={activeButton === "fourth" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>To Confirm</a>
-                                <a name='fifth' className={activeButton === "fifth" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>Completed</a>
-                                 </Fragment>
-                            )}
+                                        <a name='second' className={activeButton === "second" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>On Process</a>
+
+                                        <a name='third' className={activeButton === "third" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>To Pay</a>
+                                        <a name='fourth' className={activeButton === "fourth" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>To Confirm</a>
+                                        <a name='fifth' className={activeButton === "fifth" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>Completed</a>
+                                    </Fragment>
+                                )}
                                 {activeSlider === 0 && (
-                                <Fragment>
-                                <a  name='first' className={activeButton === "first" ? `selection active` : "selection"}
-                                onClick={clickedButtonHandler}>All</a>
-                             
-                                <a name='second' className={activeButton === "second" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>On Process</a>
+                                    <Fragment>
+                                        <a name='first' className={activeButton === "first" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>All</a>
 
-                                <a name='third' className={activeButton === "third" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>Work Done</a>
-                                <a name='fourth' className={activeButton === "fourth" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>Not Paid</a>
-                                 <a name='paymentsent' className={activeButton === "paymentsent" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>Payment Sent</a>
-                                <a name='fifth' className={activeButton === "fifth" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>Completed</a>
-                                 <a name='sixth' className={activeButton === "sixth" ? `selection active` : "selection"}
-                                 onClick={clickedButtonHandler}>Cancelled</a>
-                                 </Fragment>
-                            )}
-                                 {user.role === 'freelancer' && (
-                                <a name='' className={activeSlider === 1 ? `selection` : "selection active"} style={{borderLeft:'3px solid'}} >Freelancer 
-                                    <label className="switch" style={{justifyContent:'center', margin:'0px 5px'}}>
-                                        <input type="checkbox" id='myCheck' onClick={clickedSliderHandler}/>
-                                        <span className="slider round" ></span>
-                                    </label>
-                                    {/* <div className='inTransDiv'>
+                                        <a name='second' className={activeButton === "second" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>On Process</a>
+
+                                        <a name='third' className={activeButton === "third" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>Work Done</a>
+                                        <a name='fourth' className={activeButton === "fourth" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>Not Paid</a>
+                                        <a name='paymentsent' className={activeButton === "paymentsent" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>Payment Sent</a>
+                                        <a name='fifth' className={activeButton === "fifth" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>Completed</a>
+                                        <a name='sixth' className={activeButton === "sixth" ? `selection active` : "selection"}
+                                            onClick={clickedButtonHandler}>Cancelled</a>
+                                    </Fragment>
+                                )}
+                                {user.role === 'freelancer' && (
+                                    <a name='' className={activeSlider === 1 ? `selection` : "selection active"} style={{ borderLeft: '3px solid' }} >Freelancer
+                                        <label className="switch" style={{ justifyContent: 'center', margin: '0px 5px' }}>
+                                            <input type="checkbox" id='myCheck' onClick={clickedSliderHandler} />
+                                            <span className="slider round" ></span>
+                                        </label>
+                                        {/* <div className='inTransDiv'>
                                         <button className='buttonInTransCircle' style={{backgroundColor:'transparent',  color:'gray'}}> <i className="fas fa-question-circle" data-toggle="tooltip" data-placement="bottom" title='Turn on the switch to display Freelancer transactions'></i></button>
                                     </div> */}
-                                </a>
-                                 )}
+                                    </a>
+                                )}
                             </div>
 
                             {/* sa mga transaction na */}
@@ -520,19 +525,19 @@ const UserTransactions = () => {
 
 
                                 {activeSlider === 1 && ClientTransactions.length == 0 && (
-                                    <div 
+                                    <div
                                         style={{
-                                            padding: '12px 24px', 
-                                            background:'#fff',
-                                            height: '70vh', 
-                                            display: 'flex', 
-                                            justifyContent: 'center', 
-                                            alignContent: 'center', 
+                                            padding: '12px 24px',
+                                            background: '#fff',
+                                            height: '70vh',
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignContent: 'center',
                                             flexWrap: 'wrap'
-                                            }}>
+                                        }}>
 
-                                            <p>No transaction yet</p>
-                                        
+                                        <p>No transaction yet</p>
+
                                     </div>
 
                                 )}
@@ -544,29 +549,29 @@ const UserTransactions = () => {
                                 ))}
 
 
-{ activeSlider === 0 && FreelancerTransactions && FreelancerTransactions.map(transaction => (
+                                {activeSlider === 0 && FreelancerTransactions && FreelancerTransactions.map(transaction => (
 
-<FTransaction key={transaction._id} transaction={transaction} />
-))}
+                                    <FTransaction key={transaction._id} transaction={transaction} />
+                                ))}
                                 {/* dito nagtapos ang isang service */}
 
                             </div>
 
-                            
 
-                      
+
+
                         </div>
                     </div>
-                    
-             
+
+
 
                 </Fragment>
             )
             }
 
 
-             {/* PAYMENT MODAL */}
-             <Fragment>
+            {/* PAYMENT MODAL */}
+            <Fragment>
                 <div className="modal fade" id="PaymentDetailsModal" tabIndex="-1" role="dialog" aria-labelledby="PaymentDetailsModalTitle" aria-hidden="true" >
                     <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '800px' }}>
                         <div className="modal-content">
@@ -584,28 +589,63 @@ const UserTransactions = () => {
 
 
                                             <div className='sixty' style={{ width: '60%', backgroundColor: 'transparent', padding: '10px' }}>
-                                                <img
-                                                    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.user_id.avatar.url}
-                                                    // alt={service.user && service.user.name}
-                                                    // key={service._id}
-                                                    // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
-                                                    className="rounded-img-big"
+                                                {transaction.inquiry_id && (
+
+                                                    <img
+
+                                                        src={transaction.inquiry_id.freelancer.user_id.avatar.url}
+                                                        // alt={service.user && service.user.name}
+                                                        // key={service._id}
+                                                        // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+                                                        className="rounded-img-big"
 
 
-                                                />
+                                                    />
+                                                )}
+                                                {transaction.offer_id && (
+
+                                                    <img
+
+                                                        src={transaction.offer_id.service_id.freelancer_id.user_id.avatar.url}
+                                                        // alt={service.user && service.user.name}
+                                                        // key={service._id}
+                                                        // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+                                                        className="rounded-img-big"
+
+
+                                                    />
+                                                )}
                                                 <h4>Amount to pay: 100</h4>
                                                 {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
-                                                <h4>Gcash Name: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_name}</h4>
-                                                <h4>Gcash Number: {transaction.inquiry_id && transaction.inquiry_id.freelancer.gcash_num}</h4>
+                                                {transaction.inquiry_id && (
+                                                    <Fragment>
+                                                        <h4>Gcash Name: {transaction.inquiry_id.freelancer.gcash_name}</h4>
+                                                        <h4>Gcash Number: {transaction.inquiry_id.freelancer.gcash_num}</h4></Fragment>
+                                                )}
+                                                {transaction.offer_id && (
+                                                    <Fragment>
+                                                        <h4>Gcash Name: {transaction.offer_id.service_id.freelancer_id.gcash_name}</h4>
+                                                        <h4>Gcash Number: {transaction.offer_id.service_id.freelancer_id.gcash_num}</h4></Fragment>
+                                                )}
                                             </div>
                                             <div className='forty' style={{ width: '40%', backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+                                                {transaction.inquiry_id && (
+                                                    <img
+                                                        src={transaction.inquiry_id.freelancer.qrCode.url}
+                                                        style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
 
-                                                <img
-                                                    src={transaction.inquiry_id && transaction.inquiry_id.freelancer.qrCode.url}
-                                                    style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
+
+                                                    />
+                                                )}
+
+                                                {transaction.offer_id && (
+                                                    <img
+                                                        src={transaction.offer_id.service_id.freelancer_id.qrCode.url}
+                                                        style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
 
 
-                                                />
+                                                    />
+                                                )}
                                                 <h4>Gcash QR Code</h4>
                                             </div>
 
@@ -636,8 +676,8 @@ const UserTransactions = () => {
             </Fragment>
 
 
-                        {/* RATE SERVICE MODAL */}
-                        <Fragment>
+            {/* RATE SERVICE MODAL */}
+            <Fragment>
                 <div className="modal fade" id="RateServiceModal" tabIndex="-1" role="dialog" aria-labelledby="RateServiceModalTitle" aria-hidden="true" >
                     <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '800px' }}>
                         <div className="modal-content" >
