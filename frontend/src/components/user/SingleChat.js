@@ -250,7 +250,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         <div className="chat-with">{selectedChat.users[1].name}</div>
                         {/* <div className="chat-num-messages">already 1 902 messages</div> */}
                     </div>
-                    <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
+                    {selectedChat.inquiry_id && selectedChat.inquiry_id.customer !== user._id && (
+                        <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
+                    )}
+                    
                     {/* <i className="fa fa-star"></i> */}
                 </div>
             )}
@@ -268,12 +271,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                         <div className="chat-with">{selectedChat.users[0].name}</div>
                         {/* <div className="chat-num-messages">already 1 902 messages</div> */}
                     </div>
-                    <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
+                    {selectedChat.inquiry_id && selectedChat.inquiry_id.customer !== user._id && (
+                        <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
+                    )}
                     {/* <i className="fa fa-star"> Custom Offer</i> */}
                 </div>
             )}
             {/* <!-- end chat-header --> */}
-            <div style={{ backgroundColor: 'white', position: 'absolute', width: '63vw', height: '10vh', alignItems: 'center', display: 'flex', padding: '20px', justifyContent: 'space-between' }}>
+            {selectedChat.inquiry_id && selectedChat.inquiry_id.customer === user._id && (
+            <div style={{ backgroundColor: 'white', position: 'absolute', width: '58vw', height: '10vh', alignItems: 'center', display: 'flex', padding: '20px', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                     <i className='fas fa-tag' style={{ fontSize: '50px', width: '50px', height: '50px', margin: '20px' }}></i>
                     <p>Freelancer made an offer with the price at ₱{ }, would you like to proceed?</p>
@@ -285,6 +291,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }}>Check Details</a>
                 </div>
             </div>
+            )}
             <div className="chat-history">
 
                 {messages ? (<div>

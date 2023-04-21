@@ -2022,7 +2022,7 @@ $gray: #92959E; */
   padding: 20px 10px;
   /* height: 75vh; */
   /* color: rgb(96, 96, 96); */
-  height: 80.5vh;
+  height: calc(88vh - 100px);
 
   /* color: rgb(96, 96, 96); */
   overflow-y: scroll;
@@ -2073,7 +2073,7 @@ $gray: #92959E; */
 }
 
 .people-list {
-  width: 20vw;
+  width: 25vw;
   float: left;
   height: calc(100vh - 100px);
 
@@ -2110,6 +2110,7 @@ $gray: #92959E; */
 .chat .chat-header {
   padding: 20px;
   border-bottom: 2px solid white;
+  height: calc(25vh - 100px);
 
 }
 
@@ -2169,7 +2170,7 @@ $gray: #92959E; */
   padding: 30px 30px 20px;
   border-bottom: 2px solid white;
   overflow-y: scroll;
-  height: 70vh;
+  height: calc(77vh - 100px);
 
 
 }
@@ -2222,7 +2223,7 @@ $gray: #92959E; */
 }
 
 .chat {
-  width: 63vw;
+  width: 58vw;
   float: left;
   background: #F2F5F8;
   /* border-top-right-radius: 5px;

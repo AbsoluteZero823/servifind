@@ -8,8 +8,9 @@ const ErrorHandler = require('../utils/errorHandler');
 //@route           POST /api/v1/chat/
 //@access          Protected
 exports.accessChat = async (req, res, next) => {
-  const { userId } = req.body;
-
+  console.log(req.body);
+  const  userId = req.body.userId;
+const inquiry_id = req.body.inquiry_id
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);
@@ -33,8 +34,9 @@ exports.accessChat = async (req, res, next) => {
     res.send(isChat[0]);
   } else {
     var chatData = {
-      chatName: "sender",
+      chatName: req.body.chatName,
       users: [req.user._id, userId],
+      inquiry_id: inquiry_id
     };
 
     try {
@@ -60,6 +62,7 @@ exports.fetchChats = async (req, res, next) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
+      .populate("inquiry_id")
       //   .populate("groupAdmin", "-password")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
