@@ -144,7 +144,7 @@ exports.refuseanOffer = async (req, res, next) => {
         // Update transaction status
         const transaction = await Transaction.findOneAndUpdate(
             { offer_id: offer._id },
-            { transaction_status: 'cancelled' },
+            { status: 'cancelled' },
             { new: true }
         );
         if (!transaction) {
@@ -162,6 +162,74 @@ exports.refuseanOffer = async (req, res, next) => {
         }
         }
         res.status(200).json({ success: true, message: 'Offer Refused!' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+exports.refuseanOffer = async (req, res, next) => {
+    const { offer_id, inquiry_id } = req.body;
+    try {
+        if (inquiry_id) {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            {inquiry_id: inquiry_id},
+            { offer_status: 'cancelled' },
+            { new: true }
+        );
+        if (!offer) {
+            return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        // Update transaction status
+        const transaction = await Transaction.findOneAndUpdate(
+            { offer_id: offer._id },
+            { status: 'cancelled' },
+            { new: true }
+        );
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+        } else {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            { _id: offer_id },
+            { offer_status: 'cancelled' },
+            { new: true }
+        );
+        if (!offer) {
+            return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        }
+        res.status(200).json({ success: true, message: 'Offer Refused!' });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+exports.refuseaPrice = async (req, res, next) => {
+    const { offer_id, inquiry_id } = req.body;
+    try {
+        if (inquiry_id) {
+        // Update offer status
+        const offer = await Offer.findOneAndUpdate(
+            { inquiry_id: inquiry_id},
+            { offer_status: 'cancelled' },
+        );
+        if (!offer) {
+            return res.status(404).json({ success: false, message: 'Offer not found' });
+        }
+        } else {
+        // Update transaction status
+        const transaction = await Transaction.findOneAndUpdate(
+            { offer_id: offer_id },
+            { status: 'cancelled' },
+            { new: true }
+        );
+        if (!transaction) {
+            return res.status(404).json({ success: false, message: 'Transaction not found' });
+        }
+        }
+        res.status(200).json({ success: true, message: 'Price Refused!' });
     } catch (error) {
         return next(error);
     }
@@ -202,7 +270,7 @@ exports.acceptanOffer = async (req, res, next) => {
             return res.status(404).json({ success: false, message: 'Request not found' });
         }
         } else {
-        return res.status(400).json({ success: false, message: 'Missing offer_id or inquiry_id' });
+            return res.status(400).json({ success: false, message: 'Missing offer_id or inquiry_id' });
         }
         res.status(200).json({
         success: true,

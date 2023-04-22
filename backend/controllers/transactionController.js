@@ -221,15 +221,36 @@ exports.FetchTransactionbyOfferorInquiry = async (req, res, next) => {
 
 exports.AddOffertoInquiryByCreatingTransaction = async (req, res, next) => {
     try {
+        const { inquiry_id, transactiondetails } = req.body;
+        // Check if there is an existing transaction for the offer
+        if (transactiondetails){
+            const _id = transactiondetails._id;
+            const transaction = await Transaction.findByIdAndUpdate(
+                _id,
+                { price: req.body.price, status: "processing" },
+                { new: true });
+            const offer = await Offer.findByIdAndUpdate(
+                transactiondetails.offer_id._id,
+                {
+                    offer_status: 'waiting',
+                    description: req.body.description
+                }
+            )
+            return res.status(200).json({
+                success: true,
+                message: "Transaction updated successfully",
+                transaction,
+            });
+        }
+        
         // Find the Inquiry object with the given inquiry_id and set its status to "granted".
         const inquiry = await Inquiry.findByIdAndUpdate(
-            req.body.inquiry_id,
-            { status: "granted" },
-            { new: true }
+        inquiry_id,
+        { status: "granted" },
+        { new: true }
         );
-
         if (!inquiry) {
-            return res.status(404).json({ message: "Inquiry not found" });
+        return res.status(404).json({ message: "Inquiry not found" });
         }
 
         // Create a new Offer object with the required fields.
@@ -246,22 +267,24 @@ exports.AddOffertoInquiryByCreatingTransaction = async (req, res, next) => {
         const transaction = new Transaction({
             offer_id: savedOffer._id,
             ...req.body,
+            transaction_status: "processing",
         });
 
         // Save the new Transaction object to the database.
         const savedTransaction = await transaction.save();
-
+        console.log(savedTransaction);
         return res.status(200).json({
-            success: true,
-            message: "Offer added to inquiry successfully",
-            offer: savedOffer,
-            transaction: savedTransaction,
-            inquiry: inquiry,
+        success: true,
+        message: "Offer added to inquiry successfully",
+        offer: savedOffer,
+        transaction: savedTransaction,
+        inquiry: inquiry,
         });
     } catch (error) {
         return next(error);
     }
 };
+  
 
 
 

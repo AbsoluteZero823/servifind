@@ -2,7 +2,6 @@ const { reset } = require('nodemon');
 const Freelancer = require('../models/freelancer');
 const User = require('../models/user');
 const Service = require('../models/service');
-const Service = require('../models/service');
 const cloudinary = require('cloudinary')
 const fs = require('fs');
 const path = require('path');

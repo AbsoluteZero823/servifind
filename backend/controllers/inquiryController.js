@@ -102,6 +102,7 @@ exports.getSingleInquiry = async (req, res, next) => {
         success: true,
         inquiry
     })
+    console.log(inquiry)
 }
 
 // router.delete(`/:id`, (req, res) => {

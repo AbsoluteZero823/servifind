@@ -12,6 +12,7 @@ const { getRequests,
     editMyRequest,
     deleteMyRequest,
     refuseanOffer,
+    refuseaPrice,
     acceptanOffer,
 
     PaymentReceived,
@@ -35,7 +36,9 @@ router.route('/myrequests').get(isAuthenticatedUser, getMyRequests);
 router.route('/myrequests/:id').get(isAuthenticatedUser, getMyRequest);
 router.route('/myrequest/edit/:id').put(isAuthenticatedUser, editMyRequest);
 router.route('/myrequest/cancel/:id').put(isAuthenticatedUser, deleteMyRequest);
-router.route('/myrequest/offer/refuse').post(isAuthenticatedUser, refuseanOffer);
+
+router.route('/myrequest/offer/refuseoffer').post(isAuthenticatedUser, refuseanOffer);
+router.route('/myrequest/offer/refuseprice').post(isAuthenticatedUser, refuseaPrice);
 router.route('/myrequest/offer/accept').post(isAuthenticatedUser, acceptanOffer);
 
 

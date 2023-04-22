@@ -21,7 +21,7 @@ const { getFreelancers,
     completeFreelancerSetup,
 
 } = require('../controllers/freelancerController');
-const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
+const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
 router.route('/freelancers').get(isAuthenticatedUser, getFreelancers);
 // router.route('/freelancer/new').post(isAuthenticatedUser, newFreelancer);
