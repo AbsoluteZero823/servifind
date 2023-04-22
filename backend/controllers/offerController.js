@@ -22,7 +22,31 @@ exports.newOffer = async (req, res, next) => {
 exports.getOffers = async (req, res, next) => {
 
 
-    const offers = await Offer.find().populate('offered_by');
+    // const offers = await Offer.find().populate('offered_by');
+
+
+
+    const offers = await Offer.aggregate([
+        // {
+        //     $match: { status: 'applying' }
+        // },
+        {
+            $lookup: {
+                from: "transactions",
+                localField: "_id",
+                foreignField: "offer_id",
+                as: "transaction"
+            }
+        },
+        {
+            $sort: {
+                "transaction": 1
+            }
+        }
+    ])
+
+    await Offer.populate(offers, { path: "offered_by" });
+
     res.status(200).json({
         success: true,
         offers
@@ -86,7 +110,7 @@ exports.cancelOtherOffer = async (req, res, next) => {
     // }
     const requestId = req.params.id;
 
-    const offer = await Offer.updateMany({ $and:[ {"request_id": requestId}, {"_id": { $ne: req.params.offer_id  }}]},{$set: {offer_status:'cancelled'}})
+    const offer = await Offer.updateMany({ $and: [{ "request_id": requestId }, { "_id": { $ne: req.params.offer_id } }] }, { $set: { offer_status: 'cancelled' } })
 
     // const offer = await Offer.findByIdAndUpdate(req.params.id, offerData, {
     //     new: true,
@@ -104,7 +128,7 @@ exports.cancelOtherOffer = async (req, res, next) => {
 
 exports.acceptOffer = async (req, res, next) => {
     console.log(req.params);
- 
+
 
     const offer = await Offer.findByIdAndUpdate(req.params.id, { offer_status: 'granted' }, {
         new: true,

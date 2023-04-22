@@ -52,6 +52,7 @@ const reducer = combineReducers({
 
     offers: getOffersReducer,
     updateoffer: updateReducer,
+    addOffer: newOfferReducer,
 
 
     requestoffers: getRequestOffersReducer,

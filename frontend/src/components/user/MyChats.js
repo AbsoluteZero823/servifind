@@ -42,11 +42,12 @@ const MyChats = ({ fetchAgain }) => {
                                         px={3}
                                         py={2}
 
-                                        key={chat._id}
+
                                     >
                                         <li className="clearfix"
 
-                                            key={chat._id}>
+                                            key={chat._id}
+                                        >
                                             <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
                                                 <img
                                                     src={chat.users[1].avatar.url}
@@ -54,11 +55,11 @@ const MyChats = ({ fetchAgain }) => {
                                                     alt="avatar" /></figure>
                                             <div className="about">
                                                 {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
-                                                    <div className="name">Freelancer: {chat.users[1].name}</div> 
-                                                ):(
-                                                    <div className="name">Client: {chat.users[1].name}</div> 
+                                                    <div className="name">Freelancer: {chat.users[1].name}</div>
+                                                ) : (
+                                                    <div className="name">Client: {chat.users[1].name}</div>
                                                 )}
-                                               
+
                                                 {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
                                                     <div className="status">
                                                         {/* <i className="fa fa-circle online"></i>  */}
@@ -85,10 +86,11 @@ const MyChats = ({ fetchAgain }) => {
                                         px={3}
                                         py={2}
 
-                                        key={chat._id}
+
                                     >
                                         <li className="clearfix"
-                                            key={chat._id}>
+                                            key={chat.latestMessage._id}
+                                        >
                                             <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
                                                 <img
                                                     src={chat.users[0].avatar.url}
@@ -99,12 +101,12 @@ const MyChats = ({ fetchAgain }) => {
 
 
                                             <div className="about">
-                                            {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
-                                                <div className="name">Freelancer: {chat.users[0].name}</div>
-                                            ):(
-                                                <div className="name">Client: {chat.users[0].name}</div>
-                                            )}
-                                                
+                                                {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
+                                                    <div className="name">Freelancer: {chat.users[0].name}</div>
+                                                ) : (
+                                                    <div className="name">Client: {chat.users[0].name}</div>
+                                                )}
+
                                                 {chat.latestMessage && (
                                                     <Fragment>
                                                         {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
@@ -128,7 +130,7 @@ const MyChats = ({ fetchAgain }) => {
 
                         )}
 
-                        {/* <Fragment> */}
+
                         {chats.length === 0 && (
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
                                 <h5>No Existing Chats Yet</h5>
@@ -136,7 +138,7 @@ const MyChats = ({ fetchAgain }) => {
 
 
                         )}
-                        {/* </Fragment> */}
+
                     </Fragment>) : (<Loader />)
                     }
                     {/* // {loading ? <Loader /> : (
