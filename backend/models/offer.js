@@ -35,13 +35,6 @@ const offerSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Inquiry',
         required: false
-    }
-        required: false
-    },
-    inquiry_id: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Inquiry',
-        required: false
     },
 })
 
