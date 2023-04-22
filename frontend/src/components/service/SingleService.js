@@ -53,7 +53,13 @@ const SingleService = () => {
 
         if (success) {
             // navigate('/');
-            accessChat(service.user._id);
+            const chatData = new FormData();
+      
+            chatData.set('userId',  service.user._id);
+            chatData.set('inquiry_id', inquiry._id);
+            chatData.set('chatName', 'Inquiry');
+            // console.log(chatData);
+            accessChat(chatData);
             alert.success('Inquiry created successfully');
             dispatch({ type: NEW_INQUIRY_RESET })
         }
@@ -61,18 +67,18 @@ const SingleService = () => {
 
 
     }, [dispatch, alert, navigate, error, success])
-    const accessChat = async (userId) => {
-        console.log(userId);
-
+    const accessChat = async (chatData) => {
+      
+console.log(chatData);
         try {
             // setLoadingChat(true);
             const config = {
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-type": "multipart/form-data",
                     // Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.post(`/api/v1/chat`, { userId }, config);
+            const { data } = await axios.post(`/api/v1/chat`,  chatData , config);
             console.log(data._id);
             setNewChat(data);
             // if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
@@ -93,6 +99,7 @@ const SingleService = () => {
 
 
         messageData.set('content', inquiry.instruction);
+      
         // console.log(inquiry.instruction)
         messageData.set('chatId', id);
         console.log(inquiry)
@@ -114,7 +121,7 @@ const SingleService = () => {
     const submitHandler = (e) => {
         e.preventDefault();
         setFreelancer(service.user && service.user._id)
-        console.log(service.user && service.user._id)
+        // console.log(service.user && service.user._id)
         const formData = new FormData();
         formData.set('instruction', instruction);
         formData.set('service_id', service_id);

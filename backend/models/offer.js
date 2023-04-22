@@ -26,7 +26,7 @@ const offerSchema = new mongoose.Schema({
         ref: 'user',
         required: true
     },
-    request_id:{
+    request_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Request',
         required: false
@@ -36,6 +36,13 @@ const offerSchema = new mongoose.Schema({
         ref: 'Inquiry',
         required: false
     }
+        required: false
+    },
+    inquiry_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Inquiry',
+        required: false
+    },
 })
 
 module.exports = mongoose.model('Offer', offerSchema);

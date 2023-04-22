@@ -47,18 +47,19 @@ const Offers = ({ offer }) => {
 
     }, [dispatch, alert])
 
-    const accessChat = async (userId) => {
-        console.log(userId);
+    const accessChat = async (chatData) => {
+       
+        console.log(chatData);
 
         try {
             // setLoadingChat(true);
             const config = {
                 headers: {
-                    "Content-type": "application/json",
+                    "Content-type": "multipart/form-data",
                     // Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.post(`/api/v1/chat`, { userId }, config);
+            const { data } = await axios.post(`/api/v1/chat`,  chatData , config);
             console.log(data);
             // if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
             // setSelectedChat(data);
@@ -90,12 +91,16 @@ const Offers = ({ offer }) => {
         }).then((result) => {
             if (result.isConfirmed) {
 
+                const chatData = new FormData();
+                chatData.set('userId',  offer.offered_by._id);
+                chatData.set('offer_id', offer._id);
+                chatData.set('chatName', 'Offer');
 
                 dispatch(CancelOtherOffer(offer.request_id._id))
                 dispatch(AcceptOffer(id))
                 dispatch(newTransaction(formData));
 
-                dispatch(accessChat(offer.offered_by._id));
+                dispatch(accessChat(chatData));
                 Swal.fire(
                     'Offer Accepted!',
                     'Thank you',

@@ -24,7 +24,7 @@ const MyChats = ({ fetchAgain }) => {
 
     }, [dispatch, alert, fetchAgain])
     return (
-        <div className="container clearfix" style={{ backgroundColor: '#444753', width: '20.3vw', paddingLeft: '0px' }}>
+        <div className="container clearfix" style={{ backgroundColor: '#444753', width: '25.3vw', paddingLeft: '0px' }}>
             <div className="people-list" id="people-list">
                 <div className="search">
                     <input type="text" placeholder="search" />
@@ -53,7 +53,12 @@ const MyChats = ({ fetchAgain }) => {
                                                     className='rounded-circle'
                                                     alt="avatar" /></figure>
                                             <div className="about">
-                                                <div className="name">{chat.users[1].name}</div>
+                                                {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
+                                                    <div className="name">Freelancer: {chat.users[1].name}</div> 
+                                                ):(
+                                                    <div className="name">Client: {chat.users[1].name}</div> 
+                                                )}
+                                               
                                                 {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
                                                     <div className="status">
                                                         {/* <i className="fa fa-circle online"></i>  */}
@@ -94,7 +99,12 @@ const MyChats = ({ fetchAgain }) => {
 
 
                                             <div className="about">
-                                                <div className="name">{chat.users[0].name}</div>
+                                            {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
+                                                <div className="name">Freelancer: {chat.users[0].name}</div>
+                                            ):(
+                                                <div className="name">Client: {chat.users[0].name}</div>
+                                            )}
+                                                
                                                 {chat.latestMessage && (
                                                     <Fragment>
                                                         {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (

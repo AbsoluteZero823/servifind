@@ -93,6 +93,7 @@ exports.fetchChats = async (req, res, next) => {
   try {
     Chat.find({ users: { $elemMatch: { $eq: req.user._id } } })
       .populate("users", "-password")
+      .populate("inquiry_id")
       //   .populate("groupAdmin", "-password")
       .populate("latestMessage")
       .sort({ updatedAt: -1 })
