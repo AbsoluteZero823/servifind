@@ -64,12 +64,27 @@ exports.ClientCompleteTransaction = async (req, res, next) => {
     req.body.paymentSent = true;
     req.body.created_at = new Date();
     req.body.transaction_done = {client: true};
-    const transaction = await Transaction.create(req.body);
 
-    res.status(201).json({
-        success: true,
-        transaction
-    })
+    const transactionexist = await Transaction.findOneAndUpdate({
+        offer_id: req.body.offer_id,
+        },
+        req.body,
+        {
+            new: true
+        }
+    )
+
+    if(transactionexist){
+        return res.status(200).json({ success: true, message: 'Transaction Completed!' });
+    }else{
+        const transaction = await Transaction.create(req.body);
+        res.status(201).json({
+            success: true,
+            transaction
+        })
+    }
+
+    
 }
 
 exports.ClientRateTransaction = async (req, res, next) => {
@@ -145,8 +160,21 @@ exports.FreelancerFetchTransaction = async (req, res, next) => {
 
 exports.FreelancerGenerateTransaction = async (req, res, next) => {
     req.body.created_at = new Date();
-    const transaction = await Transaction.create(req.body);
+    
+    const transactionexist = await Transaction.findOneAndUpdate({
+        offer_id: req.body.offer_id,
+    },
+    req.body,
+    {
+        new: true
+    })
 
+    if(transactionexist){
+        console.log(transactionexist);
+        return res.status(200).json({ success: true, message: 'Transaction Completed!' });
+    }
+
+    const transaction = await Transaction.create(req.body);
     res.status(201).json({
         success: true,
         transaction
@@ -156,13 +184,11 @@ exports.FreelancerGenerateTransaction = async (req, res, next) => {
 exports.FreelancerCompleteTransaction = async (req, res, next) => {
     const params = {};
     params.isPaid = 'true';
-    params.isPaid = 'true';
     params.paymentSent = 'true';
     params.paymentReceived = 'true';
     params.transaction_done = {client: 'true', freelancer: 'true', workCompleted: new Date(), transactionCompleted: new Date()};
     params.finished_At = new Date();
     params.status = 'completed';
-    console.log(params)
     try {
         const updatedTransaction = await Transaction.findByIdAndUpdate(
             req.body._id,

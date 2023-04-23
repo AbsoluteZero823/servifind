@@ -122,16 +122,13 @@ exports.makemeaFreelancer = async (req, res, next) => {
       width: 300,
       crop: "scale"
     });
-    req.body.resume = {
-      public_id: resumeresult.public_id,
-      url: resumeresult.secure_url
-    };
 
     const freelancer = new Freelancer({
       status: 'applying',
-      user_id: req.user.id,
+      user_id: req.body.user_id || req.user.id,
       gcash_name: req.body.gcash_name,
       gcash_number: req.body.gcash_number,
+      course: req.body.course,
       qrCode: {
         public_id: qrResult.public_id,
         url: qrResult.secure_url
@@ -141,7 +138,8 @@ exports.makemeaFreelancer = async (req, res, next) => {
         url: schoolIdResult.secure_url
       },
       resume: {
-        path: resumePath
+        public_id: resumeresult.public_id,
+        url: resumeresult.secure_url
       }
     });
     const result = await freelancer.save();

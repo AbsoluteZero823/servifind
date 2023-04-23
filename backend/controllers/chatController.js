@@ -25,7 +25,7 @@ exports.accessChat = async (req, res, next) => {
     chatName = `Inquiry: ${inquiry.service_id.title || inquiry.service_id.name} - ${inquiry.service_id.user.name}`;
   } else if (offerId) {
     const offer = await Offer.findOne({ _id: offerId }).populate('service_id offered_by');
-    chatName = `Offer: ${offer.service_id.title} - ${offer.offered_by.name}`;
+    chatName = `Offer: ${offer.service_id.title || offer.service_id.name} - ${offer.offered_by.name}`;
   }
 
   let chatQuery = {

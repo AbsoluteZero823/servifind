@@ -36,16 +36,11 @@ const chatSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Inquiry',
     required: false
-},
-offer_id: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'offer',
-  required: false
-},
-isArchived:{
-  type: Boolean,
-  default: false
-}
+  },
+  isArchived:{
+    type: Boolean,
+    default: false
+  }
 
 },
   { timestamps: true }
