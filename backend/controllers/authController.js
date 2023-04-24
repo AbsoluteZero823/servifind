@@ -231,7 +231,7 @@ exports.loginUser = async (req, res, next) => {
             const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
             await sendEmail(user.email, "Verify Email", url, user.name);
         }
-        return res.status(400).send({ messasge: "An Email sent to your account,  please verify" });
+        return res.status(400).send({ message: "An Email sent to your account,  please verify" });
     } else {
         sendToken(user, 200, res, { success: true })
         //     const token = user.getJwtToken();
