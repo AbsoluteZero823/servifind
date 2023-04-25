@@ -5,6 +5,10 @@ import {
     ALL_SERVICES_SUCCESS,
     ALL_SERVICES_FAIL,
 
+    FREELANCER_SERVICES_REQUEST,
+    FREELANCER_SERVICES_SUCCESS,
+    FREELANCER_SERVICES_FAIL,
+
     //   FULL_SERVICES_REQUEST,
     //   FULL_SERVICES_SUCCESS, 
     //   FULL_SERVICES_FAIL,
@@ -165,6 +169,26 @@ export const SingleService = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: SINGLE_SERVICE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+export const getFreelancerServices = (id) => async (dispatch) => {
+    try {
+
+        dispatch({ type: FREELANCER_SERVICES_REQUEST })
+
+        const { data } = await axios.get(`/api/v1/services/${id}`)
+
+        dispatch({
+            type: FREELANCER_SERVICES_SUCCESS,
+            payload: data
+        })
+
+    } catch (error) {
+        dispatch({
+            type: FREELANCER_SERVICES_FAIL,
             payload: error.response.data.message
         })
     }

@@ -124,7 +124,7 @@ const Premium = () => {
             {/* PAYMENT MODAL */}
             <Fragment>
                 <div className="modal fade" id="PaymentDetailsModal" tabIndex="-1" role="dialog" aria-labelledby="PaymentDetailsModalTitle" aria-hidden="true" >
-                    <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '800px' }}>
+                    <div className="modal-dialog modal-dialog-centered" role="document" style={{ maxWidth: '900px' }}>
                         <div className="modal-content">
                             <div className="modal-header">
                                 <h5 className="modal-title" id="PaymentDetailsModalTitle">Payment</h5>

@@ -9,8 +9,8 @@ const ErrorHandler = require('../utils/errorHandler');
 //@access          Protected
 exports.accessChat = async (req, res, next) => {
   console.log(req.body);
-  const  userId = req.body.userId;
-const inquiry_id = req.body.inquiry_id
+  const userId = req.body.userId;
+  const inquiry_id = req.body.inquiry_id
   if (!userId) {
     console.log("UserId param not sent with request");
     return res.sendStatus(400);

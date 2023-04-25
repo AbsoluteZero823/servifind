@@ -17,16 +17,21 @@ import {
     REQUEST_OFFERS_REQUEST,
     REQUEST_OFFERS_SUCCESS,
     REQUEST_OFFERS_FAIL,
-    
+
     UPDATE_STATUS_REQUEST,
     UPDATE_STATUS_SUCCESS,
     UPDATE_STATUS_RESET,
     UPDATE_STATUS_FAIL,
-    
+
     ACCEPT_OFFER_REQUEST,
     ACCEPT_OFFER_SUCCESS,
     ACCEPT_OFFER_RESET,
     ACCEPT_OFFER_FAIL,
+
+    UPDATE_OFFER_REQUEST,
+    UPDATE_OFFER_SUCCESS,
+    UPDATE_OFFER_RESET,
+    UPDATE_OFFER_FAIL,
 
     CLEAR_ERRORS
 } from '../constants/offerConstants'
@@ -160,7 +165,7 @@ export const offerDetailsReducer = (state = { offer: {} }, action) => {
             return {
                 ...state,
                 loadings: false,
-                offer: action.payload.offer,
+                singleoffer: action.payload.singleoffer,
             }
 
         case SINGLE_OFFER_FAIL:
@@ -185,24 +190,27 @@ export const updateReducer = (state = {}, action) => {
 
         case UPDATE_STATUS_REQUEST:
         case ACCEPT_OFFER_REQUEST:
+        case UPDATE_OFFER_REQUEST:
         default:
             return {
 
                 ...state,
-                loading: true
+                updateloading: true
             }
 
 
         case UPDATE_STATUS_SUCCESS:
         case ACCEPT_OFFER_SUCCESS:
+        case UPDATE_OFFER_SUCCESS:
             return {
                 ...state,
-                loadingpayment: false,
+                updateloading: false,
                 isUpdated: action.payload
             }
 
         case UPDATE_STATUS_RESET:
         case ACCEPT_OFFER_RESET:
+        case UPDATE_OFFER_RESET:
             return {
                 ...state,
                 isUpdated: false
@@ -210,6 +218,7 @@ export const updateReducer = (state = {}, action) => {
 
         case UPDATE_STATUS_FAIL:
         case ACCEPT_OFFER_FAIL:
+        case UPDATE_OFFER_FAIL:
             return {
                 ...state,
                 error: action.payload

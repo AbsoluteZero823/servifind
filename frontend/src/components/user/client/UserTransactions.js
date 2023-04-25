@@ -584,12 +584,12 @@ const UserTransactions = () => {
                             <form className="a" onSubmit={submitHandler} encType='multipart/form-data' >
                                 {loadings ? <Loader /> : (
                                     <div className="modal-body">
+                                        {transaction.inquiry_id && !transaction.offer_id && (
+                                            <div className='row' >
 
-                                        <div className='row' >
 
+                                                <div className='sixty' style={{ width: '60%', backgroundColor: 'transparent', padding: '10px' }}>
 
-                                            <div className='sixty' style={{ width: '60%', backgroundColor: 'transparent', padding: '10px' }}>
-                                                {transaction.inquiry_id && (
 
                                                     <img
 
@@ -601,8 +601,86 @@ const UserTransactions = () => {
 
 
                                                     />
-                                                )}
-                                                {transaction.offer_id && (
+
+
+                                                    <h4>Amount to pay: 100</h4>
+                                                    {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
+
+                                                    <Fragment>
+                                                        <h4>Gcash Name: {transaction.inquiry_id.freelancer.gcash_name}</h4>
+                                                        <h4>Gcash Number: {transaction.inquiry_id.freelancer.gcash_num}</h4></Fragment>
+
+
+                                                </div>
+                                                <div className='forty' style={{ width: '40%', backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+
+                                                    <img
+                                                        src={transaction.inquiry_id.freelancer.qrCode.url}
+                                                        style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
+
+
+                                                    />
+
+
+                                                    <h4>Gcash QR Code</h4>
+                                                </div>
+
+
+                                            </div>
+                                        )}
+                                        {transaction.inquiry_id && transaction.offer_id && (
+                                            <div className='row' >
+
+
+                                                <div className='sixty' style={{ width: '60%', backgroundColor: 'transparent', padding: '10px' }}>
+
+
+                                                    <img
+
+                                                        src={transaction.inquiry_id.freelancer.user_id.avatar.url}
+                                                        // alt={service.user && service.user.name}
+                                                        // key={service._id}
+                                                        // src='https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+                                                        className="rounded-img-big"
+
+
+                                                    />
+
+
+                                                    <h4>Amount to pay: ₱{transaction.price}</h4>
+                                                    {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
+
+                                                    <Fragment>
+                                                        <h4>Gcash Name: {transaction.inquiry_id.freelancer.gcash_name}</h4>
+                                                        <h4>Gcash Number: {transaction.inquiry_id.freelancer.gcash_num}</h4></Fragment>
+
+
+                                                </div>
+                                                <div className='forty' style={{ width: '40%', backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
+
+                                                    <img
+                                                        src={transaction.inquiry_id.freelancer.qrCode.url}
+                                                        style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
+
+
+                                                    />
+
+
+                                                    <h4>Gcash QR Code</h4>
+                                                </div>
+
+
+                                            </div>
+                                        )}
+
+
+                                        {transaction.offer_id && !transaction.inquiry_id && (
+                                            <div className='row' >
+
+
+                                                <div className='sixty' style={{ width: '60%', backgroundColor: 'transparent', padding: '10px' }}>
+
+
 
                                                     <img
 
@@ -614,48 +692,33 @@ const UserTransactions = () => {
 
 
                                                     />
-                                                )}
-                                                <h4>Amount to pay: 100</h4>
-                                                {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
-                                                {transaction.inquiry_id && (
-                                                    <Fragment>
-                                                        <h4>Gcash Name: {transaction.inquiry_id.freelancer.gcash_name}</h4>
-                                                        <h4>Gcash Number: {transaction.inquiry_id.freelancer.gcash_num}</h4></Fragment>
-                                                )}
-                                                {transaction.offer_id && (
+
+                                                    <h4>Amount to pay: 100</h4>
+                                                    {/* <h4>Gcash Name: {transaction.isPaid}</h4> */}
+
+
                                                     <Fragment>
                                                         <h4>Gcash Name: {transaction.offer_id.service_id.freelancer_id.gcash_name}</h4>
                                                         <h4>Gcash Number: {transaction.offer_id.service_id.freelancer_id.gcash_num}</h4></Fragment>
-                                                )}
-                                            </div>
-                                            <div className='forty' style={{ width: '40%', backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
-                                                {transaction.inquiry_id && (
-                                                    <img
-                                                        src={transaction.inquiry_id.freelancer.qrCode.url}
-                                                        style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
+
+                                                </div>
+                                                <div className='forty' style={{ width: '40%', backgroundColor: 'transparent', alignContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column', flexWrap: 'wrap' }}>
 
 
-                                                    />
-                                                )}
 
-                                                {transaction.offer_id && (
                                                     <img
                                                         src={transaction.offer_id.service_id.freelancer_id.qrCode.url}
                                                         style={{ height: '250px', width: '250px', border: '5px solid', margin: '10px' }}
 
 
                                                     />
-                                                )}
-                                                <h4>Gcash QR Code</h4>
+
+                                                    <h4>Gcash QR Code</h4>
+                                                </div>
+
+
                                             </div>
-
-
-                                        </div>
-
-
-
-
-
+                                        )}
 
 
 

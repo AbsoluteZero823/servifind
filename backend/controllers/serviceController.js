@@ -80,4 +80,15 @@ exports.deleteService = async (req, res, next) => {
     })
 }
 
+exports.getFreelancerServices = async (req, res, next) => {
+
+
+    const services = await Service.find({ freelancer_id: req.params.id }).populate(['category', 'freelancer_id']);
+
+    res.status(200).json({
+        success: true,
+        services
+    })
+
+}
 

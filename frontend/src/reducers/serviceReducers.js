@@ -31,6 +31,10 @@ import {
     SINGLE_SERVICE_SUCCESS,
     SINGLE_SERVICE_FAIL,
 
+    FREELANCER_SERVICES_REQUEST,
+    FREELANCER_SERVICES_SUCCESS,
+    FREELANCER_SERVICES_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/serviceConstants'
 
@@ -39,12 +43,14 @@ export const servicesReducer = (state = { services: [] }, action) => {
     switch (action.type) {
 
         case ALL_SERVICES_REQUEST:
+        case FREELANCER_SERVICES_REQUEST:
             return {
                 ...state,
                 loading: true,
             }
 
         case ALL_SERVICES_SUCCESS:
+        case FREELANCER_SERVICES_SUCCESS:
             return {
                 ...state,
                 loading: false,
@@ -52,12 +58,14 @@ export const servicesReducer = (state = { services: [] }, action) => {
             }
 
         case ALL_SERVICES_FAIL:
+        case FREELANCER_SERVICES_FAIL:
             return {
                 ...state,
                 loading: false,
                 error: action.payload
             }
 
+        case CLEAR_ERRORS:
         case CLEAR_ERRORS:
             return {
                 ...state,

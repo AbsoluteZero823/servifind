@@ -27,6 +27,10 @@ import {
     ACCEPT_OFFER_SUCCESS,
     ACCEPT_OFFER_FAIL,
 
+    UPDATE_OFFER_REQUEST,
+    UPDATE_OFFER_SUCCESS,
+    UPDATE_OFFER_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/offerConstants';
 
@@ -179,6 +183,33 @@ export const AcceptOffer = (id) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ACCEPT_OFFER_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const updateOffer = (id, offerData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_OFFER_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/offer/${id}`, offerData, config)
+
+        dispatch({
+            type: UPDATE_OFFER_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_OFFER_FAIL,
             payload: error.response.data.message
         })
     }

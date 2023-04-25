@@ -5,6 +5,7 @@ const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const { now } = require('mongoose');
+const mongoose = require("mongoose");
 // const  Category  = require('../models/category');
 
 exports.newOffer = async (req, res, next) => {
@@ -54,36 +55,75 @@ exports.getOffers = async (req, res, next) => {
 }
 
 exports.getSingleOffer = async (req, res, next) => {
-    const offer = await Offer.findById(req.params.id)
-        .populate([{
-            path: 'inquiry_id',
 
-            populate: { path: 'customer' }
+
+    const singleoffer = await Offer.aggregate([
+        {
+            $match: {
+                _id: new mongoose.Types.ObjectId(req.params.id)
+            },
         },
         {
-            path: 'inquiry_id',
-            model: 'Inquiry',
-            populate: {
-                path: 'freelancer',
-                model: 'Freelancer',
-                populate: {
-                    path: 'user_id',
-                    model: 'user'
-                }
+            $lookup: {
+                from: "transactions",
+                localField: "_id",
+                foreignField: "offer_id",
+                as: "transaction"
+            }
+        },
+        {
+            $sort: {
+                "transaction": 1
             }
         }
-        ]);
+    ]).then(singleoffer => singleoffer[0])
+
+    // const singleoffer = await Offer.findById(req.params.id)
+    //     .populate([{
+    //         path: 'inquiry_id',
+
+    //         populate: { path: 'customer' }
+    //     },
+    //     {
+    //         path: 'inquiry_id',
+    //         model: 'Inquiry',
+    //         populate: {
+    //             path: 'freelancer',
+    //             model: 'Freelancer',
+    //             populate: {
+    //                 path: 'user_id',
+    //                 model: 'user'
+    //             }
+    //         }
+    //     }
+    //     ]);
 
 
-    if (!offer) {
+    if (!singleoffer) {
         return next(new ErrorHandler('Inquiry not found', 404));
     }
+    res.status(200).json({
+        success: true,
+        singleoffer
+    })
+}
+
+exports.updateOffer = async (req, res, next) => {
+    let offer = await Offer.findById(req.params.id);
+
+    if (!offer) {
+        return next(new ErrorHandler('Offer not found', 404));
+    }
+    offer = await Offer.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
     res.status(200).json({
         success: true,
         offer
     })
 }
-
 
 exports.getRequestOffers = async (req, res, next) => {
     const requestoffers = await Offer.find({ request_id: req.params.request_id })
