@@ -101,10 +101,10 @@ const Services = () => {
                 <div className='forTable'>
                     <Fragment>
                         {/* <h1 className="my-5">ALL Services</h1> */}
-                        <h3>Add Services
+                        {/* <h3>Add Services
                             <span> <Link to="/service/new" className="btn update-btn fa fa-plus">
                             </Link> </span>
-                        </h3>
+                        </h3> */}
 
                         {loading ? <Loader /> : (
                             <MDBDataTable

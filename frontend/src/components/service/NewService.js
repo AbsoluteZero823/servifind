@@ -11,7 +11,7 @@ import { NEW_SERVICES_RESET } from '../../constants/serviceConstants'
 
 const NewService = () => {
     const [name, setName] = useState('')
-
+    const { user } = useSelector(state => state.auth)
 
 
     const alert = useAlert();
@@ -195,7 +195,7 @@ const NewService = () => {
                         >
                             Create
                         </button>
-                        <Link to="/services" className="btn btn-danger btn-block py-3">
+                        <Link to={`/services/${user.freelancer_id._id}`} className="btn btn-danger btn-block py-3">
                             Cancel
                         </Link>
                     </form>

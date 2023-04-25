@@ -87,7 +87,9 @@ const MyServices = () => {
                 actions: <Fragment>
 
                     <div className='action'>
-
+                        <button className="btn btn-danger py-1 px-2 ml-2" >
+                            <i className="fa fa-trash"></i>
+                        </button>
                         {/* <Link to={''} className="btn btn-success py-1 px-2" onClick={() => approveApplicationHandler(freelancer._id)}>
                             <div data-toggle="tooltip" title='Approve Application'>
                                 <i className="fa fa-check" ></i>
@@ -114,8 +116,13 @@ const MyServices = () => {
 
             <div className='forTable'>
 
-                <div style={{ padding: '0', margin: '0' }}>
+                <div style={{ padding: '0', margin: '0', display: 'flex', justifyContent: 'space-between' }}>
                     <h1 style={{ padding: '0 !important', margin: '0 !important' }}>My Services</h1>
+
+                    <h3 style={{ margin: 'auto 0px' }}>Add Service
+                        <span> <Link to="/service/new" className="btn update-btn fa fa-plus">
+                        </Link> </span>
+                    </h3>
                 </div>
 
                 <Fragment>
