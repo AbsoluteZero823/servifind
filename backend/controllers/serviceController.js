@@ -4,11 +4,38 @@ const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Category = require('../models/category');
+const cloudinary = require('cloudinary')
 //create new service
 exports.newService = async (req, res, next) => {
-    console.log(req.body);
-    req.body.user = req.user.id;
-    const service = await Service.create(req.body);
+    // console.log(req.body);
+    user = req.user._id
+    freelancer_id = req.user.freelancer_id._id
+    const { name, priceStarts_At, category } = req.body;
+
+    const result = await cloudinary.v2.uploader.upload(req.body.images, {
+        folder: 'servifind/service',
+        width: 150,
+        crop: "scale"
+    })
+
+
+    service = await Service.create({
+        name,
+        priceStarts_At,
+        category,
+        freelancer_id,
+        user,
+
+        images: {
+            public_id: result.public_id,
+            url: result.secure_url
+        },
+
+    })
+
+
+
+    // const service = await Service.create(req.body);
 
     res.status(201).json({
         success: true,

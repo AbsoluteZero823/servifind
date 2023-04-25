@@ -4,6 +4,8 @@ import MetaData from '../../layout/MetaData'
 import { Link } from 'react-router-dom'
 import { MDBDataTable } from 'mdbreact'
 import Loader from '../../layout/Loader';
+import Swal from 'sweetalert2';
+import { useParams, useNavigate } from "react-router-dom";
 
 import { getFreelancerServices } from '../../../actions/serviceActions';
 
@@ -11,6 +13,7 @@ const MyServices = () => {
     const { user, isAuthenticated } = useSelector(state => state.auth)
     const { services, loading } = useSelector(state => state.services)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     useEffect(() => {
 
@@ -20,7 +23,28 @@ const MyServices = () => {
         }
     }, [])
 
+    const isPremium = () => {
+        // Swal.fire(
+        //     'Information',
+        //     'Basic Account are limited to one service only. Try to upgrade your account to premium',
+        //     'info',
 
+        // )
+        Swal.fire({
+            title: 'Go to Premium Application Page?',
+            text: "Basic Account are limited to one service only. Try to upgrade your account to premium",
+            icon: 'info',
+            showCancelButton: true,
+            cancelButtonText: "Later",
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: 'gray',
+            confirmButtonText: 'Ok'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                navigate(`/premium`)
+            }
+        })
+    }
     const setTableData = () => {
 
         const data = {
@@ -87,6 +111,9 @@ const MyServices = () => {
                 actions: <Fragment>
 
                     <div className='action'>
+                        <Link to='' className="btn btn-primary py-1 px-2">
+                            <i className="fa fa-pencil-alt"></i>
+                        </Link>
                         <button className="btn btn-danger py-1 px-2 ml-2" >
                             <i className="fa fa-trash"></i>
                         </button>
@@ -118,11 +145,19 @@ const MyServices = () => {
 
                 <div style={{ padding: '0', margin: '0', display: 'flex', justifyContent: 'space-between' }}>
                     <h1 style={{ padding: '0 !important', margin: '0 !important' }}>My Services</h1>
+                    {user && user.freelancer_id.isPremium ? (
+                        <h3 style={{ margin: 'auto 0px' }}>Add Service
+                            <span> <Link to="/service/new" className="btn update-btn fa fa-plus">
+                            </Link> </span>
+                        </h3>
+                    ) : (
+                        <h3 style={{ margin: 'auto 0px' }}>Add Service
+                            <span> <button className="btn update-btn fa fa-plus" onClick={() => isPremium()}>
+                            </button> </span>
+                        </h3>
+                    )
+                    }
 
-                    <h3 style={{ margin: 'auto 0px' }}>Add Service
-                        <span> <Link to="/service/new" className="btn update-btn fa fa-plus">
-                        </Link> </span>
-                    </h3>
                 </div>
 
                 <Fragment>
