@@ -7,7 +7,8 @@ const { getOffers,
     getRequestOffers,
     getmyOffers,
     cancelOtherOffer,
-    acceptOffer
+    acceptOffer,
+    updateOffer
 } = require('../controllers/offerController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
@@ -18,6 +19,7 @@ router.route('/offers-request/:request_id').get(getRequestOffers);
 router.route('/cancel-offer/:id').put(cancelOtherOffer);
 router.route('/accept-offer/:id').put(acceptOffer);
 router.route('/myoffers').get(isAuthenticatedUser, getmyOffers);
+router.route('/offer/:id').put(updateOffer);
 // router.route('/offer/:id').put(PaymentSent);
 // router.route('/offer/received/:id').put(PaymentReceived);
 // router.route('/offer/done/:id').put(offerDone);

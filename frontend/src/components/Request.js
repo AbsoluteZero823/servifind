@@ -207,6 +207,30 @@ const Request = ({ request }) => {
                                         onChange={(e) => setDescription(e.target.value)}
                                     >
                                     </textarea>
+
+                                    {/* To Do */}
+                                    {/* <div className="form-group">
+                                        <label htmlFor="stock_field">Price</label>
+                                        <input
+                                            type="number"
+                                            id="stock_field"
+                                            className="form-control"
+                                        // value={stock}
+                                        // onChange={(e) => setStock(e.target.value)}
+                                        />
+                                    </div>
+
+
+                                    <div className="form-group">
+                                        <label htmlFor="stock_field">Expected Date Finished</label>
+                                        <input
+                                            type="date"
+                                            id="stock_field"
+                                            className="form-control"
+                                        // value={stock}
+                                        // onChange={(e) => setStock(e.target.value)}
+                                        />
+                                    </div> */}
                                 </div>
 
 

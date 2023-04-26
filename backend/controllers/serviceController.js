@@ -7,6 +7,7 @@ const APIFeatures = require('../utils/apiFeatures');
 const cloudinary = require('cloudinary')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Category = require('../models/category');
+const cloudinary = require('cloudinary')
 //create new service
 exports.newService = async (req, res, next) => {
     try {
@@ -122,11 +123,15 @@ exports.deleteService = async (req, res, next) => {
     })
 }
 
-exports.getmyServices=async(req,res,next)=>{
-    const services=await Service.find({user:req.user.id}).populate(['category', 'user', 'freelancer_id']);
+exports.getFreelancerServices = async (req, res, next) => {
+
+
+    const services = await Service.find({ freelancer_id: req.params.id }).populate(['category', 'freelancer_id']);
+
     res.status(200).json({
-        success:true,
+        success: true,
         services
     })
+
 }
 

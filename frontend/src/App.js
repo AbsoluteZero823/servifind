@@ -50,6 +50,7 @@ import EmailVerify from './components/emailVerify/index'
 import ApplicationEntries from './components/admin/ApplicationEntries';
 import Premium from './components/user/freelancer/Premium';
 import ApplicationPremium from './components/admin/ApplicationPremium';
+import MyServices from './components/user/freelancer/MyServices';
 
 import { loadUser } from './actions/userActions';
 import { useSelector } from 'react-redux'
@@ -148,7 +149,7 @@ function App() {
                   <Route path="/application-entries" element={<ApplicationEntries />} exact />
                   <Route path="/premium" element={<Premium />} exact />
                   <Route path="/application-premium" element={<ApplicationPremium />} exact />
-
+                  <Route path="/services/:id" element={<MyServices />} exact />
 
                   <Route path="/services" element={
                     <ProtectedRoute isAdmin={true}>
