@@ -202,7 +202,7 @@ exports.loginUser = async (req, res, next) => {
         return next(new ErrorHandler('Please enter email & password', 400))
 
     }
-    const user = await User.findOne({ email }).select('+password')
+    const user = await User.findOne({ email }).select('+password').populate('freelancer_id')
 
     if (!user) {
         return next(new ErrorHandler('Invalid Email or Password', 401));
@@ -348,12 +348,14 @@ exports.forgotPassword = async (req, res, next) => {
 }
 
 exports.getUserProfile = async (req, res, next) => {
-    var user = {}
-
+    let user = {}
+    console.log()
     if (req.user.role === "freelancer") {
         user = await User.findById(req.user.id).populate('freelancer_id');
+        console.log('freelancer pala to')
     } else {
         user = await User.findById(req.user.id);
+        console.log('hindi ito freelancer')
     }
 
 

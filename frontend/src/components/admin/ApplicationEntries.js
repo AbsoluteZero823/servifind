@@ -163,7 +163,7 @@ const ApplicationEntries = () => {
                     <div className='centerTD'>
                         <img
                             className="anim"
-                            src={freelancer.schoolID.url}
+                            src={freelancer.schoolID ? freelancer.schoolID.url : "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png"}
                             style={{ margin: 'auto', display: 'flex' }}
                         />
                         <div className="overlay" data-toggle="modal" data-target="#SchoolIDModal" onClick={() => setSchoolID(freelancer.schoolID.url)}>

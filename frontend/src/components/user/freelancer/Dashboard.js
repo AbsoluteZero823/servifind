@@ -13,7 +13,7 @@ import { getFreelancerServices } from '../../../actions/serviceActions';
 import { AVAILABILITY_UPDATE_RESET, FREELANCER_SETUP_RESET } from '../../../constants/freelancerConstants';
 
 const Dashboard = () => {
-    const { user, isAuthenticated } = useSelector(state => state.auth)
+    const { user } = useSelector(state => state.auth)
     const { isUpdated } = useSelector(state => state.updateFreelancer)
     const { services } = useSelector(state => state.services)
 
@@ -40,7 +40,6 @@ const Dashboard = () => {
         }
 
     }, [])
-
     useEffect(() => {
         if (user) {
             dispatch(getFreelancerServices(user.freelancer_id._id))
@@ -60,7 +59,7 @@ const Dashboard = () => {
             setLoading(false)
         }
 
-    }, [isUpdated, dispatch])
+    }, [dispatch, isUpdated])
 
 
     const OnChange = e => {
@@ -286,9 +285,11 @@ const Dashboard = () => {
                         <div className='paymentDetails'>
                             <p style={{ fontWeight: 'bold', marginTop: "20px" }}>Payment Details</p>
                             <div className='completeSetup'>
+                                {/* {user.freelancer_id && (
 
-                                <p>GCash Name: {user.freelancer_id.gcash_name}</p>
-                                <p>GCash Number: {user.freelancer_id.gcash_num}</p>
+)} */}
+                                <p>GCash Name: {user.freelancer_id && user.freelancer_id.gcash_name}</p>
+                                <p>GCash Number: {user.freelancer_id && user.freelancer_id.gcash_num}</p>
                                 {!user.freelancer_id.gcash_name && (
                                     <div className='flexCenter'><button className='profileBtn' data-toggle="modal" data-target="#setupModal">Complete Setup</button></div>
                                 )}

@@ -14,7 +14,8 @@ import $ from 'jquery';
 import Lottie from "react-lottie"
 import animationData from "../../animations/typing.json"
 import { newOffer, getOffers } from '../../actions/offerActions';
-import { newTransaction } from '../../actions/transactionActions';
+import { newTransaction, updateTransaction } from '../../actions/transactionActions';
+import { NEW_TRANSACTION_RESET, UPDATE_TRANSACTION_RESET } from '../../constants/transactionConstants';
 import { NEW_OFFER_RESET, UPDATE_OFFER_RESET } from '../../constants/offerConstants';
 import { AcceptOffer, SingleOffer, updateOffer } from '../../actions/offerActions';
 import { updateStatus } from '../../actions/inquiryActions';
@@ -24,6 +25,7 @@ import moment from 'moment/moment'
 
 import io from 'socket.io-client'
 import Swal from 'sweetalert2';
+
 const ENDPOINT = "http://localhost:4002";
 var socket, selectedChatCompare;
 
@@ -49,6 +51,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const { offers } = useSelector(state => state.offers)
     const { singleoffer, loadings } = useSelector(state => state.singleOffer)
     const { updateloading } = useSelector(state => state.updateoffer)
+    const { loadingUptTrans } = useSelector(state => state.updateTransaction)
     // const { messages, loading } = useSelector(state => state.messages)
 
     const [expectedDate, setExpectedDate] = useState('');
@@ -104,7 +107,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
 
         }
-        dispatch({ type: UPDATE_OFFER_RESET });
+        // dispatch({ type: UPDATE_OFFER_RESET });
     }, [fetchAgain, success, loadings, dispatch, updateloading]);
 
     useEffect(() => {
@@ -317,7 +320,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             html: `
                 <div>
                     <p style="font-size:15;"><a style="color:#3085d6;">Refuse</a> = Refuses the offer, but allowing the freelancer to change offer details </p>
-                    <p style="font-size:15;"><a style="color:#d33;">Refuse and Cancel</a> = Refuses the offer, and cancelling the inquiry</p>
+                    <p style="font-size:15;"><a style="color:#d33;">Refuse and Cancel</a> = Refuses the offer, and cancelling the transaction</p>
                     <p style="font-size:15;"><a style="color:#261616;">Close</a> = closing/hiding the modal display</p>
                 </div>`,
 
@@ -332,6 +335,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             denyButtonColor: "#d33"
         }).then((result) => {
             if (result.isConfirmed) {
+                const offerData = new FormData();
+                offerData.set('offer_status', "cancelled");
+                dispatch(updateOffer(OfferExists[0]._id, offerData))
 
                 // dispatch(PaymentSent(transaction._id, statusData));
 
@@ -344,6 +350,13 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 $('.close').click();
 
             } else if (result.isDenied) {
+                const offerData = new FormData();
+                offerData.set('offer_status', "cancelled");
+                dispatch(updateOffer(OfferExists[0]._id, offerData))
+                const transactionData = new FormData();
+                transactionData.set('status', 'cancelled');
+                // transactionData.set('expected_Date', expectedDate);
+                dispatch(updateTransaction(OfferExists[0].transaction[0]._id, transactionData))
 
                 Swal.fire(
                     'Offer Refused and Transaction cancelled',
@@ -365,11 +378,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         const offerData = new FormData();
 
         offerData.set('description', description);
-
-
-
-
+        offerData.set('offer_status', 'waiting');
         dispatch(updateOffer(OfferExists[0]._id, offerData));
+        const transactionData = new FormData();
+        transactionData.set('price', price);
+        transactionData.set('expected_Date', expectedDate);
+        dispatch(updateTransaction(OfferExists[0].transaction[0]._id, transactionData))
         $("#EditOfferModal").hide();
         $('.modal-backdrop').hide();
         Swal.fire(
@@ -536,7 +550,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
             {OfferExists[0] && OfferExists[0].inquiry_id === selectedChat.inquiry_id._id && selectedChat.inquiry_id && selectedChat.inquiry_id.customer !== user._id && (
 
                 <Fragment>
-                    {OfferExists[0].offer_status === 'waiting' && !hide && (
+                    {(OfferExists[0].offer_status === 'waiting' || OfferExists[0].offer_status === 'cancelled') && !hide && (
                         <div style={{ backgroundColor: 'white', position: 'absolute', width: '58vw', height: '15vh', alignItems: 'center', display: 'flex', padding: '20px', justifyContent: 'space-between' }}>
 
 
@@ -545,7 +559,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <i className='fas fa-tag' style={{ fontSize: '50px', width: '50px', height: '50px', margin: '20px' }}></i>
                                     <div style={{ width: '80%' }}>
-                                        <p style={{ padding: '10px' }}>You made an offer with the price at ₱{OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')}, would you like to proceed?</p>
+                                        {OfferExists[0].offer_status === 'waiting' && (
+                                            <p style={{ padding: '10px' }}>Your offer with the price of ₱{OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')} is currently waiting</p>
+                                        )}
+                                        {OfferExists[0].offer_status === 'cancelled' && (
+                                            <p style={{ padding: '10px' }}>Your offer with the price of ₱{OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')} is currently cancelled</p>
+                                        )}
                                         {/* <p style={{ padding: '10px' }}>Description: {OfferExists[0].description}</p> */}
                                     </div>
                                 </div>
@@ -554,7 +573,11 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                             {/* buttons */}
 
                             <div style={{ float: "right" }}>
-                                <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }} data-toggle='modal' data-target='#EditOfferModal' onClick={() => singleOfferHandler(OfferExists[0]._id)} >Edit</a>
+                                {OfferExists[0].offer_status === 'cancelled' && (
+
+
+                                    <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }} data-toggle='modal' data-target='#EditOfferModal' onClick={() => singleOfferHandler(OfferExists[0]._id)} >Edit</a>
+                                )}
                                 {/* <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }} onClick={() => refuseHandler(OfferExists[0]._id)}>Refuse</a> */}
                                 {/* <a style={{ padding: 10, color: 'teal', fontWeight: 'bold' }} data-toggle="modal" data-target='#CheckOfferModal'>Check Details</a> */}
                                 {/* <a style={{ padding: 10, color: 'purple', fontWeight: 'bold' }} >Hide</a> */}

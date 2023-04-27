@@ -263,4 +263,19 @@ exports.reportDone = async (req, res, next) => {
 }
 
 
+exports.updateTransaction = async (req, res, next) => {
+    let transaction = await Transaction.findById(req.params.id);
 
+    if (!transaction) {
+        return next(new ErrorHandler('Transaction not found', 404));
+    }
+    transaction = await Transaction.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true,
+        // useFindandModify:false
+    })
+    res.status(200).json({
+        success: true,
+        transaction
+    })
+}

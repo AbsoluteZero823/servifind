@@ -136,7 +136,9 @@ exports.approveApplication = async (req, res, next) => {
         approved_date: Date.now()
     }
     const userData = {
-        role: 'freelancer'
+        role: 'freelancer',
+
+        freelancer_id: freelancer._id
     }
     if (!freelancer) {
         return next(new ErrorHandler('User not found', 404));
@@ -294,37 +296,37 @@ exports.availabiltyUpdate = async (req, res, next) => {
     try {
         let freelancer = await Freelancer.findById(req.user.freelancer_id._id);
         let freelancerData = {
-       
+
         }
-           if(req.user.freelancer_id.availability === 'true'){
-               freelancerData = {
-                   availability: 'false'
-               }
-           } else{
-               freelancerData = {
-                   availability: 'true'
-               }
-           }
-       
-       
-       
-       
-           if (!freelancer) {
-               return next(new ErrorHandler('User  not found', 404));
-           }
-           freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
-               new: true,
-               runValidators: true,
-               // useFindandModify:false
-           })
-           res.status(200).json({
-               isUpdated: true,
-               freelancer
-           })
+        if (req.user.freelancer_id.availability === 'true') {
+            freelancerData = {
+                availability: 'false'
+            }
+        } else {
+            freelancerData = {
+                availability: 'true'
+            }
+        }
+
+
+
+
+        if (!freelancer) {
+            return next(new ErrorHandler('User  not found', 404));
+        }
+        freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
+            new: true,
+            runValidators: true,
+            // useFindandModify:false
+        })
+        res.status(200).json({
+            isUpdated: true,
+            freelancer
+        })
     } catch (error) {
         console.log(error)
     }
-  
+
 }
 
 
@@ -337,38 +339,38 @@ exports.completeFreelancerSetup = async (req, res, next) => {
             // width: 150,
             // crop: "scale"
         })
-    
- const freelancerData = {
-        gcash_name : req.body.gcash_name,
-        gcash_num : req.body.gcash_num,
-        qrCode: {
-                public_id:result.public_id,
+
+        const freelancerData = {
+            gcash_name: req.body.gcash_name,
+            gcash_num: req.body.gcash_num,
+            qrCode: {
+                public_id: result.public_id,
                 url: result.secure_url
-           
+
             }
         }
 
-        
-        
-      
-          
-       
-       
-       
-           if (!freelancer) {
-               return next(new ErrorHandler('User  not found', 404));
-           }
-           freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
-               new: true,
-               runValidators: true,
-               // useFindandModify:false
-           })
-           res.status(200).json({
-               isUpdated: true,
-               freelancer
-           })
+
+
+
+
+
+
+
+        if (!freelancer) {
+            return next(new ErrorHandler('User  not found', 404));
+        }
+        freelancer = await Freelancer.findByIdAndUpdate(req.user.freelancer_id._id, freelancerData, {
+            new: true,
+            runValidators: true,
+            // useFindandModify:false
+        })
+        res.status(200).json({
+            isUpdated: true,
+            freelancer
+        })
     } catch (error) {
         console.log(error)
     }
-  
+
 }

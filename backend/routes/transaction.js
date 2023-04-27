@@ -9,6 +9,7 @@ const { getTransactions,
     transactionDone,
     rateDone,
     reportDone,
+    updateTransaction,
     createTransactionReview,
     getTransactionReviews,
     deleteReview,
@@ -25,6 +26,7 @@ router.route('/transaction/received/:id').put(PaymentReceived);
 router.route('/transaction/done/:id').put(transactionDone);
 router.route('/transaction/rated/:id').put(rateDone);
 router.route('/transaction/reported/:id').put(reportDone);
+router.route('/transaction-update/:id').put(updateTransaction);
 // router.route('/transaction/client/done/:id').put(transactionDoneC);
 // router.route('/transaction/:id').put(updateTransaction).delete(deleteTransaction);
 // router.route('/my/transactionsf').get(getMyFTransactions);

@@ -54,8 +54,8 @@ const SingleService = () => {
         if (success) {
             // navigate('/');
             const chatData = new FormData();
-      
-            chatData.set('userId',  service.user._id);
+
+            chatData.set('userId', service.user._id);
             chatData.set('inquiry_id', inquiry._id);
             chatData.set('chatName', 'Inquiry');
             // console.log(chatData);
@@ -68,8 +68,8 @@ const SingleService = () => {
 
     }, [dispatch, alert, navigate, error, success])
     const accessChat = async (chatData) => {
-      
-console.log(chatData);
+
+        console.log(chatData);
         try {
             // setLoadingChat(true);
             const config = {
@@ -78,7 +78,7 @@ console.log(chatData);
                     // Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.post(`/api/v1/chat`,  chatData , config);
+            const { data } = await axios.post(`/api/v1/chat`, chatData, config);
             console.log(data._id);
             setNewChat(data);
             // if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
@@ -99,7 +99,7 @@ console.log(chatData);
 
 
         messageData.set('content', inquiry.instruction);
-      
+
         // console.log(inquiry.instruction)
         messageData.set('chatId', id);
         console.log(inquiry)
@@ -132,11 +132,10 @@ console.log(chatData);
         // console.log(service.user._id);
 
         dispatch(newInquiry(formData))
-        // TO DO
-        //dispatch create chat
 
 
-        //dispatch ceate message(inquireMessage)
+
+
         $('.modal-backdrop').hide();
         $('body').removeClass('modal-open');
 

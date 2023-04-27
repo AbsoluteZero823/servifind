@@ -108,10 +108,12 @@ exports.deleteService = async (req, res, next) => {
 }
 
 exports.getFreelancerServices = async (req, res, next) => {
-
+    console.log(req.params.id)
 
     const services = await Service.find({ freelancer_id: req.params.id }).populate(['category', 'freelancer_id']);
-
+    if (!services) {
+        return next(new ErrorHandler('Services not found', 404));
+    }
     res.status(200).json({
         success: true,
         services

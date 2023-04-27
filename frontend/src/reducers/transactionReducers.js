@@ -38,6 +38,11 @@ import {
     UPDATE_REPORTDONE_RESET,
     UPDATE_REPORTDONE_FAIL,
 
+    UPDATE_TRANSACTION_REQUEST,
+    UPDATE_TRANSACTION_SUCCESS,
+    UPDATE_TRANSACTION_RESET,
+    UPDATE_TRANSACTION_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/transactionConstants'
 
@@ -192,6 +197,49 @@ export const paymentReducer = (state = {}, action) => {
         case UPDATE_TRANSACTIONDONE_FAIL:
         case UPDATE_RATEDONE_FAIL:
         case UPDATE_REPORTDONE_FAIL:
+            return {
+                ...state,
+                error: action.payload
+            }
+    }
+}
+
+
+export const updateTransactionReducer = (state = {}, action) => {
+    switch (action.type) {
+
+
+
+        case UPDATE_TRANSACTION_REQUEST:
+
+        default:
+            return {
+
+                ...state,
+                loadingUptTrans: true
+            }
+
+
+
+        case UPDATE_TRANSACTION_SUCCESS:
+
+            return {
+                ...state,
+                loadingUptTrans: false,
+                isUpdated: action.payload
+            }
+
+
+        case UPDATE_TRANSACTION_RESET:
+
+            return {
+                ...state,
+                isUpdated: false
+            }
+
+
+        case UPDATE_TRANSACTION_FAIL:
+
             return {
                 ...state,
                 error: action.payload

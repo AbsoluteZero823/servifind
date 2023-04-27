@@ -35,6 +35,10 @@ import {
     UPDATE_REPORTDONE_SUCCESS,
     UPDATE_REPORTDONE_FAIL,
 
+    UPDATE_TRANSACTION_REQUEST,
+    UPDATE_TRANSACTION_SUCCESS,
+    UPDATE_TRANSACTION_FAIL,
+
     CLEAR_ERRORS
 } from '../constants/transactionConstants';
 
@@ -244,6 +248,33 @@ export const ReportDone = (id, formData) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: UPDATE_REPORTDONE_FAIL,
+            payload: error.response.data.message
+        })
+    }
+}
+
+
+export const updateTransaction = (id, transactionData) => async (dispatch) => {
+    try {
+
+        dispatch({ type: UPDATE_TRANSACTION_REQUEST })
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/transaction-update/${id}`, transactionData, config)
+
+        dispatch({
+            type: UPDATE_TRANSACTION_SUCCESS,
+            payload: data.success
+        })
+
+    } catch (error) {
+        dispatch({
+            type: UPDATE_TRANSACTION_FAIL,
             payload: error.response.data.message
         })
     }
