@@ -127,7 +127,7 @@ exports.updateOffer = async (req, res, next) => {
 
 exports.getRequestOffers = async (req, res, next) => {
     const requestoffers = await Offer.find({ request_id: req.params.request_id })
-        .populate(['offered_by', 'request_id']);
+        .populate(['offered_by', 'request_id', 'service_id']);
 
 
     if (!requestoffers) {

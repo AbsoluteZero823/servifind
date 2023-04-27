@@ -51,6 +51,8 @@ const Feed = () => {
         // }
 
 
+
+
     }, [dispatch, alert, error, category]);
 
     // function setCurrentPageNo(pageNumber) {
@@ -81,7 +83,15 @@ const Feed = () => {
     //         navigate(`/feed`)
     //     }
     // }
+    let sortedRequests = requests.filter(function (myrequest) {
+        return myrequest.request_status === 'waiting';
 
+    });
+    sortedRequests = sortedRequests.sort((a, b) => {
+        let da = new Date(a.created_At),
+            db = new Date(b.created_At);
+        return db - da;
+    });
     return (
 
         <Fragment>
@@ -98,7 +108,7 @@ const Feed = () => {
                             <div style={{ width: '70%', padding: '0px 10px' }}>
                                 {/* dito nagsimula ang isang service */}
 
-                                {requests && requests.map(request => (
+                                {sortedRequests && sortedRequests.map(request => (
 
                                     <Request key={request._id} request={request} />
                                 ))}

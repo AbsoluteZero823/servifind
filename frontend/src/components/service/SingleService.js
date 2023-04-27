@@ -57,7 +57,7 @@ const SingleService = () => {
 
             chatData.set('userId', service.user._id);
             chatData.set('inquiry_id', inquiry._id);
-            chatData.set('chatName', 'Inquiry');
+            chatData.set('chatName', service.name);
             // console.log(chatData);
             accessChat(chatData);
             alert.success('Inquiry created successfully');

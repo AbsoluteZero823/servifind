@@ -2119,15 +2119,31 @@ $gray: #92959E; */
   width: 13vw;
 }
 
+.chatnotclicked .about .name {
+  /* color: gray; */
+  /* position: absolute; */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 18vw;
+}
+
 .people-list .status {
-
-
 
   /* position: absolute; */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   width: 13vw;
+}
+
+.people-list .about .name {
+
+  /* position: absolute; */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 18vw;
 }
 
 .people-list {

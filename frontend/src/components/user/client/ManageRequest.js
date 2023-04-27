@@ -72,7 +72,7 @@ const ManageRequest = () => {
         // return requestOffers;
     }
 
-    // SET CLIENT TRANSACTION
+
     const setOffers = () => {
 
         const data = {
@@ -87,12 +87,13 @@ const ManageRequest = () => {
                 {
                     label: 'Request/Description',
                     field: 'description',
-                    sort: 'asc'
+
                 },
                 {
                     label: 'Status',
                     field: 'request_status',
-                    sort: 'asc'
+
+
                 },
 
                 {
@@ -106,11 +107,22 @@ const ManageRequest = () => {
             ],
             rows: []
         }
-        const MyRequests = requests.filter(function (myrequest) {
+        let MyRequests = requests.filter(function (myrequest) {
             return myrequest.requested_by._id === user._id;
 
         });
+        MyRequests = MyRequests.sort((a, b) => {
+            let fa = a.request_status.toLowerCase(),
+                fb = b.request_status.toLowerCase();
 
+            if (fa > fb) {
+                return -1;
+            }
+            if (fa < fb) {
+                return 1;
+            }
+            return 0;
+        });
         MyRequests.forEach(request => {
             const requestOffers = offers.filter(function (o) {
                 return o.request_id === request._id;

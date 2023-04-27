@@ -55,9 +55,9 @@ const MyChats = ({ fetchAgain }) => {
                                                     alt="avatar" /></figure>
                                             <div className="about">
                                                 {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
-                                                    <div className="name">Freelancer: {chat.users[1].name}</div>
+                                                    <div className="name">Freelancer: {chat.users[1].name} - {chat.chatName}</div>
                                                 ) : (
-                                                    <div className="name">Client: {chat.users[1].name}</div>
+                                                    <div className="name">Client: {chat.users[1].name} - {chat.chatName}</div>
                                                 )}
 
                                                 {chat.latestMessage && chat.latestMessage.sender._id === user._id ? (
@@ -89,7 +89,7 @@ const MyChats = ({ fetchAgain }) => {
 
                                     >
                                         <li className="clearfix"
-                                            key={chat.latestMessage._id}
+                                            key={chat._id}
                                         >
                                             <figure className='avatar' style={{ float: 'left', outline: 'solid rgb(96, 96,96)' }}>
                                                 <img
@@ -102,9 +102,9 @@ const MyChats = ({ fetchAgain }) => {
 
                                             <div className="about">
                                                 {chat.inquiry_id && chat.inquiry_id.customer === user._id ? (
-                                                    <div className="name">Freelancer: {chat.users[0].name}</div>
+                                                    <div className="name">Freelancer: {chat.users[0].name} - {chat.chatName}</div>
                                                 ) : (
-                                                    <div className="name">Client: {chat.users[0].name}</div>
+                                                    <div className="name">Client: {chat.users[0].name} - {chat.chatName}</div>
                                                 )}
 
                                                 {chat.latestMessage && (

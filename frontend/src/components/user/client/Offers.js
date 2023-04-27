@@ -48,7 +48,7 @@ const Offers = ({ offer }) => {
     }, [dispatch, alert])
 
     const accessChat = async (chatData) => {
-       
+
         console.log(chatData);
 
         try {
@@ -59,7 +59,7 @@ const Offers = ({ offer }) => {
                     // Authorization: `Bearer ${user.token}`,
                 },
             };
-            const { data } = await axios.post(`/api/v1/chat`,  chatData , config);
+            const { data } = await axios.post(`/api/v1/chat`, chatData, config);
             console.log(data);
             // if (!chats.find((c) => c._id === data._id)) setChats([data, ...chats]);
             // setSelectedChat(data);
@@ -92,9 +92,9 @@ const Offers = ({ offer }) => {
             if (result.isConfirmed) {
 
                 const chatData = new FormData();
-                chatData.set('userId',  offer.offered_by._id);
+                chatData.set('userId', offer.offered_by._id);
                 chatData.set('offer_id', offer._id);
-                chatData.set('chatName', 'Offer');
+                chatData.set('chatName', offer.service_id.name);
 
                 dispatch(CancelOtherOffer(offer.request_id._id))
                 dispatch(AcceptOffer(id))

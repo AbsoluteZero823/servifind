@@ -21,11 +21,13 @@ exports.newRequest = async (req, res, next) => {
 //all Requests
 exports.getRequests = async (req, res, next) => {
     // const servicesCount = await Service.countDocuments();
-    const sort = { _id: -1 };
-    const apiFeatures = new APIFeatures(Request.find().sort(sort).populate(['requested_by', 'category']), req.query).filter();
+    // const sort = { _id: -1 };
+    // .sort(sort)
+    const apiFeatures = new APIFeatures(Request.find().populate(['requested_by', 'category']), req.query).filter();
 
     const requests = await apiFeatures.query;
     // const requests = await Request.find().populate(['requested_by', 'category']);
+
     res.status(200).json({
         success: true,
         requests
@@ -34,24 +36,24 @@ exports.getRequests = async (req, res, next) => {
 
 exports.getSingleRequest = async (req, res, next) => {
     const singlerequest = await Request.findById(req.params.id);
-        // .populate([{
-        //     path: 'inquiry_id',
+    // .populate([{
+    //     path: 'inquiry_id',
 
-        //     populate: { path: 'customer' }
-        // },
-        // {
-        //     path: 'inquiry_id',
-        //     model: 'Inquiry',
-        //     populate: {
-        //         path: 'freelancer',
-        //         model: 'Freelancer',
-        //         populate: {
-        //             path: 'user_id',
-        //             model: 'user'
-        //         }
-        //     }
-        // }
-        // ]);
+    //     populate: { path: 'customer' }
+    // },
+    // {
+    //     path: 'inquiry_id',
+    //     model: 'Inquiry',
+    //     populate: {
+    //         path: 'freelancer',
+    //         model: 'Freelancer',
+    //         populate: {
+    //             path: 'user_id',
+    //             model: 'user'
+    //         }
+    //     }
+    // }
+    // ]);
 
 
     if (!singlerequest) {

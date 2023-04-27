@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const offerSchema = new mongoose.Schema({
     service_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'service',
+        ref: 'Service',
         required: true
     },
     description: {
