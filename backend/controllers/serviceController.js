@@ -7,7 +7,6 @@ const APIFeatures = require('../utils/apiFeatures');
 const cloudinary = require('cloudinary')
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const Category = require('../models/category');
-const cloudinary = require('cloudinary')
 //create new service
 exports.newService = async (req, res, next) => {
     try {
