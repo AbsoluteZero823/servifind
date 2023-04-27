@@ -66,7 +66,7 @@ exports.registerUser = async (req, res, next) => {
             token: crypto.randomBytes(32).toString("hex")
         }).save();
 
-        const url = `https://servifind-backend-exy1.onrender.com/user/${user._id}/verify/${token.token}`;
+        const url = `https://servifind-backend-exy1.onrender.com/api/v1/user/${user._id}/verify/${token.token}`;
 
         await sendEmail(user.email, "Verify Email", url, user.name);
         res.status(201).send({
