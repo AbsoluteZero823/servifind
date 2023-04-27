@@ -127,7 +127,7 @@ exports.makemeaFreelancer = async (req, res, next) => {
       status: 'applying',
       user_id: req.body.user_id || req.user.id,
       gcash_name: req.body.gcash_name,
-      gcash_number: req.body.gcash_number,
+      gcash_num: req.body.gcash_number,
       course: req.body.course,
       qrCode: {
         public_id: qrResult.public_id,
