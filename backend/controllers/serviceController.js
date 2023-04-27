@@ -122,15 +122,10 @@ exports.deleteService = async (req, res, next) => {
     })
 }
 
-exports.getFreelancerServices = async (req, res, next) => {
-
-
-    const services = await Service.find({ freelancer_id: req.params.id }).populate(['category', 'freelancer_id']);
-
+exports.getmyServices=async(req,res,next)=>{
+    const services=await Service.find({user:req.user.id}).populate(['category', 'user', 'freelancer_id']);
     res.status(200).json({
-        success: true,
+        success:true,
         services
     })
-
 }
-
