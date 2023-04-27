@@ -93,7 +93,7 @@ const Offers = ({ offer }) => {
 
                 const chatData = new FormData();
                 chatData.set('userId', offer.offered_by._id);
-                chatData.set('offer_id', offer._id);
+                chatData.set('offerId', offer._id);
                 chatData.set('chatName', offer.service_id.name);
 
                 dispatch(CancelOtherOffer(offer.request_id._id))

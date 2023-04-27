@@ -56,7 +56,7 @@ const SingleService = () => {
             const chatData = new FormData();
 
             chatData.set('userId', service.user._id);
-            chatData.set('inquiry_id', inquiry._id);
+            chatData.set('inquiryId', inquiry._id);
             chatData.set('chatName', service.name);
             // console.log(chatData);
             accessChat(chatData);

@@ -117,6 +117,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         setLoading(true);
 
         console.log(expectedDate)
+
+        // const interval = setInterval(() => {
+        //     fetchMessages(); // Call the function at regular intervals
+        // }, 5000); // Fetch messages every 5 seconds (adjust as needed)
+
+        // return () => {
+        //     clearInterval(interval); // Clean up the interval when component unmounts
+        // };
     }, [selectedChat])
 
 
@@ -200,7 +208,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     config
                 );
                 socket.emit("new message", data);
-                setMessages([...messages, data]);
+                // setMessages([...messages, data]);
                 setFetchAgain(!fetchAgain);
             } catch (error) {
                 console.log(error)
@@ -487,15 +495,18 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 {!OfferExists[0] && selectedChat.inquiry_id && selectedChat.inquiry_id.customer !== user._id && (
                                     <button type="button" className='custom-offer' data-toggle="modal" data-target="#CustomOfferModal">Custom Offfer</button>
                                 )}
+                                {OfferExists[0] && (
+                                    <Fragment>
+                                        {OfferExists[0] && OfferExists[0].offer_status === 'granted' ? (
+                                            <button type="button" className='custom-offer' data-toggle="modal" data-target="#CheckOfferModal">Check Offer</button>
 
-                                {OfferExists[0] && OfferExists[0].offer_status === 'granted' ? (
-                                    <button type="button" className='custom-offer' data-toggle="modal" data-target="#CheckOfferModal">Check Offer</button>
-
-                                ) : (
-                                    <div style={{ float: "right", paddingTop: 20 }}>
-                                        <a style={{ padding: 10, color: 'black', fontWeight: 'bold' }} onClick={() => setHide(!hide)} >Offer <i className='fa fa-caret-down'></i> </a>
-                                    </div>
+                                        ) : (
+                                            <div style={{ float: "right", paddingTop: 20 }}>
+                                                <a style={{ padding: 10, color: 'black', fontWeight: 'bold' }} onClick={() => setHide(!hide)} >Offer <i className='fa fa-caret-down'></i> </a>
+                                            </div>
+                                        )}</Fragment>
                                 )}
+
                                 {/* {OfferExists[0] && OfferExists[0].inquiry_id === selectedChat.inquiry_id._id && selectedChat.inquiry_id && selectedChat.inquiry_id.customer !== user._id && (
                                     <button type="button" className='custom-offer' data-toggle="modal" data-target="#CheckOfferModal">Check Offer</button>
                                 )} */}
@@ -559,12 +570,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                                 <div style={{ display: 'flex', alignItems: 'center' }}>
                                     <i className='fas fa-tag' style={{ fontSize: '50px', width: '50px', height: '50px', margin: '20px' }}></i>
                                     <div style={{ width: '80%' }}>
-                                        {OfferExists[0].offer_status === 'waiting' && (
-                                            <p style={{ padding: '10px' }}>Your offer with the price of ₱{OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')} is currently waiting</p>
-                                        )}
-                                        {OfferExists[0].offer_status === 'cancelled' && (
-                                            <p style={{ padding: '10px' }}>Your offer with the price of ₱{OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')} is currently cancelled</p>
-                                        )}
+
+                                        <Fragment>
+                                            {OfferExists[0].offer_status === 'waiting' && (
+                                                <p style={{ padding: '10px' }}>Your offer with the price of ₱{OfferExists[0].transaction[0] && OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0] && OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')} is currently waiting</p>
+                                            )}
+                                            {OfferExists[0].offer_status === 'cancelled' && (
+                                                <p style={{ padding: '10px' }}>Your offer with the price of ₱{OfferExists[0].transaction[0] && OfferExists[0].transaction[0].price} that supposed to be done on {moment(OfferExists[0].transaction[0] && OfferExists[0].transaction[0].expected_Date).format('MMM/DD/yy')} is currently cancelled</p>
+                                            )}</Fragment>
+
                                         {/* <p style={{ padding: '10px' }}>Description: {OfferExists[0].description}</p> */}
                                     </div>
                                 </div>

@@ -283,9 +283,9 @@ function App() {
 
       {/* </div> */}
 
-      {!loading && (!isAuthenticated) && (
+      {/* {!loading && (!isAuthenticated) && (
         <Footer />
-      )}
+      )} */}
       {/* </div> */}
 
     </Router>
