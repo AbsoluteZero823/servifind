@@ -84,9 +84,10 @@ export const login = (email, password) => async (dispatch) => {
                 'Content-Type': 'application/json'
             }
         }
-
-        const { data } = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
-
+        // Localhost
+        // const { data } = await axios.post('http://localhost:3000/api/v1/login', { email, password }, config)
+        // Live Website
+        const { data } = await axios.post('https://servifind-api.onrender.com/api/v1/login', { email, password }, config)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data.user

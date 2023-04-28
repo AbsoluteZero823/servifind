@@ -26,7 +26,12 @@ import moment from 'moment/moment'
 import io from 'socket.io-client'
 import Swal from 'sweetalert2';
 
-const ENDPOINT = "http://localhost:4002";
+//Localhost
+// const ENDPOINT = "http://localhost:4002";
+
+//Live Website
+const ENDPOINT = "https://servifind.onrender.com";
+
 var socket, selectedChatCompare;
 
 
