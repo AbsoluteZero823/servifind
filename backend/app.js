@@ -4,9 +4,9 @@ const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middlewares/errors');
 const fileUpload = require('express-fileupload')
 const bodyParser = require('body-parser')
-const passport = require("passport");
+// const passport = require("passport");
 const cookieSession = require("cookie-session");
-const passportStrategy = require("./passport");
+// const passportStrategy = require("./passport");
 const cors = require("cors")
 const path = require('path')
 
@@ -51,8 +51,8 @@ app.use(
 );
 
 
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 
 app.use(
     cors({
