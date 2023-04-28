@@ -16,16 +16,16 @@ const chatSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Inquiry',
     required: false
-},
-offer_id: {
-  type: mongoose.Schema.Types.ObjectId,
-  ref: 'offer',
-  required: false
-},
-isArchived:{
-  type: Boolean,
-  default: false
-}
+  },
+  offer_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'offer',
+    required: false
+  },
+  isArchived: {
+    type: Boolean,
+    default: false
+  }
 
 },
   { timestamps: true }
@@ -34,5 +34,3 @@ isArchived:{
 module.exports = mongoose.model('Chat', chatSchema);
 
 
-// users = [noelanfe(63428bc505d15578996809fa), ]
-// latestMessage = ("palitan ng message_Id")

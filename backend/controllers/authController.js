@@ -1,5 +1,4 @@
 const User = require('../models/user');
-// const Animal = require('../models/animal');
 const ErrorHandler = require('../utils/errorHandler');
 const sendToken = require('../utils/jwtToken');
 const sendEmail = require('../utils/sendEmail');
@@ -349,13 +348,11 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.getUserProfile = async (req, res, next) => {
     let user = {}
-    console.log()
+
     if (req.user.role === "freelancer") {
         user = await User.findById(req.user.id).populate('freelancer_id');
-        console.log('freelancer pala to')
     } else {
         user = await User.findById(req.user.id);
-        console.log('hindi ito freelancer')
     }
 
 

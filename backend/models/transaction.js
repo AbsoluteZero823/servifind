@@ -44,6 +44,10 @@ const transactionSchema = new mongoose.Schema({
         ref: 'offer',
         required: false
     },
+    gcashreceipt: {
+        type: String,
+        required: false
+    },
     status: {
         type: String,
         required: true,

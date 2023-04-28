@@ -11,7 +11,3 @@ const messageSchema = new mongoose.Schema({
 
 module.exports = mongoose.model("Message", messageSchema);
 
-// sender = noelanfe(63428bc505d15578996809fa)
-// content = "hello po"
-// chat = ('palitan ng chat_Id')
-// readBy = [user1, user2]

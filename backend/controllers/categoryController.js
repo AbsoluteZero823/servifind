@@ -1,11 +1,10 @@
 const { reset } = require('nodemon');
 const Category = require('../models/category');
-// const User = require('../models/user');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
 const { now } = require('mongoose');
-// const  Category  = require('../models/category');
+
 
 exports.newCategory = async (req, res, next) => {
     console.log(req.body);
@@ -20,14 +19,26 @@ exports.newCategory = async (req, res, next) => {
 
 //all Categories
 exports.getCategories = async (req, res, next) => {
-
-
-    const categories = await Category.find();
+    const categories = await Category.aggregate([
+        {
+            $lookup: {
+                from: 'services',
+                localField: '_id',
+                foreignField: 'category',
+                as: 'services',
+            },
+        },
+        {
+            $addFields: {
+                serviceCount: { $size: '$services' },
+            },
+        },
+    ]);
     res.status(200).json({
         success: true,
-        categories
-    })
-}
+        categories,
+    });
+};
 
 exports.getSingleCategory = async (req, res, next) => {
     const category = await Category.findById(req.params.id)
