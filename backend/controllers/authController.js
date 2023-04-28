@@ -34,14 +34,10 @@ exports.registerUser = async (req, res, next) => {
         if (user)
             return res.status(409).send({ message: "User with given email already exist!" });
 
-        const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
-            folder: 'servifind/avatar',
-            width: 150,
-            crop: "scale"
-        })
+        if(req.body.avatar === ''){
+         
 
-
-        user = await User.create({
+  user = await User.create({
             name,
             age,
             gender,
@@ -50,16 +46,38 @@ exports.registerUser = async (req, res, next) => {
             password,
             status: 'activated',
             // role,
-            avatar: {
-                public_id: result.public_id,
-                url: result.secure_url
-            },
-            // emailToken: crypto.randomBytes(64).toString("hex")
+         
+            
         })
-        // res.status(201).json({
-        //     success: true,
-        //     userCreated
-        // })
+
+        } else{
+            const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
+                folder: 'servifind/avatar',
+                width: 150,
+                crop: "scale"
+            })
+
+            user = await User.create({
+                name,
+                age,
+                gender,
+                contact,
+                email,
+                password,
+                status: 'activated',
+                // role,
+                avatar: {
+                    public_id: result.public_id,
+                    url: result.secure_url
+                },
+                
+            }) 
+        }
+       
+
+
+      
+      
 
         const token = await new Token({
             userId: user._id,
