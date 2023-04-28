@@ -118,7 +118,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div class="feature-container">
+        <div class="feature-container" id='features'>
           <h1>Features</h1>
           <div class="feature-card">
             <div class="fcard">
@@ -225,7 +225,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div class="meet-team">
+        <div class="meet-team" id='our-team'>
           <h1>Meet Our Team</h1>
           <div class="meet-card-wrapper">
             <div class="meet-card">

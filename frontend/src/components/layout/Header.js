@@ -68,7 +68,7 @@ const Header = () => {
                         </a>
                     )}
                     {!user && (
-                        <a href="/#our-team">
+                        <a href="/#features">
 
                             <li>FEATURES</li>
                         </a>
@@ -81,12 +81,12 @@ const Header = () => {
                     )}
                     {!user && (
                         <Link to="/all">
-                            <li>Services</li>
+                            <li>SERVICES</li>
                         </Link>
                     )}
                     {user && user.role === "admin" && (
                         <Link to="/all">
-                            <li>Services</li>
+                            <li>SERVICES</li>
                         </Link>
                     )}
 
