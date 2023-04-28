@@ -8,10 +8,10 @@ const Category = require('../models/category');
 //create new service
 
 exports.newInquiry = async (req, res, next) => {
-    console.log(req.body);
-    // req.body.user = req.user.id;
-    const inquiry = await Inquiry.create(req.body);
 
+
+    const inquiry = await Inquiry.create(req.body);
+    req.body.customer = req.user.id;
     res.status(201).json({
         success: true,
         inquiry
@@ -41,7 +41,8 @@ exports.getInquiries = async (req, res, next) => {
     })
 }
 
-// get My inquiries
+
+// get My (AS A CLIENT) inquiries
 exports.getMyInquiries = async (req, res, next) => {
 
 
@@ -50,7 +51,7 @@ exports.getMyInquiries = async (req, res, next) => {
     const inquiries = await Inquiry.find({ customer: user._id }).populate(['customer', {
         path: 'service_id',
 
-        populate: { path: 'user' }
+        populate: { path: 'user freelancer_id' }
     }, {
             path: 'service_id',
             populate: { path: 'category' }
@@ -64,33 +65,53 @@ exports.getMyInquiries = async (req, res, next) => {
     })
 }
 
-//get Client inquiries
+// //get Client inquiries
+// exports.getClientInquiries = async (req, res, next) => {
+
+
+//     const user = await User.findById(req.user.id);
+
+//     const inquiries = await Inquiry.find().populate(['customer', {
+//         path: 'service_id',
+
+//         populate: { path: 'user' }
+//     }, {
+//             path: 'service_id',
+//             populate: { path: 'category' }
+//         },
+//         {
+//             path: 'freelancer',
+//             populate: { path: 'user_id' }
+//         }
+//     ]);
+
+
+//     res.status(200).json({
+//         success: true,
+//         inquiries
+
+//     })
+// }
+
+//get MY (AS A FREELANCER) inquiries auto filtered to fetch pending inquiries
 exports.getClientInquiries = async (req, res, next) => {
 
-
-    const user = await User.findById(req.user.id);
-
-    const inquiries = await Inquiry.find().populate(['customer', {
-        path: 'service_id',
-
-        populate: { path: 'user' }
-    }, {
-            path: 'service_id',
-            populate: { path: 'category' }
-        },
-        {
-            path: 'freelancer',
-            populate: { path: 'user_id' }
-        }
-    ]);
-
-
-    res.status(200).json({
-        success: true,
-        inquiries
-
-    })
-}
+    try {
+        const inquiries = await Inquiry.find({ freelancer: req.body.freelancer })
+            .where('status').equals('pending')
+            .populate('customer')
+            .populate({
+                path: 'service_id',
+                populate: { path: 'category freelancer_id' }
+            });
+        res.status(200).json({
+            success: true,
+            inquiries
+        });
+    } catch (error) {
+        next(error);
+    }
+};
 
 exports.getSingleInquiry = async (req, res, next) => {
     const inquiry = await Inquiry.findById(req.params.id)

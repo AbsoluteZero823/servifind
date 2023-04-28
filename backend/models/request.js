@@ -19,7 +19,7 @@ const requestSchema = new mongoose.Schema({
         type: String,
         required: true,
         default: 'waiting'
-        // waiting, cancelled, granted
+        // waiting, cancelled, granted, completed
     },
     requested_by: {
         type: mongoose.Schema.Types.ObjectId,

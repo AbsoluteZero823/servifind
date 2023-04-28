@@ -1,6 +1,6 @@
 const { reset } = require('nodemon');
 const Offer = require('../models/offer');
-// const User = require('../models/user');
+const Transaction = require('../models/transaction');
 const ErrorHandler = require('../utils/errorHandler');
 const APIFeatures = require('../utils/apiFeatures');
 const catchAsyncErrors = require('../middlewares/catchAsyncErrors');
@@ -9,8 +9,8 @@ const mongoose = require("mongoose");
 // const  Category  = require('../models/category');
 
 exports.newOffer = async (req, res, next) => {
-    console.log(req.body);
-    // req.body.user = req.user.id;
+
+    req.body.offered_by = req.user._id;
     const offer = await Offer.create(req.body);
 
     res.status(201).json({
@@ -125,18 +125,44 @@ exports.updateOffer = async (req, res, next) => {
     })
 }
 
+// exports.getRequestOffers = async (req, res, next) => {
+//     const requestoffers = await Offer.find({ request_id: req.params.request_id })
+//         .populate(['offered_by', 'request_id', { path: 'service_id', populate: ['freelancer_id'] }]);
+
+
+//     if (!requestoffers) {
+//         return next(new ErrorHandler('Request not found', 404));
+//     }
+//     res.status(200).json({
+//         success: true,
+//         requestoffers
+//     })
+// }
+
 exports.getRequestOffers = async (req, res, next) => {
     const requestoffers = await Offer.find({ request_id: req.params.request_id })
-        .populate(['offered_by', 'request_id', 'service_id']);
 
+
+        .populate(['offered_by', 'request_id', { path: 'service_id', populate: ['freelancer_id'] }]);
 
     if (!requestoffers) {
-        return next(new ErrorHandler('Inquiry not found', 404));
+
+        return next(new ErrorHandler('Request not found', 404));
     }
+
+    const offerIds = requestoffers.map(offer => offer._id); // Extract offer IDs
+
+    const transactions = await Transaction.find({ offer_id: { $in: offerIds } });
+
+    const offersWithTransactions = requestoffers.map(offer => {
+        const offerTransactions = transactions.filter(transaction => transaction.offer_id.toString() === offer._id.toString());
+        return { ...offer.toObject(), transactions: offerTransactions };
+    });
+
     res.status(200).json({
         success: true,
-        requestoffers
-    })
+        requestoffers: offersWithTransactions
+    });
 }
 
 exports.cancelOtherOffer = async (req, res, next) => {
@@ -178,5 +204,28 @@ exports.acceptOffer = async (req, res, next) => {
     res.status(200).json({
         success: true,
 
+    })
+}
+
+exports.getmyOffers = async (req, res, next) => {
+    const myoffers = await Offer.find({ offered_by: req.user._id }).populate(['offered_by', { path: 'request_id', populate: 'requested_by' }, { path: 'service_id', populate: 'category' }, { path: 'inquiry_id', populate: 'customer' }]);
+
+    if (!myoffers) {
+        return next(new ErrorHandler('Offers not found', 404));
+    }
+
+    const offerIds = myoffers.map(offer => offer._id); // Extract offer IDs
+
+    const transactions = await Transaction.find({ offer_id: { $in: offerIds } });
+
+    const offersWithTransactions = myoffers.map(offer => {
+        const offerTransactions = transactions.filter(transaction => transaction.offer_id.toString() === offer._id.toString());
+        return { ...offer.toObject(), transactions: offerTransactions };
+    });
+
+    res.status(200).json({
+        success: true,
+
+        myoffers: offersWithTransactions
     })
 }

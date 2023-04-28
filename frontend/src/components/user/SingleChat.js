@@ -52,6 +52,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const { singleoffer, loadings } = useSelector(state => state.singleOffer)
     const { updateloading } = useSelector(state => state.updateoffer)
     const { loadingUptTrans } = useSelector(state => state.updateTransaction)
+
+    const { message } = useSelector(state => state.addMessage)
     // const { messages, loading } = useSelector(state => state.messages)
 
     const [expectedDate, setExpectedDate] = useState('');
@@ -138,8 +140,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 }
                 //give notification
             } else {
-                // setFetchAgain(!fetchAgain);
-                setMessages([...messages, newMessageReceived]);
+                setFetchAgain(!fetchAgain);
+                // setMessages([...messages, newMessageReceived]);
             }
         })
     })
@@ -180,17 +182,24 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         } catch (error) {
             console.log(error)
         }
-        // dispatch(getMessages(selectedChat._id));
-        // console.log(messages)
 
-        // socket.emit('join chat', selectedChat._id);
+
+
     }
 
     const sendMessage = async (event) => {
+        const messageData = new FormData();
+
+        messageData.set('content', newMessage);
+        messageData.set('chatId', selectedChat._id);
         if (event.key === "Enter" && newMessage) {
             event.preventDefault()
             socket.emit('stop typing', selectedChat._id);
+            // setNewMessage("");
 
+            // dispatch(addMessage(messageData));
+            // setFetchAgain(!fetchAgain)
+            // socket.emit("new message", message);
             try {
                 const config = {
                     headers: {
@@ -207,13 +216,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     },
                     config
                 );
-                socket.emit("new message", data);
-                // setMessages([...messages, data]);
+                console.log(data)
+                socket.emit("new message", data.message);
+                // setMessages([...messages, data.message]);
+
                 setFetchAgain(!fetchAgain);
             } catch (error) {
                 console.log(error)
 
             }
+        } else {
+            return false;
         }
 
     };
@@ -243,7 +256,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     config
                 );
                 socket.emit("new message", data);
-                setMessages([...messages, data]);
+                // setMessages([...messages, data]);
                 setFetchAgain(!fetchAgain);
             } catch (error) {
                 console.log(error)
@@ -286,7 +299,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         offerData.set('service_id', selectedChat.inquiry_id.service_id);
         offerData.set('description', description);
-        offerData.set('offered_by', user._id);
+        // offerData.set('offered_by', user._id);
         offerData.set('inquiry_id', selectedChat.inquiry_id._id);
 
         dispatch(newOffer(offerData));

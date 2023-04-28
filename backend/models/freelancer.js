@@ -22,7 +22,7 @@ const freelancerSchema = new mongoose.Schema({
         default: false
     },
     availability: {
-        type: String,
+        type: Boolean,
         required: true,
         default: 'false'
     },

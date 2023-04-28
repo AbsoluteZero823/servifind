@@ -68,7 +68,7 @@ const Request = ({ request }) => {
 
         offerData.set('service_id', service_id);
         offerData.set('description', description);
-        offerData.set('offered_by', user._id);
+        // offerData.set('offered_by', user._id);
         offerData.set('request_id', singlerequest && singlerequest._id);
 
 

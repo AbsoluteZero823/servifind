@@ -7,9 +7,8 @@ const { getServices,
     getFreelancerServices,
     updateService,
     deleteService,
-    createServiceReview,
-    getServiceReviews,
-    deleteReview
+    //CODE SA MOBILE
+    getmyServices,
 } = require('../controllers/serviceController');
 const { isAuthenticatedUser, authorizeRoles } = require('../middlewares/auth');
 
@@ -19,4 +18,6 @@ router.route('/service/new').post(isAuthenticatedUser, newService);
 router.route('/service/:id').get(getSingleService);
 
 router.route('/service/:id').put(updateService).delete(deleteService);
+//CODE SA MOBILE
+router.route('/services/freelancer').post(isAuthenticatedUser, getmyServices);
 module.exports = router;
