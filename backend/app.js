@@ -3,7 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middlewares/errors');
 const fileUpload = require('express-fileupload')
-const bodyParser = require('body-parser')
+// const bodyParser = require('body-parser')
 // const passport = require("passport");
 const cookieSession = require("cookie-session");
 // const passportStrategy = require("./passport");
@@ -56,11 +56,12 @@ app.use(
 
 app.use(
     cors({
-        origin: "https://servifind.onrender.com",
-        methods: "GET,POST,PUT,DELETE",
+        origin: ["https://servifind.onrender.com", "https://servifind-api.onrender.com"],
+        methods: "*",
         credentials: true,
     })
 );
+
 
 
 // const message = require('./routes/message');
@@ -90,16 +91,16 @@ app.use('/api/v1', message);
 
 
 if (process.env.NODE_ENV !== 'PRODUCTION')
-    require('dotenv').config({ path: 'backend/config/config.env' })
+    // require('dotenv').config({ path: 'backend/config/config.env' })
 
 
-if (process.env.NODE_ENV === 'PRODUCTION') {
-    app.use(express.static(path.join(__dirname, '../frontend/build')))
+    if (process.env.NODE_ENV === 'PRODUCTION') {
+        app.use(express.static(path.join(__dirname, '../frontend/build')))
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'))
-    })
-}
+        app.get('*', (req, res) => {
+            res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'))
+        })
+    }
 
 
 
