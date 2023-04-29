@@ -9,7 +9,7 @@ dotenv.config({ path: 'backend/config/config.env' })
 
 const cors = require("cors");
 const corsOptions = {
-    origin: "https://servifind.onrender.com",
+    origin: `${process.env.BASE_URL}`,
     methods: "*",
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
@@ -42,7 +42,7 @@ const server = app.listen(process.env.PORT, () => {
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: ["https://servifind.onrender.com"],
+        origin: [`${process.env.BASE_URL}`],
     },
 });
 

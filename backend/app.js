@@ -56,7 +56,7 @@ app.use(
 
 app.use(
     cors({
-        origin: ["https://servifind.onrender.com"],
+        origin: [`${process.env.BASE_URL}`],
         methods: "*",
         credentials: true,
     })

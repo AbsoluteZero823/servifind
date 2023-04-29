@@ -83,7 +83,7 @@ exports.registerUser = async (req, res, next) => {
             token: crypto.randomBytes(32).toString("hex")
         }).save();
 
-        const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
+        const url = `${process.env.BASE_URL}/api/v1/user/${user._id}/verify/${token.token}`;
 
         await sendEmail(user.email, "Verify Email", url, user.name);
         res.status(201).send({
@@ -243,7 +243,7 @@ exports.loginUser = async (req, res, next) => {
                 token: crypto.randomBytes(32).toString("hex")
             }).save();
 
-            const url = `${process.env.BASE_URL}user/${user._id}/verify/${token.token}`;
+            const url = `${process.env.BASE_URL}/api/v1/user/${user._id}/verify/${token.token}`;
             await sendEmail(user.email, "Verify Email", url, user.name);
         }
         return res.status(400).send({ messasge: "An Email sent to your account,  please verify" });

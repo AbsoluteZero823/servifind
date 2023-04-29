@@ -30,7 +30,7 @@ import Swal from 'sweetalert2';
 // const ENDPOINT = "http://localhost:4002";
 
 //Live Website
-const ENDPOINT = "https://servifind-api.onrender.com";
+const ENDPOINT = `${process.env.REACT_APP_API_URL}`;
 
 var socket, selectedChatCompare;
 
