@@ -56,7 +56,7 @@ app.use(
 
 app.use(
     cors({
-        origin: "https://servifind-api.onrender.com",
+        origin: "https://servifind.onrender.com",
         methods: "GET,POST,PUT,DELETE",
         credentials: true,
     })
