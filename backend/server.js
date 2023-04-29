@@ -9,8 +9,9 @@ dotenv.config({ path: 'backend/config/config.env' })
 
 const cors = require("cors");
 const corsOptions = {
-    origin: '*',
-    credentials: true,            //access-control-allow-credentials:true
+    origin: "https://servifind.onrender.com",
+    methods: "*",
+    credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 }
 
