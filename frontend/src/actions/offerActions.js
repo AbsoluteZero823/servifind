@@ -57,7 +57,7 @@ export const newOffer = (offerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/offer/new', offerData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/offer/new`, offerData, config)
 
         dispatch({
             type: NEW_OFFER_SUCCESS,
@@ -82,7 +82,7 @@ export const getOffers = () => async (dispatch) => {
 
 
 
-        const { data } = await axios.get(`/api/v1/offers`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/offers`)
 
 
         dispatch({
@@ -104,7 +104,7 @@ export const SingleOffer = (id) => async (dispatch) => {
 
 
         dispatch({ type: SINGLE_OFFER_REQUEST })
-        const { data } = await axios.get(`/api/v1/offer/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/offer/${id}`)
         dispatch({
             type: SINGLE_OFFER_SUCCESS,
             payload: data
@@ -121,7 +121,7 @@ export const RequestOffer = (request_id) => async (dispatch) => {
 
 
         dispatch({ type: REQUEST_OFFERS_REQUEST })
-        const { data } = await axios.get(`/api/v1/offers-request/${request_id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/offers-request/${request_id}`)
         dispatch({
             type: REQUEST_OFFERS_SUCCESS,
             payload: data
@@ -146,7 +146,7 @@ export const CancelOtherOffer = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/cancel-offer/${id}`, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/cancel-offer/${id}`, config)
 
         dispatch({
             type: UPDATE_STATUS_SUCCESS,
@@ -173,7 +173,7 @@ export const AcceptOffer = (id) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/accept-offer/${id}`, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/accept-offer/${id}`, config)
 
         dispatch({
             type: ACCEPT_OFFER_SUCCESS,
@@ -200,7 +200,7 @@ export const updateOffer = (id, offerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/offer/${id}`, offerData, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/offer/${id}`, offerData, config)
 
         dispatch({
             type: UPDATE_OFFER_SUCCESS,

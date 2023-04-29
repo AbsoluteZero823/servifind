@@ -41,7 +41,7 @@ export const newCategory = (categoryData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/category/new', categoryData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/category/new`, categoryData, config)
 
         dispatch({
             type: NEW_CATEGORY_SUCCESS,
@@ -63,7 +63,7 @@ export const getCategories = () => async (dispatch) => {
 
         dispatch({ type: GET_CATEGORIES_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/categories`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/categories`)
 
         dispatch({
             type: GET_CATEGORIES_SUCCESS,
@@ -84,7 +84,7 @@ export const SingleCategory = (id) => async (dispatch) => {
 
 
         dispatch({ type: SINGLE_CATEGORY_REQUEST })
-        const { data } = await axios.get(`/api/v1/category/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/category/${id}`)
         dispatch({
             type: SINGLE_CATEGORY_SUCCESS,
             payload: data

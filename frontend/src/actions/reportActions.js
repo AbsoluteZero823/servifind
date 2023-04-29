@@ -41,7 +41,7 @@ export const newReport = (reportData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/report/new', reportData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/report/new`, reportData, config)
 
         dispatch({
             type: NEW_REPORT_SUCCESS,
@@ -63,7 +63,7 @@ export const getReports = () => async (dispatch) => {
 
         dispatch({ type: GET_REPORTS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/reports`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/reports`)
 
         dispatch({
             type: GET_REPORTS_SUCCESS,
@@ -84,7 +84,7 @@ export const SingleReport = (id) => async (dispatch) => {
 
 
         dispatch({ type: SINGLE_REPORT_REQUEST })
-        const { data } = await axios.get(`/api/v1/report/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/report/${id}`)
         dispatch({
             type: SINGLE_REPORT_SUCCESS,
             payload: data

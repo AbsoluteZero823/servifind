@@ -42,7 +42,7 @@ export const getServices = (keyword = '') => async (dispatch) => {
 
         dispatch({ type: ALL_SERVICES_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/services?keyword=${keyword}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/services?keyword=${keyword}`)
 
         dispatch({
             type: ALL_SERVICES_SUCCESS,
@@ -67,7 +67,7 @@ export const clearErrors = () => async (dispatch) => {
 export const getServiceDetails = (id) => async (dispatch) => {
     try {
         dispatch({ type: SERVICE_DETAILS_REQUEST })
-        const { data } = await axios.get(`/api/v1/service/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/service/${id}`)
         dispatch({
             type: SERVICE_DETAILS_SUCCESS,
             payload: data
@@ -93,7 +93,7 @@ export const newService = (serviceData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post('/api/v1/service/new', serviceData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/service/new`, serviceData, config)
 
         dispatch({
             type: NEW_SERVICES_SUCCESS,
@@ -120,7 +120,7 @@ export const updateService = (id, serviceData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`/api/v1/service/${id}`, serviceData, config)
+        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/service/${id}`, serviceData, config)
 
         dispatch({
             type: UPDATE_SERVICES_SUCCESS,
@@ -140,7 +140,7 @@ export const deleteService = (id) => async (dispatch) => {
 
         dispatch({ type: DELETE_SERVICES_REQUEST })
 
-        const { data } = await axios.delete(`/api/v1/service/${id}`)
+        const { data } = await axios.delete(`${process.env.REACT_APP_API_URL}/api/v1/service/${id}`)
 
         dispatch({
             type: DELETE_SERVICES_SUCCESS,
@@ -161,7 +161,7 @@ export const deleteService = (id) => async (dispatch) => {
 export const SingleService = (id) => async (dispatch) => {
     try {
         dispatch({ type: SINGLE_SERVICE_REQUEST })
-        const { data } = await axios.get(`/api/v1/service/details/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/service/details/${id}`)
         dispatch({
             type: SINGLE_SERVICE_SUCCESS,
             payload: data
@@ -179,7 +179,7 @@ export const getFreelancerServices = (id) => async (dispatch) => {
 
         dispatch({ type: FREELANCER_SERVICES_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/services/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/services/${id}`)
 
         dispatch({
             type: FREELANCER_SERVICES_SUCCESS,

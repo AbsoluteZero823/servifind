@@ -63,7 +63,7 @@ export const getChats = () => async (dispatch) => {
 
         dispatch({ type: GET_CHATS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/chat`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/chat`)
 
         dispatch({
             type: GET_CHATS_SUCCESS,
