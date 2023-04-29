@@ -53,7 +53,7 @@ export const newInquiry = (inquiryData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/inquiry/new`, inquiryData, config)
+        const { data } = await axios.post(`/api/v1/inquiry/new`, inquiryData, config)
 
         dispatch({
             type: NEW_INQUIRY_SUCCESS,
@@ -74,7 +74,7 @@ export const getInquiries = () => async (dispatch) => {
 
         dispatch({ type: ALL_INQUIRY_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/inquiries`)
+        const { data } = await axios.get(`/api/v1/inquiries`)
 
         dispatch({
             type: ALL_INQUIRY_SUCCESS,
@@ -94,7 +94,7 @@ export const getMyInquiries = () => async (dispatch) => {
 
         dispatch({ type: MY_INQUIRY_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/my-inquiries`)
+        const { data } = await axios.get(`/api/v1/my-inquiries`)
 
         dispatch({
             type: MY_INQUIRY_SUCCESS,
@@ -114,7 +114,7 @@ export const getClientInquiries = () => async (dispatch) => {
 
         dispatch({ type: CLIENT_INQUIRY_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/client-inquiries`)
+        const { data } = await axios.get(`/api/v1/client-inquiries`)
 
         dispatch({
             type: CLIENT_INQUIRY_SUCCESS,
@@ -133,7 +133,7 @@ export const getClientInquiries = () => async (dispatch) => {
 export const getSingleInquiry = (id) => async (dispatch) => {
     try {
         dispatch({ type: SINGLE_INQUIRY_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/inquiry/${id}`)
+        const { data } = await axios.get(`/api/v1/inquiry/${id}`)
         dispatch({
             type: SINGLE_INQUIRY_SUCCESS,
             payload: data
@@ -159,7 +159,7 @@ export const updateStatus = (id, statusData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/inquiry/${id}`, statusData, config)
+        const { data } = await axios.put(`/api/v1/inquiry/${id}`, statusData, config)
 
         dispatch({
             type: UPDATE_STATUS_SUCCESS,

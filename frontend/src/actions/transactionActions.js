@@ -65,7 +65,7 @@ export const newTransaction = (transactionData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/transaction/new`, transactionData, config)
+        const { data } = await axios.post(`/api/v1/transaction/new`, transactionData, config)
 
         dispatch({
             type: NEW_TRANSACTION_SUCCESS,
@@ -87,7 +87,7 @@ export const getTransactions = () => async (dispatch) => {
 
         dispatch({ type: GET_TRANSACTIONS_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/transactions`)
+        const { data } = await axios.get(`/api/v1/transactions`)
 
         dispatch({
             type: GET_TRANSACTIONS_SUCCESS,
@@ -108,7 +108,7 @@ export const SingleTransaction = (id) => async (dispatch) => {
 
 
         dispatch({ type: SINGLE_TRANSACTION_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/transaction/${id}`)
+        const { data } = await axios.get(`/api/v1/transaction/${id}`)
         dispatch({
             type: SINGLE_TRANSACTION_SUCCESS,
             payload: data
@@ -133,7 +133,7 @@ export const PaymentSent = (id, statusData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/transaction/${id}`, statusData, config)
+        const { data } = await axios.put(`/api/v1/transaction/${id}`, statusData, config)
 
         dispatch({
             type: UPDATE_PSENT_SUCCESS,
@@ -159,7 +159,7 @@ export const PaymentReceived = (id, statusData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/transaction/received/${id}`, statusData, config)
+        const { data } = await axios.put(`/api/v1/transaction/received/${id}`, statusData, config)
 
         dispatch({
             type: UPDATE_PRECEIVED_SUCCESS,
@@ -185,7 +185,7 @@ export const TransactionDone = (id, formData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/transaction/done/${id}`, formData, config)
+        const { data } = await axios.put(`/api/v1/transaction/done/${id}`, formData, config)
 
         dispatch({
             type: UPDATE_TRANSACTIONDONE_SUCCESS,
@@ -212,7 +212,7 @@ export const RateDone = (id, rateData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/transaction/rated/${id}`, rateData, config)
+        const { data } = await axios.put(`/api/v1/transaction/rated/${id}`, rateData, config)
 
         dispatch({
             type: UPDATE_RATEDONE_SUCCESS,
@@ -238,7 +238,7 @@ export const ReportDone = (id, formData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/transaction/reported/${id}`, formData, config)
+        const { data } = await axios.put(`/api/v1/transaction/reported/${id}`, formData, config)
 
         dispatch({
             type: UPDATE_REPORTDONE_SUCCESS,
@@ -265,7 +265,7 @@ export const updateTransaction = (id, transactionData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/transaction-update/${id}`, transactionData, config)
+        const { data } = await axios.put(`/api/v1/transaction-update/${id}`, transactionData, config)
 
         dispatch({
             type: UPDATE_TRANSACTION_SUCCESS,
