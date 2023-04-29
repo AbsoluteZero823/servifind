@@ -68,7 +68,7 @@ function App() {
     <Router>
 
       <Routes>
-        <Route path="/user/:id/verify/:token" element={<EmailVerify />} exact />
+        <Route path={`${process.env.REACT_APP_URL}/user/:id/verify/:token`} element={<EmailVerify />} exact />
       </Routes>
       <div className="App">
 
