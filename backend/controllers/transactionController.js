@@ -54,7 +54,7 @@ exports.getTransactions = async (req, res, next) => {
     },
     {
         path: 'offer_id',
-        model: 'offer',
+        model: 'Offer',
         populate: {
             path: 'request_id',
             model: 'Request',
@@ -66,7 +66,7 @@ exports.getTransactions = async (req, res, next) => {
     },
     {
         path: 'offer_id',
-        model: 'offer',
+        model: 'Offer',
         populate: {
             path: 'offered_by',
 
@@ -100,7 +100,7 @@ exports.getSingleTransaction = async (req, res, next) => {
         },
         {
             path: 'offer_id',
-            model: 'offer',
+            model: 'Offer',
             populate: {
                 path: 'service_id',
                 model: 'Service',

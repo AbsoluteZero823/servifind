@@ -53,7 +53,7 @@ const EmailVerify = () => {
                 }}>
                     <img src={success} alt='success_img' />
                     <h1>Email verified successfully</h1>
-                    <Link to="/login">
+                    <Link to={`${process.env.REACT_APP_API_URL}/login`}>
                         <button style={{
                             border: 'none',
                             outline: 'none',
