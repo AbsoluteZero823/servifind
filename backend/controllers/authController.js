@@ -33,23 +33,23 @@ exports.registerUser = async (req, res, next) => {
         if (user)
             return res.status(409).send({ message: "User with given email already exist!" });
 
-        if(req.body.avatar === ''){
-         
+        if (req.body.avatar === '') {
 
-  user = await User.create({
-            name,
-            age,
-            gender,
-            contact,
-            email,
-            password,
-            status: 'activated',
-            // role,
-         
-            
-        })
 
-        } else{
+            user = await User.create({
+                name,
+                age,
+                gender,
+                contact,
+                email,
+                password,
+                status: 'activated',
+                // role,
+
+
+            })
+
+        } else {
             const result = await cloudinary.v2.uploader.upload(req.body.avatar, {
                 folder: 'servifind/avatar',
                 width: 150,
@@ -69,14 +69,14 @@ exports.registerUser = async (req, res, next) => {
                     public_id: result.public_id,
                     url: result.secure_url
                 },
-                
-            }) 
+
+            })
         }
-       
 
 
-      
-      
+
+
+
 
         const token = await new Token({
             userId: user._id,
@@ -366,13 +366,15 @@ exports.forgotPassword = async (req, res, next) => {
 
 exports.getUserProfile = async (req, res, next) => {
     let user = {}
+    if (req.user) {
 
-    if (req.user.role === "freelancer") {
-        user = await User.findById(req.user.id).populate('freelancer_id');
-    } else {
-        user = await User.findById(req.user.id);
+
+        if (req.user.role === "freelancer") {
+            user = await User.findById(req.user.id).populate('freelancer_id');
+        } else {
+            user = await User.findById(req.user.id);
+        }
     }
-
 
 
     res.status(200).json({
