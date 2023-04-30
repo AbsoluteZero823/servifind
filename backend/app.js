@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require('express');
+const app = express();
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middlewares/errors');
 const fileUpload = require('express-fileupload')
@@ -10,7 +11,7 @@ const cookieSession = require("cookie-session");
 const cors = require("cors")
 const path = require('path')
 
-const app = express();
+
 
 const service = require('./routes/service');
 const auth = require('./routes/auth');
@@ -30,9 +31,10 @@ const message = require('./routes/message');
 
 
 // REQUIRED FOR UPLOADING LARGE IMAGE
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb' }));
-
+// app.use(express.json({ limit: '10mb' }));
+// app.use(express.urlencoded({ limit: '10mb' }));
+app.use(express.json());
+app.use(express.urlencoded());
 
 
 // app.use(express.json());
