@@ -56,8 +56,8 @@ app.use(
 
 app.use(
     cors({
-        origin: [`http://localhost:3000`],
-        methods: "*",
+        origin: "http://localhost:3000",
+        methods: "GET,POST,PUT,DELETE",
         credentials: true,
     })
 );
@@ -87,20 +87,22 @@ app.use('/api/v1', message);
 
 
 
+const __dirname1 = path.resolve();
 
 
+if (process.env.NODE_ENV === 'PRODUCTION') {
 
-if (process.env.NODE_ENV !== 'PRODUCTION')
     // require('dotenv').config({ path: 'backend/config/config.env' })
+    app.use(express.static(path.join(__dirname1, '../frontend/build')))
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname1, '../frontend/build/index.html'))
+    })
+} else {
+    app.get("/", (req, res) => {
+        res.send("API is Running Successfully");
+    })
+}
 
-
-    if (process.env.NODE_ENV === 'PRODUCTION') {
-        app.use(express.static(path.join(__dirname, '../frontend/build')))
-
-        app.get('*', (req, res) => {
-            res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'))
-        })
-    }
 
 
 
