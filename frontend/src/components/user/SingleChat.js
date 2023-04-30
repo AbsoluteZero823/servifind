@@ -260,7 +260,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     },
                     config
                 );
-                socket.emit("new message", data);
+                socket.emit("new message", data.message);
                 // setMessages([...messages, data]);
                 setFetchAgain(!fetchAgain);
             } catch (error) {
