@@ -145,8 +145,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 }
                 //give notification
             } else {
-                setFetchAgain(!fetchAgain);
-                // setMessages([...messages, newMessageReceived]);
+
+                setMessages([...messages, newMessageReceived]);
             }
         })
     })
@@ -169,7 +169,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 },
             };
 
-            // setLoading(true);
+            setLoading(true);
 
 
             const { data } = await axios.get(
@@ -195,8 +195,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     const sendMessage = async (event) => {
         const messageData = new FormData();
 
-        messageData.set('content', newMessage);
-        messageData.set('chatId', selectedChat._id);
+        // messageData.set('content', newMessage);
+        // messageData.set('chatId', selectedChat._id);
         if (event.key === "Enter" && newMessage) {
             event.preventDefault()
             socket.emit('stop typing', selectedChat._id);
@@ -223,9 +223,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 );
                 console.log(data)
                 socket.emit("new message", data.message);
-                // setMessages([...messages, data.message]);
+                setMessages([...messages, data.message]);
 
-                setFetchAgain(!fetchAgain);
+                // setFetchAgain(!fetchAgain);
             } catch (error) {
                 console.log(error)
 
@@ -261,8 +261,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     config
                 );
                 socket.emit("new message", data.message);
-                // setMessages([...messages, data]);
-                setFetchAgain(!fetchAgain);
+                setMessages([...messages, data.message]);
+                // setFetchAgain(!fetchAgain);
             } catch (error) {
                 console.log(error)
 
