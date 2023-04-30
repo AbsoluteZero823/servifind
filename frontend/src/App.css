@@ -2540,7 +2540,7 @@ input:checked+.slider:before {
 .premiumCard .pic {
   position: absolute;
   height: 280px;
-  top: -9px;
+  top: 93px;
   right: 35%;
   width: auto;
   transform: scaleX(-1);

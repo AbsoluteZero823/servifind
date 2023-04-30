@@ -201,17 +201,19 @@ const Dashboard = () => {
 
 
                     <div className='dashboardContent'>
+                        {user && user.freelancer_id && user.freelancer_id.isPremium === "false" && (
+                            <div className='premiumCard' >
+                                <div className='content'>
+                                    <h1>Go Premium</h1>
+                                    <p>Post more Services and Earn more with lifetime mermbership</p>
+                                    <Link to="/premium" ><button className='premiumBtn'><span>Connect Now</span> </button></Link>
+                                </div>
+                                <div className='picContainer' >
+                                    <img className='pic' src='../images/8-03.png' />
+                                </div>
+                            </div>
+                        )}
 
-                        <div className='premiumCard' >
-                            <div className='content'>
-                                <h1>Go Premium</h1>
-                                <p>Post more Services and Earn more with lifetime mermbership</p>
-                                <Link to="/premium" ><button className='premiumBtn'><span>Connect Now</span> </button></Link>
-                            </div>
-                            <div className='picContainer' >
-                                <img className='pic' src='../images/8-03.png' />
-                            </div>
-                        </div>
 
                         <div className='charts' >
                             <div className='smallCardContainer' style={{ marginRight: '10px' }}>
@@ -299,7 +301,7 @@ const Dashboard = () => {
                         <div className='servicesDisplay'>
                             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                                 <h4 style={{ fontWeight: 'bold', marginTop: "20px" }}>My Services</h4>
-                                <Link to={`/services/${user.freelancer_id._id}`} style={{ marginTop: '20px' }} ><a >see all</a></Link>
+                                <Link to={`/services/${user.freelancer_id._id}`} style={{ marginTop: '20px' }} ><span>see all</span></Link>
 
                             </div>
                             <div className='servicesContainer'>
@@ -311,11 +313,13 @@ const Dashboard = () => {
 
                                     // <ClientInquiries key={inquiry._id} inquiry={inquiry} />
 
-                                    <div className='serviceCard' >
+                                    <div className='serviceCard' key={service._id} >
+
                                         <img
                                             className='rounded-img'
                                             src={service.images.url}
                                             style={{ margin: 'auto 20px auto 0px' }}
+
                                         />
                                         <div className='serviceCardInfo'>
                                             <p style={{ fontWeight: 'bold' }}>{service.category.name}</p>

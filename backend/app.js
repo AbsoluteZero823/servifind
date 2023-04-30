@@ -3,7 +3,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middlewares/errors');
 const fileUpload = require('express-fileupload')
-// const bodyParser = require('body-parser')
+
 // const passport = require("passport");
 const cookieSession = require("cookie-session");
 // const passportStrategy = require("./passport");
