@@ -30,7 +30,7 @@ import Swal from 'sweetalert2';
 // const ENDPOINT = "http://localhost:4002";
 
 //Live Website
-const ENDPOINT = `${process.env.REACT_APP_API_URL}`;
+const ENDPOINT = `https://servifind-api.onrender.com`;
 
 var socket, selectedChatCompare;
 
@@ -83,10 +83,10 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     useEffect(() => {
 
-        fetchMessages();
+        // fetchMessages();
         dispatch(getOffers());
         // setLoading(true)
-        selectedChatCompare = selectedChat;
+        // selectedChatCompare = selectedChat;
 
         if (singleoffer) {
             setDescription(singleoffer.description);
@@ -115,23 +115,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
         }
         // dispatch({ type: UPDATE_OFFER_RESET });
-    }, [fetchAgain, success, loadings, dispatch, updateloading]);
+    }, [selectedChat, fetchAgain, success, loadings, dispatch, updateloading]);
 
     useEffect(() => {
         fetchMessages();
         dispatch(getOffers());
+        selectedChatCompare = selectedChat;
 
-        setLoading(true);
 
-        console.log(expectedDate)
-
-        // const interval = setInterval(() => {
-        //     fetchMessages(); // Call the function at regular intervals
-        // }, 5000); // Fetch messages every 5 seconds (adjust as needed)
-
-        // return () => {
-        //     clearInterval(interval); // Clean up the interval when component unmounts
-        // };
     }, [selectedChat])
 
 
@@ -139,12 +130,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         socket.on("message received", (newMessageReceived) => {
             if (!selectedChatCompare ||
                 selectedChatCompare._id !== newMessageReceived.chat._id) {
-                if (!notification.includes(newMessageReceived)) {
-                    setNotification([newMessageReceived, ...notification]);
-                    setFetchAgain(!fetchAgain);
-                }
-                //give notification
-            } else {
+                //     if (!notification.includes(newMessageReceived)) {
+                //         setNotification([newMessageReceived, ...notification]);
+                //         // setFetchAgain(!fetchAgain);
+                //     }
+                //     //give notification
+                // } else {
 
                 setMessages([...messages, newMessageReceived]);
             }
@@ -193,18 +184,14 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
 
     const sendMessage = async (event) => {
-        const messageData = new FormData();
 
-        // messageData.set('content', newMessage);
-        // messageData.set('chatId', selectedChat._id);
+
+
         if (event.key === "Enter" && newMessage) {
             event.preventDefault()
             socket.emit('stop typing', selectedChat._id);
-            // setNewMessage("");
 
-            // dispatch(addMessage(messageData));
-            // setFetchAgain(!fetchAgain)
-            // socket.emit("new message", message);
+
             try {
                 const config = {
                     headers: {
@@ -221,7 +208,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     },
                     config
                 );
-                console.log(data)
+
                 socket.emit("new message", data.message);
                 setMessages([...messages, data.message]);
 
@@ -262,7 +249,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                 );
                 socket.emit("new message", data.message);
                 setMessages([...messages, data.message]);
-                // setFetchAgain(!fetchAgain);
+
             } catch (error) {
                 console.log(error)
 

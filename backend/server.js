@@ -56,24 +56,24 @@ io.on("connection", (socket) => {
         socket.emit('connected');
     });
 
-    // socket.on('join chat', (room) => {
-    //     socket.join(room);
-    //     console.log("User joined room: " + room);
-    // });
-
     socket.on('join chat', (room) => {
-
-        const ourroom = room;
-        socket.join(ourroom);
-        if (socket.rooms.has(ourroom)) {
-            const roomClients = io.sockets.adapter.rooms.get(ourroom);
-            if (roomClients) {
-                console.log(`Clients in room ${ourroom}:`, roomClients);
-            }
-        } else {
-            console.log(`Socket is not connected to room ${ourroom}`);
-        }
+        socket.join(room);
+        console.log("User joined room: " + room);
     });
+
+    // socket.on('join chat', (room) => {
+
+    //     const ourroom = room;
+    //     socket.join(ourroom);
+    //     if (socket.rooms.has(ourroom)) {
+    //         const roomClients = io.sockets.adapter.rooms.get(ourroom);
+    //         if (roomClients) {
+    //             console.log(`Clients in room ${ourroom}:`, roomClients);
+    //         }
+    //     } else {
+    //         console.log(`Socket is not connected to room ${ourroom}`);
+    //     }
+    // });
 
     socket.on('typing', (room) => socket.in(room).emit("typing"));
     socket.on('stop typing', (room) => socket.in(room).emit("stop typing"));
