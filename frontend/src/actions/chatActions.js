@@ -63,7 +63,7 @@ export const getChats = () => async (dispatch) => {
 
         dispatch({ type: GET_CHATS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/chat`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/chat`)
 
         dispatch({
             type: GET_CHATS_SUCCESS,
@@ -84,7 +84,7 @@ export const getChats = () => async (dispatch) => {
 
 
 //         dispatch({ type: SINGLE_CATEGORY_REQUEST })
-//         const { data } = await axios.get(`/api/v1/category/${id}`)
+//         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/category/${id}`)
 //         dispatch({
 //             type: SINGLE_CATEGORY_SUCCESS,
 //             payload: data

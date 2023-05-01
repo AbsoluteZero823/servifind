@@ -41,7 +41,7 @@ export const newRequest = (requestData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`/api/v1/request/new`, requestData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/request/new`, requestData, config)
 
         dispatch({
             type: NEW_REQUEST_SUCCESS,
@@ -63,12 +63,12 @@ export const getRequests = (categoryId) => async (dispatch) => {
 
         dispatch({ type: GET_REQUESTS_REQUEST })
 
-        let link = `/api/v1/requests?`
+        let link = `${process.env.REACT_APP_API_URL}/api/v1/requests?`
 
         if (categoryId) {
-            link = `/api/v1/requests?category=${categoryId}`
+            link = `${process.env.REACT_APP_API_URL}/api/v1/requests?category=${categoryId}`
 
-            // const { data } = await axios.get(`/api/v1/requests`)
+            // const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/requests`)
         }
         const { data } = await axios.get(link)
 
@@ -91,7 +91,7 @@ export const SingleRequest = (id) => async (dispatch) => {
 
 
         dispatch({ type: SINGLE_REQUEST_REQUEST })
-        const { data } = await axios.get(`/api/v1/request/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/request/${id}`)
         dispatch({
             type: SINGLE_REQUEST_SUCCESS,
             payload: data

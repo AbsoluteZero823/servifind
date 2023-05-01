@@ -41,7 +41,7 @@ export const newRating = (ratingData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`/api/v1/rating/new`, ratingData, config)
+        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/rating/new`, ratingData, config)
 
         dispatch({
             type: NEW_RATING_SUCCESS,
@@ -63,7 +63,7 @@ export const getRatings = () => async (dispatch) => {
 
         dispatch({ type: GET_RATINGS_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/ratings`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/ratings`)
 
         dispatch({
             type: GET_RATINGS_SUCCESS,
@@ -84,7 +84,7 @@ export const SingleRating = (id) => async (dispatch) => {
 
 
         dispatch({ type: SINGLE_RATING_REQUEST })
-        const { data } = await axios.get(`/api/v1/rating/${id}`)
+        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/rating/${id}`)
         dispatch({
             type: SINGLE_RATING_SUCCESS,
             payload: data
