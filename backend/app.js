@@ -87,17 +87,16 @@ app.use('/api/v1', chat);
 app.use('/api/v1', message);
 
 
-
-
-const __dirname1 = path.resolve();
-
-
 if (process.env.NODE_ENV === 'PRODUCTION') {
 
     // require('dotenv').config({ path: 'backend/config/config.env' })
-    app.use(express.static(path.join(__dirname1, '/frontend/build')))
+
+    //server Static Assets
+    app.use(express.static(path.join(__dirname, '/frontend/build')));
+
+    //Return the main html page for all routes
     app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
+        res.sendFile(path.join(__dirname, "frontend", "build", "index.html"))
     })
 } else {
     app.get("/", (req, res) => {
