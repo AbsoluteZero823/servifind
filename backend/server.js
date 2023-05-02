@@ -2,20 +2,20 @@ const app = require('./app');
 const connectDatabase = require('./config/database');
 const mongoose = require('mongoose');
 const cloudinary = require('cloudinary');
-
+const cors = require("cors");
 const dotenv = require('dotenv');
 
 dotenv.config({ path: 'backend/config/config.env' })
 
-// const cors = require("cors");
-// const corsOptions = {
-//     origin: `${process.env.BASE_URL}`,
-//     methods: "*",
-//     credentials: true, //access-control-allow-credentials:true
-//     optionSuccessStatus: 200,
-// }
 
-// app.use(cors(corsOptions))
+const corsOptions = {
+    origin: ["https://servifind.onrender.com", `http://localhost:3000`],
+    methods: "*",
+    credentials: true, //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
+
+app.use(cors(corsOptions))
 
 
 connectDatabase();
