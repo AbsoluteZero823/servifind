@@ -10,7 +10,7 @@ dotenv.config({ path: 'backend/config/config.env' })
 
 const corsOptions = {
     origin: ["https://servifind.onrender.com", `http://localhost:3000`],
-    methods: "GET, POST,PUT, DELETE",
+    methods: "*",
     credentials: true, //access-control-allow-credentials:true
     optionSuccessStatus: 200,
 
