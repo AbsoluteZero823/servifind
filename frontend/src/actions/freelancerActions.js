@@ -70,7 +70,7 @@ export const getFreelancers = () => async (dispatch) => {
 
         dispatch({ type: GET_FREELANCERS_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/freelancers`)
+        const { data } = await axios.get(`/api/v1/freelancers`)
 
         dispatch({
             type: GET_FREELANCERS_SUCCESS,
@@ -87,7 +87,7 @@ export const getFreelancers = () => async (dispatch) => {
 export const SingleFreelancer = (id) => async (dispatch) => {
     try {
         dispatch({ type: SINGLE_FREELANCER_REQUEST })
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/freelancer/details/${id}`)
+        const { data } = await axios.get(`/api/v1/freelancer/details/${id}`)
         dispatch({
             type: SINGLE_FREELANCER_SUCCESS,
             payload: data
@@ -135,7 +135,7 @@ export const getApplicationEntries = () => async (dispatch) => {
 
         dispatch({ type: GET_APPLICATION_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/application-entries`)
+        const { data } = await axios.get(`/api/v1/application-entries`)
 
         dispatch({
             type: GET_APPLICATION_SUCCESS,
@@ -161,7 +161,7 @@ export const approveApplication = (id, freelancerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/application-approve/${id}`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/application-approve/${id}`, freelancerData, config)
 
         dispatch({
             type: APPROVE_APPLICATION_SUCCESS,
@@ -187,7 +187,7 @@ export const rejectApplication = (id, freelancerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/application-reject/${id}`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/application-reject/${id}`, freelancerData, config)
 
         dispatch({
             type: REJECT_APPLICATION_SUCCESS,
@@ -215,7 +215,7 @@ export const availPremium = (freelancerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/avail-premium`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/avail-premium`, freelancerData, config)
 
         dispatch({
             type: AVAIL_PREMIUM_SUCCESS,
@@ -237,7 +237,7 @@ export const getApplicationPremium = () => async (dispatch) => {
 
         dispatch({ type: GET_APPLICATIONPREMIUM_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/application-premium`)
+        const { data } = await axios.get(`/api/v1/application-premium`)
 
         dispatch({
             type: GET_APPLICATIONPREMIUM_SUCCESS,
@@ -263,7 +263,7 @@ export const approveApplicationPremium = (id, freelancerData) => async (dispatch
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/approve-premium/${id}`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/approve-premium/${id}`, freelancerData, config)
 
         dispatch({
             type: APPROVE_APPLICATIONPREMIUM_SUCCESS,
@@ -289,7 +289,7 @@ export const rejectApplicationPremium = (id, freelancerData) => async (dispatch)
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/reject-premium/${id}`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/reject-premium/${id}`, freelancerData, config)
 
         dispatch({
             type: REJECT_APPLICATIONPREMIUM_SUCCESS,
@@ -316,7 +316,7 @@ export const availabilityUpdate = (freelancerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/availability-update`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/availability-update`, freelancerData, config)
 
         dispatch({
             type: AVAILABILITY_UPDATE_SUCCESS,
@@ -343,7 +343,7 @@ export const completeFreelancerSetup = (freelancerData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.put(`${process.env.REACT_APP_API_URL}/api/v1/complete-setup`, freelancerData, config)
+        const { data } = await axios.put(`/api/v1/complete-setup`, freelancerData, config)
 
         dispatch({
             type: FREELANCER_SETUP_SUCCESS,

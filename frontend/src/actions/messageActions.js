@@ -41,7 +41,7 @@ export const addMessage = (messageData) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`${process.env.REACT_APP_API_URL}/api/v1/message/new`, messageData, config)
+        const { data } = await axios.post(`/api/v1/message/new`, messageData, config)
 
         dispatch({
             type: NEW_MESSAGE_SUCCESS,
@@ -63,7 +63,7 @@ export const getMessages = (id) => async (dispatch) => {
 
         dispatch({ type: GET_MESSAGES_REQUEST })
 
-        const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/messages/${id}`)
+        const { data } = await axios.get(`/api/v1/messages/${id}`)
 
         dispatch({
             type: GET_MESSAGES_SUCCESS,
@@ -84,7 +84,7 @@ export const getMessages = (id) => async (dispatch) => {
 
 
 //         dispatch({ type: SINGLE_CATEGORY_REQUEST })
-//         const { data } = await axios.get(`${process.env.REACT_APP_API_URL}/api/v1/category/${id}`)
+//         const { data } = await axios.get(`/api/v1/category/${id}`)
 //         dispatch({
 //             type: SINGLE_CATEGORY_SUCCESS,
 //             payload: data
