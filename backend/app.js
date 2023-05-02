@@ -58,7 +58,7 @@ app.use(
 
 app.use(
     cors({
-        origin: "https://servifind.onrender.com",
+        origin: ["https://servifind.onrender.com", `http://localhost:3000`],
         methods: "GET,POST,PUT,DELETE",
         credentials: true,
     })
@@ -89,8 +89,6 @@ app.use('/api/v1', message);
 
 if (process.env.NODE_ENV === 'PRODUCTION') {
 
-    // require('dotenv').config({ path: 'backend/config/config.env' })
-
     //server Static Assets
     app.use(express.static(path.join(__dirname, '../frontend/build')));
 
@@ -98,9 +96,11 @@ if (process.env.NODE_ENV === 'PRODUCTION') {
     app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname, "../frontend/build/index.html"))
     })
+    console.log('prod nga ito')
 } else {
     app.get("/", (req, res) => {
         res.send("API is Running Successfully");
+        console.log('kaya pala')
     })
 }
 
