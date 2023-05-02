@@ -89,42 +89,28 @@ app.use('/api/v1', message);
 
 if (process.env.NODE_ENV === 'PRODUCTION') {
 
+    const __dirname1 = path.resolve();
     //server Static Assets
-    const filePath = app.use(express.static(path.join(__dirname, '../frontend/build')));
+    const joinedPath = path.join(__dirname1, '/frontend/build');
+    app.use(express.static(joinedPath));
 
-    if (fs.existsSync(filePath)) {
-        console.log('The joined path exists.');
-    } else {
-        console.log('The joined path does not exist.');
-    }
-    fs.stat(filePath, (err, stats) => {
-        if (err) {
-            console.log('The joined path does not exist.');
-        } else {
-            console.log('The joined path exists.');
-        }
-    });
 
 
     //Return the main html page for all routess
-    const filePathIndex = app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, "../frontend/build/index.html"))
+    const joinedPathIndex = path.join(__dirname1, "frontend", "build", "index.html");
+    app.get('*', (req, res) => {
+        res.sendFile(joinedPathIndex)
     })
 
-    if (fs.existsSync(filePathIndex)) {
-        console.log('The joined path Index exists.');
-    } else {
-        console.log('The joined path Index does not exist.');
-    }
-    fs.stat(filePathIndex, (err, stats) => {
-        if (err) {
-            console.log('The joined path Index does not exist.');
-        } else {
-            console.log('The joined path Index exists.');
-        }
-    });
+    // if (fs.existsSync(joinedPathIndex)) {
+    //     console.log('The joined path exists.');
+    // } else {
+    //     console.log('The joined path does not exist.');
+    // }
+
     console.log('prod nga ito')
 } else {
+
     app.get("/", (req, res) => {
         res.send("API is Running Successfully");
         console.log('kaya pala')
