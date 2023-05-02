@@ -85,7 +85,7 @@ export const login = (email, password) => async (dispatch) => {
             }
         }
 
-        const { data } = await axios.post(`/api/v1/login`, { email, password }, config)
+        const { data } = await axios.post(`${REACT_APP_API_URL}/api/v1/login`, { email, password }, config)
         dispatch({
             type: LOGIN_SUCCESS,
             payload: data.user
@@ -158,7 +158,7 @@ export const loadUser = () => async (dispatch) => {
 
         dispatch({ type: LOAD_USER_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/me`)
+        const { data } = await axios.get(`${REACT_APP_API_URL}/api/v1/me`)
 
         dispatch({
             type: LOAD_USER_SUCCESS,

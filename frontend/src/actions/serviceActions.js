@@ -42,7 +42,7 @@ export const getServices = (keyword = '') => async (dispatch) => {
 
         dispatch({ type: ALL_SERVICES_REQUEST })
 
-        const { data } = await axios.get(`/api/v1/services?keyword=${keyword}`)
+        const { data } = await axios.get(`${REACT_APP_API_URL}/api/v1/services?keyword=${keyword}`)
 
         dispatch({
             type: ALL_SERVICES_SUCCESS,
