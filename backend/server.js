@@ -6,7 +6,7 @@ const cloudinary = require('cloudinary');
 const dotenv = require('dotenv');
 
 dotenv.config({ path: 'backend/config/config.env' })
-
+mongoose.set('strictQuery', false)
 
 // const corsOptions = {
 //     origin: ["https://servifind.onrender.com", `http://localhost:3000`],
@@ -44,7 +44,7 @@ const server = app.listen(process.env.PORT, () => {
 const io = require('socket.io')(server, {
     pingTimeout: 60000,
     cors: {
-        origin: ["https://servifind.onrender.com", `http://localhost:3000`],
+        origin: "https://servifind.onrender.com",
 
     },
 });
