@@ -61,6 +61,7 @@ app.use(
         origin: ["https://servifind.onrender.com", `http://localhost:3000`],
         methods: "GET,POST,PUT,DELETE",
         credentials: true,
+        allowedHeaders
     })
 );
 
